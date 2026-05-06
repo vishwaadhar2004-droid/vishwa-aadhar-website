@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Data Manager - Vishwa Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Space Grotesk', sans-serif; }
+        .data-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .data-card:hover { transform: translateY(-4px); }
+        .active-tab { 
+            background: rgba(16, 185, 129, 0.1); 
+            color: #10b981; 
+            border-left: 3px solid #10b981;
+            font-weight: 700;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #111827; }
+        ::-webkit-scrollbar-thumb { background: #374151; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-gray-950 text-gray-100 opacity-0 transition-opacity duration-300">
+    <div class="flex min-h-screen">
+        <!-- Vertical Tabs Sidebar -->
+        <aside class="w-64 bg-gray-900 border-r border-gray-800 flex flex-col fixed inset-y-0 shadow-2xl">
+            <div class="p-6 flex items-center space-x-3 border-b border-gray-800">
+                <a href="index.html" class="p-2 hover:bg-gray-800 rounded-lg text-gray-500 hover:text-white transition-all"><i data-lucide="arrow-left" class="w-4 h-4"></i></a>
+                <span class="font-black text-xs uppercase tracking-widest text-gray-400">Site Content</span>
+            </div>
+
+            <nav class="flex-grow p-4 space-y-1 mt-4">
+                <button onclick="switchPage('home')" id="tab-home" class="w-full flex items-center px-4 py-3 rounded-xl hover:bg-gray-800 transition-all text-sm active-tab">
+                    <i data-lucide="home" class="mr-3 w-4 h-4"></i> Home Page
+                </button>
+                <button onclick="switchPage('about')" id="tab-about" class="w-full flex items-center px-4 py-3 rounded-xl hover:bg-gray-800 transition-all text-sm text-gray-400">
+                    <i data-lucide="info" class="mr-3 w-4 h-4"></i> About Us
+                </button>
+                <button onclick="switchPage('products')" id="tab-products" class="w-full flex items-center px-4 py-3 rounded-xl hover:bg-gray-800 transition-all text-sm text-gray-400">
+                    <i data-lucide="package" class="mr-3 w-4 h-4"></i> Innovations
+                </button>
+                <button onclick="switchPage('gallery')" id="tab-gallery" class="w-full flex items-center px-4 py-3 rounded-xl hover:bg-gray-800 transition-all text-sm text-gray-400">
+                    <i data-lucide="image" class="mr-3 w-4 h-4"></i> Gallery
+                </button>
+                <button onclick="switchPage('contact')" id="tab-contact" class="w-full flex items-center px-4 py-3 rounded-xl hover:bg-gray-800 transition-all text-sm text-gray-400">
+                    <i data-lucide="phone" class="mr-3 w-4 h-4"></i> Contact
+                </button>
+                <button onclick="switchPage('footer')" id="tab-footer" class="w-full flex items-center px-4 py-3 rounded-xl hover:bg-gray-800 transition-all text-sm text-gray-400">
+                    <i data-lucide="anchor" class="mr-3 w-4 h-4"></i> Footer
+                </button>
+            </nav>
+
+            <div class="p-6 border-t border-gray-800">
+                <button id="saveAllBtn" class="w-full bg-green-600 hover:bg-green-500 text-white py-3 rounded-xl font-bold transition-all shadow-lg flex items-center justify-center space-x-2">
+                    <i data-lucide="save" class="w-4 h-4"></i>
+                    <span>Apply Changes</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Content Area -->
+        <main class="flex-grow ml-64 p-12 bg-gray-950">
+            <header class="mb-12">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-4xl font-extrabold text-white tracking-tight" id="page-title">Home Page Settings</h1>
+                        <p class="text-gray-500 mt-2" id="page-desc">Manage your homepage banners, titles, and welcome text.</p>
+                    </div>
+                    <div id="sync-status" class="hidden flex items-center space-x-2 px-4 py-1.5 bg-blue-900/20 text-blue-400 border border-blue-500/20 rounded-full text-[10px] font-black uppercase tracking-widest">
+                        <span class="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></span>
+                        <span>Pending Changes</span>
+                    </div>
+                </div>
+            </header>
+
+            <div id="fields-grid" class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                <!-- Data fields will be injected here -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-10 right-10 bg-gray-900 border border-gray-700 px-8 py-4 rounded-2xl shadow-2xl flex items-center space-x-4 transform translate-y-32 opacity-0 transition-all duration-500 z-[100]">
+        <div id="toast-icon" class="p-2 rounded-full"></div>
+        <span id="toast-text" class="text-sm font-bold tracking-tight"></span>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getFirestore, doc, getDoc, setDoc, writeBatch } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+        import { firebaseConfig } from "./js/config.js";
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        let currentPage = 'home';
+        let siteData = {
+            home: {},
+            about: {},
+            footer: {}
+        };
+        let isDirty = false;
+
+        document.body.classList.remove('opacity-0');
+        onAuthStateChanged(auth, (user) => {
+            if (!user) window.location.href = "login.html";
+            else loadData();
+        });
+
+        async function loadData() {
+            const [home, about, footer, contact, gallery] = await Promise.all([
+                getDoc(doc(db, 'home_content', 'main')),
+                getDoc(doc(db, 'about_page', 'content')),
+                getDoc(doc(db, 'site_settings', 'footer')),
+                getDoc(doc(db, 'site_settings', 'contact')),
+                getDoc(doc(db, 'site_settings', 'gallery_meta'))
+            ]);
+
+            siteData.home = home.data() || { heading: '', paragraph: '', bannerImage: '', whatWeDo: {} };
+            siteData.about = about.data() || { mainDescription: '', aboutImage: '' };
+            siteData.footer = footer.data() || { footerMainText: '', facebook: '', linkedin: '' };
+            siteData.contact = contact.data() || { address: '', email: '', phone: '' };
+            siteData.gallery = gallery.data() || { title: 'Our Highlights', description: 'Visual diary' };
+
+            renderPage();
+        }
+
+        function renderPage() {
+            const grid = document.getElementById('fields-grid');
+            grid.innerHTML = '';
+            const data = siteData[currentPage];
+
+            if (currentPage === 'home') {
+                document.getElementById('page-title').textContent = "Home Page Content";
+                document.getElementById('page-desc').textContent = "Visual settings for your landing page and hero banner.";
+                
+                addGroup('Hero Section', [
+                    { label: 'Banner Title', key: 'heading', value: data.heading, type: 'text' },
+                    { label: 'Hero Narrative', key: 'paragraph', value: data.paragraph, type: 'textarea' },
+                    { label: 'Background Image URL', key: 'bannerImage', value: data.bannerImage, type: 'image' }
+                ]);
+
+                // Ensure What We Do exists
+                data.whatWeDo = data.whatWeDo || { 
+                    title: 'What We Do', 
+                    description: 'We are pioneers in creating a circular economy...',
+                    cards: [
+                        { title: 'Biocementation', desc: 'Manufacturing strong, low-carbon building materials...' },
+                        { title: 'Biofertilizers', desc: 'Producing organic fertilizers that restore soil health...' },
+                        { title: 'Waste R&D', desc: 'Partnering with industries to turn waste into assets...' }
+                    ]
+                };
+
+                addGroup('Business Description (What We Do)', [
+                    { label: 'Main Section Title', key: 'whatWeDo.title', value: data.whatWeDo.title, type: 'text' },
+                    { label: 'Intro Paragraph', key: 'whatWeDo.description', value: data.whatWeDo.description, type: 'textarea' }
+                ]);
+
+                data.whatWeDo.cards.forEach((card, idx) => {
+                    addGroup(`Service Card ${idx + 1}`, [
+                        { label: 'Card Title', key: `whatWeDo.cards.${idx}.title`, value: card.title, type: 'text' },
+                        { label: 'Card Description', key: `whatWeDo.cards.${idx}.desc`, value: card.desc, type: 'text' }
+                    ]);
+                });
+
+                // Innovations Section Heading
+                data.innovationsSection = data.innovationsSection || {
+                    title: 'Our Innovations',
+                    description: 'Explore our range of sustainable solutions designed for a greener tomorrow.'
+                };
+
+                addGroup('Innovations Header (Home Page)', [
+                   { label: 'Innovations Title', key: 'innovationsSection.title', value: data.innovationsSection.title, type: 'text' },
+                   { label: 'Innovations Description', key: 'innovationsSection.description', value: data.innovationsSection.description, type: 'textarea' }
+                ]);
+
+            } else if (currentPage === 'about') {
+                document.getElementById('page-title').textContent = "About Section";
+                document.getElementById('page-desc').textContent = "Update your company mission, vision and history text.";
+                
+                addGroup('Content', [
+                    { label: 'Main Narrative', key: 'mainDescription', value: data.mainDescription, type: 'textarea' },
+                    { label: 'Profile Image URL', key: 'aboutImage', value: data.aboutImage, type: 'image' }
+                ]);
+
+                addGroup('Core Values', [
+                    { label: 'Our Mission', key: 'mission', value: data.mission, type: 'textarea' },
+                    { label: 'Our Vision', key: 'vision', value: data.vision, type: 'textarea' }
+                ]);
+            } else if (currentPage === 'footer') {
+                document.getElementById('page-title').textContent = "Global Footer";
+                document.getElementById('page-desc').textContent = "Links and descriptive text visible at the bottom of every page.";
+                
+                addGroup('Footer Settings', [
+                   { label: 'Footer Statement', key: 'footerMainText', value: data.footerMainText, type: 'textarea' },
+                   { label: 'LinkedIn Link', key: 'linkedin', value: data.linkedin, type: 'text' },
+                   { label: 'Facebook Link', key: 'facebook', value: data.facebook, type: 'text' }
+                ]);
+            } else if (currentPage === 'contact') {
+                document.getElementById('page-title').textContent = "Contact Information";
+                document.getElementById('page-desc').textContent = "Manage office locations, email addresses, and phone numbers.";
+                
+                // Ensure Contact Data exists
+                siteData.contact = siteData.contact || { address: '', email: '', phone: '', mapUrl: '' };
+                const cData = siteData.contact;
+
+                addGroup('Main Contact Channels', [
+                    { label: 'Physical Address', key: 'address', value: cData.address, type: 'textarea' },
+                    { label: 'Official Email', key: 'email', value: cData.email, type: 'text' },
+                    { label: 'Phone Number', key: 'phone', value: cData.phone, type: 'text' }
+                ]);
+            } else if (currentPage === 'gallery') {
+                document.getElementById('page-title').textContent = "Gallery Metadata";
+                document.getElementById('page-desc').textContent = "Set the intro text for your photo and achievement gallery.";
+                
+                siteData.galleryMeta = siteData.galleryMeta || { title: 'Our Highlights', description: 'Visual diary of our innovations.' };
+                addGroup('Gallery Introduction', [
+                    { label: 'Title', key: 'galleryMeta.title', value: siteData.galleryMeta.title, type: 'text' },
+                    { label: 'Description', key: 'galleryMeta.description', value: siteData.galleryMeta.description, type: 'textarea' }
+                ]);
+            }
+
+            lucide.createIcons();
+        }
+
+        function addGroup(title, fields) {
+            const grid = document.getElementById('fields-grid');
+            const groupDiv = document.createElement('div');
+            groupDiv.className = "col-span-full mb-4 mt-8";
+            groupDiv.innerHTML = `<h3 class="text-xs font-black text-gray-600 uppercase tracking-[0.3em] ml-2">${title}</h3>`;
+            grid.appendChild(groupDiv);
+
+            fields.forEach(f => {
+                const card = document.createElement('div');
+                card.className = "bg-gray-900 border border-gray-800 p-8 rounded-[2rem] data-card flex flex-col shadow-xl";
+                
+                let inputHtml = "";
+                if (f.type === 'textarea') {
+                    inputHtml = `<textarea class="w-full bg-gray-950 border border-gray-800 rounded-2xl px-6 py-4 focus:ring-2 focus:ring-green-500 outline-none text-sm leading-relaxed h-40 transition-all">${f.value || ''}</textarea>`;
+                } else if (f.type === 'image') {
+                    inputHtml = `
+                        <div class="space-y-4">
+                            <input type="text" value="${f.value || ''}" class="w-full bg-gray-950 border border-gray-800 rounded-2xl px-6 py-4 focus:ring-2 focus:ring-green-500 outline-none text-sm transition-all">
+                            <div class="h-40 rounded-2xl overflow-hidden border border-gray-800 bg-black flex items-center justify-center">
+                                <img src="${f.value || ''}" class="max-h-full max-w-full object-contain" onerror="this.src='https://placehold.co/600x400/111/444?text=Invalid+Image'">
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    inputHtml = `<input type="text" value="${f.value || ''}" class="w-full bg-gray-950 border border-gray-800 rounded-2xl px-6 py-4 focus:ring-2 focus:ring-green-500 outline-none text-sm transition-all">`;
+                }
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-[10px] font-black text-gray-500 uppercase tracking-widest">${f.label}</span>
+                        <i data-lucide="${f.type === 'image' ? 'image' : 'type'}" class="w-4 h-4 text-gray-800"></i>
+                    </div>
+                    ${inputHtml}
+                `;
+
+                const input = card.querySelector('input, textarea');
+                input.oninput = (e) => {
+                    const keys = f.key.split('.');
+                    let obj = siteData[currentPage];
+                    for (let i = 0; i < keys.length - 1; i++) {
+                        obj = obj[keys[i]];
+                    }
+                    obj[keys[keys.length - 1]] = e.target.value;
+                    
+                    setDirty();
+                    if (f.type === 'image') {
+                        card.querySelector('img').src = e.target.value;
+                    }
+                };
+                grid.appendChild(card);
+            });
+        }
+
+        function setDirty() {
+            isDirty = true;
+            document.getElementById('sync-status').classList.remove('hidden');
+        }
+
+        window.switchPage = (page) => {
+            document.getElementById(`tab-${currentPage}`).classList.remove('active-tab');
+            document.getElementById(`tab-${currentPage}`).classList.add('text-gray-400');
+            currentPage = page;
+            document.getElementById(`tab-${currentPage}`).classList.add('active-tab');
+            document.getElementById(`tab-${currentPage}`).classList.remove('text-gray-400');
+            renderPage();
+        };
+
+        document.getElementById('saveAllBtn').onclick = async () => {
+            const btn = document.getElementById('saveAllBtn');
+            const original = btn.innerHTML;
+            btn.innerHTML = `<i data-lucide="loader" class="w-5 h-5 animate-spin"></i><span>Saving Site Content...</span>`;
+            btn.disabled = true;
+            lucide.createIcons();
+
+            try {
+                const batch = writeBatch(db);
+                batch.set(doc(db, 'home_content', 'main'), siteData.home);
+                batch.set(doc(db, 'about_page', 'content'), siteData.about);
+                batch.set(doc(db, 'site_settings', 'footer'), siteData.footer);
+                batch.set(doc(db, 'site_settings', 'contact'), siteData.contact);
+                batch.set(doc(db, 'site_settings', 'gallery_meta'), siteData.gallery);
+                
+                await batch.commit();
+                showToast("Global site content updated!", "check", "text-green-400");
+                isDirty = false;
+                document.getElementById('sync-status').classList.add('hidden');
+            } catch (err) {
+                console.error(err);
+                showToast("Sync Error. Please try again.", "x-circle", "text-red-400");
+            } finally {
+                btn.innerHTML = original;
+                btn.disabled = false;
+                lucide.createIcons();
+            }
+        };
+
+        function showToast(text, icon, color) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-icon').innerHTML = `<i data-lucide="${icon}" class="w-6 h-6 ${color}"></i>`;
+            document.getElementById('toast-text').textContent = text;
+            lucide.createIcons();
+            toast.classList.remove('translate-y-32', 'opacity-0');
+            setTimeout(() => toast.classList.add('translate-y-32', 'opacity-0'), 3000);
+        }
+
+        lucide.createIcons();
+    </script>
+</body>
+</html>

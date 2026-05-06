@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Editor - Admin Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 opacity-0 transition-opacity duration-300">
+    <div class="flex min-h-screen">
+        <!-- Sidebar placeholder -->
+        <aside class="w-64 bg-gray-800 border-r border-gray-700 flex flex-col fixed inset-y-0 left-0">
+             <div class="p-6 flex items-center space-x-3 border-b border-gray-700">
+                <img src="https://i.postimg.cc/jjytpyMC/Whats-App-Image-2025-09-14-at-11-47-48-PM.jpg" class="w-8 h-8 rounded" alt="Logo">
+                <span class="font-bold text-lg">Admin Panel</span>
+            </div>
+             <nav class="flex-grow p-4 space-y-2 mt-4">
+                <a href="index.html" class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700 transition-all">
+                    <i data-lucide="layout-dashboard" class="mr-3 w-5"></i> Dashboard
+                </a>
+                <a href="home-editor.html" class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700 transition-all">
+                    <i data-lucide="home" class="mr-3 w-5"></i> Home Page
+                </a>
+                <a href="about-editor.html" class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700 transition-all">
+                    <i data-lucide="info" class="mr-3 w-5"></i> About Us
+                </a>
+                <a href="team-members.html" class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700 transition-all">
+                    <i data-lucide="users" class="mr-3 w-5"></i> Team Members
+                </a>
+                <a href="products.html" class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700 transition-all">
+                    <i data-lucide="package" class="mr-3 w-5"></i> Products
+                </a>
+                <a href="videos.html" class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700 transition-all">
+                    <i data-lucide="video" class="mr-3 w-5"></i> Videos
+                </a>
+                <a href="contact-editor.html" class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700 transition-all bg-gray-700 text-green-400 border-l-4 border-green-500">
+                    <i data-lucide="phone" class="mr-3 w-5"></i> Contact Details
+                </a>
+            </nav>
+            <div class="p-4 border-t border-gray-700">
+                <button onclick="logout()" class="w-full flex items-center px-4 py-2 text-red-400 hover:bg-red-900/20 rounded-lg transition-all">
+                    <i data-lucide="log-out" class="mr-2 w-4"></i> Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-grow ml-64 p-8">
+            <header class="mb-10 flex justify-between items-center">
+                <div>
+                    <h1 class="text-3xl font-bold">Contact Details</h1>
+                    <p class="text-gray-400">Manage how customers can reach you.</p>
+                </div>
+                <div id="statusMessage" class="hidden px-4 py-2 rounded-full bg-green-900/40 text-green-400 border border-green-500/30 text-sm font-medium">
+                    Saving...
+                </div>
+            </header>
+
+            <div class="max-w-5xl space-y-8">
+                <!-- View Mode -->
+                <div id="viewMode" class="bg-gray-800 rounded-3xl border border-gray-700 overflow-hidden shadow-2xl">
+                    <div class="p-10">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                            <div class="space-y-4">
+                                <div class="bg-blue-900/30 w-12 h-12 rounded-2xl flex items-center justify-center text-blue-400">
+                                    <i data-lucide="mail"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-1">Company Email</span>
+                                    <p id="viewEmail" class="text-lg font-bold text-white">Loading...</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="bg-green-900/30 w-12 h-12 rounded-2xl flex items-center justify-center text-green-400">
+                                    <i data-lucide="phone"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-1">Support Phone</span>
+                                    <p id="viewPhone" class="text-lg font-bold text-white">Loading...</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="bg-red-900/30 w-12 h-12 rounded-2xl flex items-center justify-center text-red-400">
+                                    <i data-lucide="map-pin"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-1">Office Address</span>
+                                    <p id="viewAddress" class="text-sm font-medium text-gray-300 leading-relaxed whitespace-pre-line">Loading...</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-10 pt-10 border-t border-gray-700">
+                            <div class="bg-gray-900/50 p-6 rounded-2xl border border-gray-700">
+                                <span class="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-3">Maps Integration Link</span>
+                                <div class="flex items-center gap-3">
+                                    <i data-lucide="link" class="w-4 h-4 text-gray-500"></i>
+                                    <code id="viewMapUrl" class="text-xs text-blue-400 break-all bg-transparent p-0">No link set</code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-8 bg-gray-900/50 flex justify-between items-center border-t border-gray-700">
+                        <div class="flex items-center gap-2 text-sm text-gray-400">
+                             <i data-lucide="shield-check" class="w-4 h-4 text-green-500"></i> This information is public on your contact page.
+                        </div>
+                        <button onclick="toggleMode('edit')" class="bg-green-600 hover:bg-green-500 text-white font-bold py-4 px-12 rounded-2xl shadow-xl transition-all transform hover:scale-[1.02] flex items-center gap-3">
+                            <i data-lucide="edit-3" class="w-5 h-5"></i> Update Contact Info
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Edit Mode -->
+                <form id="editorForm" class="hidden space-y-6">
+                    <div class="bg-gray-800 rounded-3xl border border-green-500/30 p-8 shadow-2xl space-y-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-xl font-bold flex items-center font-mono"><i data-lucide="pencil" class="mr-2 text-green-400"></i> Editing Contact Info</h2>
+                            <button type="button" onclick="toggleMode('view')" class="text-gray-400 hover:text-white bg-gray-700 px-3 py-1 rounded-full text-xs">Cancel</button>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-400 mb-2">Primary Email</label>
+                                <input type="email" id="email" required class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-4 outline-none focus:ring-2 focus:ring-green-500 transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-400 mb-2">Phone Number</label>
+                                <input type="text" id="phone" required class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-4 outline-none focus:ring-2 focus:ring-green-500 transition-all">
+                            </div>
+                        </div>
+    
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2">Physical Address</label>
+                            <textarea id="address" required rows="3" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-4 outline-none focus:ring-2 focus:ring-green-500 transition-all resize-none"></textarea>
+                        </div>
+    
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2">Google Maps Link</label>
+                            <input type="text" id="mapLink" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-4 outline-none focus:ring-2 focus:ring-green-500 transition-all">
+                        </div>
+                    </div>
+    
+                    <div class="flex justify-end gap-4">
+                        <button type="button" onclick="toggleMode('view')" class="px-8 py-4 rounded-xl border border-gray-700 hover:bg-gray-800 transition-all font-semibold">Discard</button>
+                        <button type="submit" class="bg-green-600 hover:bg-green-500 text-white font-bold py-4 px-12 rounded-xl shadow-lg transition-all flex items-center gap-2">
+                            <i data-lucide="save" class="w-5 h-5"></i> Save & Publish
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="js/auth-guard.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+        import { firebaseConfig } from "./js/config.js";
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
+
+        const form = document.getElementById('editorForm');
+        const status = document.getElementById('statusMessage');
+        const viewMode = document.getElementById('viewMode');
+        const editMode = document.getElementById('editorForm');
+
+        window.toggleMode = (mode) => {
+            if (mode === 'edit') {
+                viewMode.classList.add('hidden');
+                editMode.classList.remove('hidden');
+            } else {
+                viewMode.classList.remove('hidden');
+                editMode.classList.add('hidden');
+                loadContent();
+            }
+        };
+
+        async function loadContent() {
+            try {
+                const docRef = doc(db, 'site_settings', 'contact');
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    // Update View
+                    document.getElementById('viewEmail').textContent = data.email || 'N/A';
+                    document.getElementById('viewPhone').textContent = data.phone || 'N/A';
+                    document.getElementById('viewAddress').textContent = data.address || 'N/A';
+                    document.getElementById('viewMapUrl').textContent = data.mapLink || 'No Google Maps link provided.';
+
+                    // Update Form
+                    document.getElementById('email').value = data.email || '';
+                    document.getElementById('phone').value = data.phone || '';
+                    document.getElementById('address').value = data.address || '';
+                    document.getElementById('mapLink').value = data.mapLink || '';
+                } else {
+                    document.getElementById('viewEmail').textContent = 'Not set';
+                    document.getElementById('viewPhone').textContent = 'Not set';
+                    document.getElementById('viewAddress').textContent = 'Not set';
+                }
+                lucide.createIcons();
+            } catch (error) {
+                console.error("Error loading content", error);
+            }
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            status.classList.remove('hidden');
+            status.textContent = "Publishing Changes...";
+            
+            const data = {
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                address: document.getElementById('address').value,
+                mapLink: document.getElementById('mapLink').value
+            };
+
+            try {
+                await setDoc(doc(db, 'site_settings', 'contact'), data, { merge: true });
+                status.textContent = "Live Now!";
+                setTimeout(() => {
+                    status.classList.add('hidden');
+                    toggleMode('view');
+                }, 1500);
+            } catch (error) {
+                console.error("Error saving", error);
+                status.textContent = "Error saving.";
+            }
+        });
+
+        loadContent();
+        lucide.createIcons();
+    </script>
+</body>
+</html>

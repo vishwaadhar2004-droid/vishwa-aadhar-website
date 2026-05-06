@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Editor - Vishwa Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <style>
+        body { font-family: 'Space Grotesk', sans-serif; overflow: hidden; }
+        .preview-scale { transform-origin: top center; transition: transform 0.3s ease; }
+        .editor-container { height: calc(100vh - 64px); }
+        .inspector-panel { width: 400px; }
+        .preview-element { cursor: pointer; transition: all 0.2s; position: relative; }
+        /*.preview-element:hover { outline: 2px dashed #10b981; }*/
+        .selected-outline { outline: 3px solid #10b981 !important; outline-offset: 2px; }
+        
+        .editable { cursor: pointer; transition: all 0.2s; }
+        .editable:hover { outline: 2px dashed #3b82f6; outline-offset: 2px; }
+        .editable.selected { outline: 3px solid #3b82f6 !important; outline-offset: 4px; }
+        
+        /* Drag handle */
+        .drag-handle { cursor: grab; }
+        .drag-handle:active { cursor: grabbing; }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 4px;
+            background: #374151;
+            border-radius: 5px;
+            outline: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: #10b981;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="bg-gray-950 text-gray-100 opacity-0 transition-opacity duration-300">
+    <!-- Navbar -->
+    <header class="h-16 border-b border-gray-800 flex items-center justify-between px-6 bg-gray-900 z-50">
+        <div class="flex items-center space-x-6">
+            <a href="index.html" class="p-2 hover:bg-gray-800 rounded-lg transition-all text-gray-400 hover:text-white">
+                <i data-lucide="arrow-left" class="w-5 h-5"></i>
+            </a>
+            <div class="flex items-center space-x-2 mr-4">
+                <img src="https://i.postimg.cc/jjytpyMC/Whats-App-Image-2025-09-14-at-11-47-48-PM.jpg" class="w-8 h-8 rounded-lg shadow-lg" alt="Logo">
+                <span class="font-bold text-lg tracking-tight">Visual Editor</span>
+            </div>
+
+            <div class="h-8 w-px bg-gray-800 mx-2"></div>
+
+            <!-- Page Selector -->
+            <div class="flex items-center space-x-1 bg-gray-950 p-1 rounded-xl border border-gray-800">
+                <button onclick="switchPage('home')" id="btn-page-home" class="px-4 py-1.5 rounded-lg text-xs font-bold transition-all bg-blue-600 text-white">Home</button>
+                <button onclick="switchPage('about')" id="btn-page-about" class="px-4 py-1.5 rounded-lg text-xs font-bold transition-all text-gray-500 hover:text-gray-300">About</button>
+                <button onclick="switchPage('products')" id="btn-page-products" class="px-4 py-1.5 rounded-lg text-xs font-bold transition-all text-gray-500 hover:text-gray-300">Products</button>
+                <button onclick="switchPage('videos')" id="btn-page-videos" class="px-4 py-1.5 rounded-lg text-xs font-bold transition-all text-gray-500 hover:text-gray-300">Videos</button>
+                <button onclick="switchPage('contact')" id="btn-page-contact" class="px-4 py-1.5 rounded-lg text-xs font-bold transition-all text-gray-500 hover:text-gray-300">Contact</button>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-4">
+            <div id="status-badge" class="hidden flex items-center space-x-2 px-3 py-1 bg-green-900/30 text-green-400 rounded-full text-xs font-bold border border-green-500/20">
+                <span class="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span>
+                <span>All Sync'd</span>
+            </div>
+            <div class="flex bg-gray-800 p-1 rounded-xl mr-4">
+                <button onclick="setViewport('desktop')" class="p-2 rounded-lg bg-gray-700 text-white" id="vp-desktop"><i data-lucide="monitor" class="w-4 h-4"></i></button>
+                <button onclick="setViewport('tablet')" class="p-2 rounded-lg text-gray-400 hover:text-white" id="vp-tablet"><i data-lucide="tablet" class="w-4 h-4"></i></button>
+                <button onclick="setViewport('mobile')" class="p-2 rounded-lg text-gray-400 hover:text-white" id="vp-mobile"><i data-lucide="iphone" class="w-4 h-4"></i></button>
+            </div>
+            <button id="saveBtn" class="flex items-center space-x-2 bg-green-600 hover:bg-green-500 text-white px-6 py-2 rounded-xl font-bold transition-all shadow-lg shadow-green-900/20">
+                <i data-lucide="save" class="w-4 h-4"></i>
+                <span>Publish Update</span>
+            </button>
+        </div>
+    </header>
+
+    <div class="flex editor-container overflow-hidden">
+        <!-- Live Preview Pane -->
+        <main class="flex-grow bg-gray-950 overflow-y-auto p-12 scroll-smooth" id="preview-scroll">
+            <div id="preview-wrapper" class="mx-auto bg-white text-gray-900 shadow-2xl transition-all duration-300 min-h-screen relative" style="width: 100%;">
+                <div id="canvas" class="space-y-0">
+                    <!-- Sections will be rendered here -->
+                </div>
+            </div>
+        </main>
+
+        <!-- Inspector Sidebar -->
+        <aside class="inspector-panel bg-gray-900 border-l border-gray-800 flex flex-col h-full shadow-2xl">
+            <!-- Tabs -->
+            <div class="flex border-b border-gray-800 p-2">
+                <button id="tab-design" onclick="switchTab('design')" class="flex-1 py-3 px-4 text-xs font-black uppercase tracking-widest border-b-2 border-green-500 text-white">Design</button>
+                <button id="tab-structure" onclick="switchTab('structure')" class="flex-1 py-3 px-4 text-xs font-black uppercase tracking-widest text-gray-500 hover:text-gray-300">Structure</button>
+            </div>
+
+            <!-- Content Area -->
+            <div class="flex-grow overflow-y-auto" id="inspector-content">
+                <!-- DESIGN TAB -->
+                <div id="design-tab-content" class="p-6">
+                    <div id="no-selection" class="flex flex-col items-center justify-center py-20 text-center space-y-6 text-gray-600">
+                        <div class="bg-gray-800/50 p-8 rounded-full border border-gray-800">
+                            <i data-lucide="mouse-pointer-click" class="w-12 h-12"></i>
+                        </div>
+                        <div class="space-y-2">
+                            <h4 class="text-white font-bold">Select to Edit</h4>
+                            <p class="text-xs">Click any text, image or section in the preview to customize it.</p>
+                        </div>
+                    </div>
+
+                    <div id="element-editor" class="hidden space-y-10">
+                        <header class="flex items-center justify-between group">
+                            <div class="flex items-center space-x-3">
+                                <div id="element-icon" class="p-2 bg-blue-900/30 text-blue-400 rounded-lg">
+                                    <i data-lucide="type" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xs font-black text-gray-500 uppercase tracking-widest" id="element-title">Text Element</h3>
+                                    <p class="text-[10px] text-gray-600 font-mono" id="element-id-tag">#heading-01</p>
+                                </div>
+                            </div>
+                            <button onclick="clearSelection()" class="text-gray-600 hover:text-white transition-all"><i data-lucide="x" class="w-5 h-5"></i></button>
+                        </header>
+
+                        <div id="fields-container" class="space-y-8">
+                            <!-- Dynamic controls go here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STRUCTURE TAB -->
+                <div id="structure-tab-content" class="hidden p-6">
+                    <h3 class="text-xs font-black text-gray-500 uppercase tracking-widest mb-6">Page Architecture</h3>
+                    <div id="sections-list" class="space-y-3">
+                        <!-- Sections will be listed here for dragging -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Bar -->
+            <div class="p-6 border-t border-gray-800 bg-gray-900/50 flex items-center justify-between">
+                <span class="text-[10px] font-bold text-gray-600 uppercase tracking-widest">Editor v2.0 - Active</span>
+                <div class="flex space-x-2">
+                    <button class="p-2 hover:bg-gray-800 rounded-lg text-gray-500"><i data-lucide="undo-2" class="w-4 h-4"></i></button>
+                    <button class="p-2 hover:bg-gray-800 rounded-lg text-gray-500"><i data-lucide="redo-2" class="w-4 h-4"></i></button>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Modals -->
+    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-gray-900 border border-gray-700 px-8 py-4 rounded-[2rem] shadow-2xl flex items-center space-x-4 transform translate-y-32 opacity-0 transition-all duration-500 z-[100]">
+        <div id="toast-icon" class="p-2 rounded-full"></div>
+        <span id="toast-text" class="text-sm font-bold tracking-tight"></span>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getFirestore, collection, getDocs, doc, getDoc, setDoc, query, orderBy, writeBatch } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            projectId: "vishwaaadhar",
+            appId: "1:333942893240:web:a21874f5a49936f9e9e24d",
+            apiKey: "AIzaSyDoCjE9vQps_XRrmt2cFUes1pf869ueuLI",
+            authDomain: "vishwaaadhar.firebaseapp.com",
+            firestoreDatabaseId: "(default)",
+            storageBucket: "vishwaaadhar.firebasestorage.app",
+            messagingSenderId: "333942893240",
+            measurementId: "G-7SFMSC6PPX"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app, firebaseConfig.firestoreDatabaseId); 
+        const auth = getAuth(app);
+
+        // Core State
+        let currentPage = 'home';
+        let siteData = {
+            hero: {},
+            about: {},
+            footer: {},
+            contact: {},
+            galleryMeta: {},
+            productsPage: {},
+            videosPage: {},
+            sections: {
+                home: [
+                    { id: 'hero', name: 'Hero Banner', icon: 'zap' },
+                    { id: 'what-we-do', name: 'What We Do', icon: 'layers' },
+                    { id: 'innovations', name: 'Innovations Header', icon: 'sparkles' },
+                    { id: 'footer', name: 'Footer Section', icon: 'anchor' }
+                ],
+                about: [
+                    { id: 'about-header', name: 'About Header', icon: 'type' },
+                    { id: 'about-content', name: 'Story Content', icon: 'book-open' },
+                    { id: 'ceo-message', name: 'CEO Message', icon: 'award' },
+                    { id: 'footer', name: 'Footer Section', icon: 'anchor' }
+                ],
+                products: [
+                    { id: 'products-header', name: 'Products Header', icon: 'package' },
+                    { id: 'footer', name: 'Footer Section', icon: 'anchor' }
+                ],
+                videos: [
+                    { id: 'videos-header', name: 'Videos Header', icon: 'video' },
+                    { id: 'footer', name: 'Footer Section', icon: 'anchor' }
+                ],
+                contact: [
+                    { id: 'contact-header', name: 'Contact Title', icon: 'phone' },
+                    { id: 'contact-details', name: 'Office Info', icon: 'map-pin' },
+                    { id: 'footer', name: 'Footer Section', icon: 'anchor' }
+                ]
+            }
+        };
+        let currentSelection = null;
+
+        // DOM References
+        const canvas = document.getElementById('canvas');
+        const fieldsContainer = document.getElementById('fields-container');
+        const elementEditor = document.getElementById('element-editor');
+        const noSelection = document.getElementById('no-selection');
+
+        // Initial Boot
+        document.body.classList.remove('opacity-0');
+        
+        // Show loading state
+        canvas.innerHTML = `
+            <div class="flex flex-col items-center justify-center py-40 animate-pulse">
+                <div class="w-12 h-12 border-4 border-green-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+                <p class="text-gray-500 font-bold uppercase tracking-widest text-xs">Initializing Visual Engine...</p>
+            </div>
+        `;
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) window.location.href = "login.html";
+            else loadInitialData();
+        });
+
+        async function loadInitialData() {
+            try {
+                const [hero, about, footer, contact, galleryMeta, productsHeader, videosHeader] = await Promise.all([
+                    getDoc(doc(db, 'home_content', 'main')),
+                    getDoc(doc(db, 'about_page', 'content')),
+                    getDoc(doc(db, 'site_settings', 'footer')),
+                    getDoc(doc(db, 'site_settings', 'contact')),
+                    getDoc(doc(db, 'site_settings', 'gallery_meta')),
+                    getDoc(doc(db, 'products_page', 'content')),
+                    getDoc(doc(db, 'videos_page', 'content'))
+                ]);
+                
+                siteData.hero = hero.data() || { 
+                    heading: 'Building a Sustainable Future', 
+                    paragraph: 'We transform waste into assets.',
+                    bannerImage: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&q=80'
+                };
+                siteData.about = about.data() || { 
+                    mainDescription: 'Started from a vision...', 
+                    aboutImage: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80',
+                    ceoMessage: { heading: 'Our Leader', text: 'Message here...', image: 'https://i.postimg.cc/1RL7qDvG/unnamed-1.png' }
+                };
+                siteData.footer = footer.data() || { footerMainText: 'Vishwa Aadhar Enterprises' };
+                siteData.contact = contact.data() || { address: 'HQ', email: 'info@vishwa.com', phone: '123' };
+                siteData.productsPage = productsHeader.data() || { title: 'Our Products', description: 'Eco friendly items' };
+                siteData.videosPage = videosHeader.data() || { title: 'Videos', description: 'See our work' };
+
+                canvas.innerHTML = '';
+                renderPreview();
+                renderStructureList();
+                lucide.createIcons();
+            } catch (error) {
+                console.error("Load Error:", error);
+                canvas.innerHTML = `<div class="p-20 text-center text-red-500 font-bold">Failed to load site data. Please ensure Firebase is connected.</div>`;
+            }
+        }
+
+        function renderPreview() {
+            canvas.innerHTML = '';
+            const pageSections = siteData.sections[currentPage];
+            
+            pageSections.forEach(sec => {
+                const sectionEl = document.createElement('section');
+                sectionEl.className = 'relative group border-b border-gray-100 hover:bg-blue-50/10 transition-all';
+                sectionEl.id = `section-${sec.id}`;
+                
+                if (sec.id === 'hero') {
+                    const data = siteData.hero;
+                    sectionEl.innerHTML = `
+                        <div class="relative min-h-[600px] flex items-center justify-center overflow-hidden" style="padding-top: ${data.styles?.paddingTop || '80'}px; padding-bottom: ${data.styles?.paddingBottom || '80'}px; background-color: ${data.styles?.bgColor || '#000000'}">
+                            <img src="${data.bannerImage}" class="absolute inset-0 w-full h-full object-cover opacity-60 editable-img" data-type="hero" data-field="bannerImage">
+                            <div class="relative z-10 text-center text-white px-10 max-w-4xl mx-auto">
+                                <h1 class="text-6xl font-black mb-6 tracking-tighter leading-none editable-text" data-type="hero" data-field="heading" style="color: ${data.styles?.titleColor || '#ffffff'}">${data.heading}</h1>
+                                <p class="text-xl text-gray-200 leading-relaxed editable-text" data-type="hero" data-field="paragraph">${data.paragraph}</p>
+                                <div class="mt-12">
+                                    <button class="px-12 py-5 bg-green-600 text-white font-black rounded-full hover:scale-105 transition-all shadow-2xl">Get Started Now</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else if (sec.id === 'what-we-do') {
+                    const data = siteData.hero.whatWeDo || { title: 'What We Do', description: '', cards: [] };
+                    sectionEl.innerHTML = `
+                        <div class="py-24 px-12 bg-gray-50">
+                            <div class="max-w-7xl mx-auto text-center mb-16">
+                                <h3 class="text-4xl font-black mb-4 editable-text" data-type="hero" data-field="whatWeDo.title">${data.title}</h3>
+                                <p class="text-gray-500 max-w-2xl mx-auto editable-text" data-type="hero" data-field="whatWeDo.description">${data.description}</p>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                ${(data.cards && data.cards.length > 0 ? data.cards : [
+                                    { title: 'Feature 1', desc: 'Description 1' },
+                                    { title: 'Feature 2', desc: 'Description 2' },
+                                    { title: 'Feature 3', desc: 'Description 3' }
+                                ]).map((card, idx) => `
+                                    <div class="bg-white p-8 rounded-[2rem] shadow-xl border border-gray-100 hover:border-blue-300 transition-all cursor-pointer">
+                                        <h4 class="text-xl font-bold mb-4 text-green-600 editable-text" data-type="hero" data-field="whatWeDo.cards.${idx}.title">${card.title}</h4>
+                                        <p class="text-gray-500 text-sm editable-text" data-type="hero" data-field="whatWeDo.cards.${idx}.desc">${card.desc}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                } else if (sec.id === 'innovations') {
+                    const data = siteData.hero.innovationsSection || { title: 'Our Innovations', description: '' };
+                    sectionEl.innerHTML = `
+                        <div class="py-24 px-12 bg-white text-center">
+                            <div class="max-w-7xl mx-auto">
+                                <h3 class="text-4xl font-black mb-4 editable-text" data-type="hero" data-field="innovationsSection.title">${data.title}</h3>
+                                <p class="text-gray-500 max-w-2xl mx-auto editable-text" data-type="hero" data-field="innovationsSection.description">${data.description}</p>
+                                <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 opacity-40 grayscale pointer-events-none">
+                                    <div class="bg-gray-100 h-64 rounded-3xl border-2 border-dashed border-gray-200 flex items-center justify-center">Product Preview</div>
+                                    <div class="bg-gray-100 h-64 rounded-3xl border-2 border-dashed border-gray-200 flex items-center justify-center">Product Preview</div>
+                                    <div class="bg-gray-100 h-64 rounded-3xl border-2 border-dashed border-gray-200 flex items-center justify-center">Product Preview</div>
+                                </div>
+                                <p class="mt-6 text-[10px] font-bold text-blue-500 uppercase tracking-widest">Manage actual items in the "Innovations" page</p>
+                            </div>
+                        </div>
+                    `;
+                } else if (sec.id === 'about-header') {
+                    sectionEl.innerHTML = `
+                        <div class="py-32 px-12 bg-gray-950 text-white text-center">
+                            <h2 class="text-6xl font-black mb-4 text-white uppercase tracking-tighter">Our Heritage</h2>
+                            <div class="w-24 h-1 bg-green-500 mx-auto mb-6"></div>
+                            <p class="text-gray-400 max-w-2xl mx-auto text-lg">From lab experiments to global impact.</p>
+                        </div>
+                    `;
+                } else if (sec.id === 'about' || sec.id === 'about-content') {
+                    const data = siteData.about;
+                    sectionEl.innerHTML = `
+                         <div class="py-24 px-12 bg-gray-900 border-y border-gray-800">
+                            <div class="flex flex-col md:flex-row items-center gap-20 max-w-7xl mx-auto">
+                                <div class="flex-1">
+                                    <h3 class="text-5xl font-black mb-8 leading-tight tracking-tight text-white">Our Story</h3>
+                                    <p class="text-gray-400 text-lg leading-relaxed whitespace-pre-line editable-text" data-type="about" data-field="mainDescription">${data.mainDescription || 'We started with a vision to clean the planet...'}</p>
+                                    <div class="grid grid-cols-2 gap-12 mt-12">
+                                        <div class="p-6 bg-gray-800 rounded-3xl">
+                                            <h4 class="text-xs font-black uppercase text-green-400 tracking-widest mb-3">Our Mission</h4>
+                                            <p class="text-sm text-gray-300 leading-relaxed editable-text" data-type="about" data-field="mission">${data.mission || 'To lead the sustainable waste transformation.'}</p>
+                                        </div>
+                                        <div class="p-6 bg-gray-800 rounded-3xl">
+                                            <h4 class="text-xs font-black uppercase text-green-400 tracking-widest mb-3">Our Vision</h4>
+                                            <p class="text-sm text-gray-300 leading-relaxed editable-text" data-type="about" data-field="vision">${data.vision || 'A world with zero waste and maximum value.'}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="w-full md:w-1/2">
+                                    <img src="${data.aboutImage || 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80'}" class="rounded-[4rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] w-full aspect-square object-cover border border-gray-800 editable-img" data-type="about" data-field="aboutImage">
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else if (sec.id === 'ceo-message') {
+                    const data = siteData.about.ceoMessage || {};
+                    sectionEl.innerHTML = `
+                         <div class="py-24 px-12 bg-gray-800 border-y border-gray-700">
+                            <div class="flex flex-col md:flex-row items-center gap-12 max-w-5xl mx-auto">
+                                <div class="w-full md:w-1/3">
+                                    <img src="${data.image}" class="rounded-3xl shadow-xl w-full aspect-square object-cover editable-img" data-type="about" data-field="ceoMessage.image">
+                                </div>
+                                <div class="flex-1 text-white">
+                                    <h3 class="text-3xl font-black mb-6 editable-text" data-type="about" data-field="ceoMessage.heading">${data.heading}</h3>
+                                    <p class="text-gray-400 mb-6 editable-text" data-type="about" data-field="ceoMessage.text">${data.text}</p>
+                                    <p class="text-gray-200 italic font-bold editable-text" data-type="about" data-field="ceoMessage.quote">"${data.quote}"</p>
+                                    <p class="mt-4 text-green-400 font-black uppercase text-xs tracking-widest editable-text" data-type="about" data-field="ceoMessage.footer">${data.footer}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else if (sec.id === 'products-header') {
+                    const data = siteData.productsPage;
+                    sectionEl.innerHTML = `
+                        <div class="py-32 px-12 bg-gray-900 text-center border-b border-gray-800">
+                            <h2 class="text-5xl font-black mb-4 text-white uppercase tracking-tighter editable-text" data-type="productsPage" data-field="title">${data.title}</h2>
+                            <div class="w-24 h-1 bg-blue-500 mx-auto mb-6"></div>
+                            <p class="text-gray-400 max-w-2xl mx-auto text-lg editable-text" data-type="productsPage" data-field="description">${data.description}</p>
+                        </div>
+                    `;
+                } else if (sec.id === 'videos-header') {
+                    const data = siteData.videosPage;
+                    sectionEl.innerHTML = `
+                        <div class="py-32 px-12 bg-gray-900 text-center border-b border-gray-800">
+                            <h2 class="text-5xl font-black mb-4 text-white uppercase tracking-tighter editable-text" data-type="videosPage" data-field="title">${data.title}</h2>
+                            <div class="w-24 h-1 bg-red-500 mx-auto mb-6"></div>
+                            <p class="text-gray-400 max-w-2xl mx-auto text-lg editable-text" data-type="videosPage" data-field="description">${data.description}</p>
+                        </div>
+                    `;
+                } else if (sec.id === 'contact-header') {
+                    sectionEl.innerHTML = `
+                         <div class="py-32 px-12 bg-green-600 text-white text-center shadow-inner relative overflow-hidden">
+                            <div class="absolute top-0 right-0 p-20 opacity-20"><i data-lucide="message-circle" class="w-64 h-64"></i></div>
+                            <h2 class="text-6xl font-black mb-4 relative z-10">Get In Touch</h2>
+                            <p class="text-green-100 max-w-2xl mx-auto text-xl relative z-10">We are here to help you achieve your sustainability goals.</p>
+                        </div>
+                    `;
+                } else if (sec.id === 'contact-details') {
+                    const data = siteData.contact;
+                    sectionEl.innerHTML = `
+                        <div class="py-24 px-12 bg-gray-950">
+                            <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+                                <div class="p-10 bg-gray-900 border border-gray-800 rounded-[3rem] text-center hover:border-green-500/30 transition-all">
+                                    <div class="w-12 h-12 bg-green-600/10 rounded-full flex items-center justify-center mx-auto mb-6"><i data-lucide="map-pin" class="w-6 h-6 text-green-500"></i></div>
+                                    <p class="text-xs font-black uppercase text-gray-500 mb-4 tracking-widest">Office Address</p>
+                                    <p class="font-bold text-white text-lg editable-text" data-type="contact" data-field="address">${data.address || 'Vishwa Aadhar HQ, Sustainable Valley'}</p>
+                                </div>
+                                <div class="p-10 bg-gray-900 border border-gray-800 rounded-[3rem] text-center hover:border-green-500/30 transition-all">
+                                    <div class="w-12 h-12 bg-green-600/10 rounded-full flex items-center justify-center mx-auto mb-6"><i data-lucide="mail" class="w-6 h-6 text-green-500"></i></div>
+                                    <p class="text-xs font-black uppercase text-gray-500 mb-4 tracking-widest">Email Us</p>
+                                    <p class="font-bold text-white text-lg editable-text" data-type="contact" data-field="email">${data.email || 'contact@vishwaaadhar.com'}</p>
+                                </div>
+                                <div class="p-10 bg-gray-900 border border-gray-800 rounded-[3rem] text-center hover:border-green-500/30 transition-all">
+                                    <div class="w-12 h-12 bg-green-600/10 rounded-full flex items-center justify-center mx-auto mb-6"><i data-lucide="phone" class="w-6 h-6 text-green-500"></i></div>
+                                    <p class="text-xs font-black uppercase text-gray-500 mb-4 tracking-widest">Call Us</p>
+                                    <p class="font-bold text-white text-lg editable-text" data-type="contact" data-field="phone">${data.phone || '+91 91234 56789'}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else if (sec.id === 'footer') {
+                    const data = siteData.footer;
+                    sectionEl.innerHTML = `
+                        <footer class="py-20 px-12 bg-gray-900 text-white" style="background-color: ${data.styles?.bgColor || '#111827'}">
+                            <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-10">
+                                <div class="max-w-md text-center md:text-left">
+                                    <img src="https://i.postimg.cc/jjytpyMC/Whats-App-Image-2025-09-14-at-11-47-48-PM.jpg" class="w-12 h-12 rounded-xl mb-6 mx-auto md:mx-0">
+                                    <p class="text-gray-400 text-sm leading-relaxed editable-text" data-type="footer" data-field="footerMainText">${data.footerMainText}</p>
+                                </div>
+                                <div class="flex gap-4">
+                                    <a href="${data.facebook}" class="w-12 h-12 bg-gray-800 rounded-2xl flex items-center justify-center hover:bg-green-600 transition-all font-black">FB</a>
+                                    <a href="${data.linkedin}" class="w-12 h-12 bg-gray-800 rounded-2xl flex items-center justify-center hover:bg-green-600 transition-all font-black">LI</a>
+                                </div>
+                            </div>
+                            <div class="mt-16 pt-8 border-t border-gray-800 text-center text-[10px] uppercase font-black text-gray-600 tracking-[0.2em]">
+                                &copy; 2025 Vishwa Aadhar Innovations Limited
+                            </div>
+                        </footer>
+                    `;
+                } else {
+                    sectionEl.innerHTML = `<div class="py-20 px-12 bg-gray-100 text-center font-bold text-gray-400 border-2 border-dashed border-gray-300 mx-10 my-10 rounded-3xl">Section: ${sec.name}</div>`;
+                }
+
+                canvas.appendChild(sectionEl);
+            });
+
+            // Delegate click events for editing
+            canvas.querySelectorAll('.editable-text, .editable-img, section').forEach(el => {
+                el.classList.add('editable');
+                el.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    handleElementClick(el);
+                });
+            });
+        }
+
+        function handleElementClick(el) {
+            if (currentSelection?.el) currentSelection.el.classList.remove('selected');
+            
+            const type = el.dataset.type || el.id.replace('section-', '');
+            const field = el.dataset.field;
+            
+            currentSelection = { el, type, field };
+            el.classList.add('selected');
+
+            noSelection.classList.add('hidden');
+            elementEditor.classList.remove('hidden');
+
+            renderInspectorControls(type, field);
+        }
+
+        function clearSelection() {
+            if (currentSelection?.el) currentSelection.el.classList.remove('selected');
+            currentSelection = null;
+            elementEditor.classList.add('hidden');
+            noSelection.classList.remove('hidden');
+        }
+
+        function getNestedValue(obj, path) {
+            return path.split('.').reduce((prev, curr) => prev && prev[curr], obj);
+        }
+
+        function setNestedValue(obj, path, value) {
+            const keys = path.split('.');
+            let current = obj;
+            for (let i = 0; i < keys.length - 1; i++) {
+                if (!current[keys[i]]) current[keys[i]] = {};
+                current = current[keys[i]];
+            }
+            current[keys[keys.length - 1]] = value;
+        }
+
+        function renderInspectorControls(type, field) {
+            fieldsContainer.innerHTML = '';
+            const data = siteData[type];
+            data.styles = data.styles || {};
+
+            document.getElementById('element-title').textContent = field ? `${field} properties`.toUpperCase() : `${type} section`.toUpperCase();
+            document.getElementById('element-id-tag').textContent = field ? `#${type}-${field}` : `#section-${type}`;
+
+            // Control Builders
+            const addControl = (label, html) => {
+                const div = document.createElement('div');
+                div.className = 'space-y-3';
+                div.innerHTML = `<label class="block text-[10px] font-black text-gray-600 uppercase tracking-widest">${label}</label>${html}`;
+                fieldsContainer.appendChild(div);
+                return div;
+            };
+
+            // 1. Text Content (if applicable)
+            if (field && !field.toLowerCase().includes('image')) {
+                const isLong = field.includes('paragraph') || field.includes('Description') || field.includes('text') || field.includes('footerMainText');
+                const val = getNestedValue(data, field) || '';
+                const inputHtml = isLong ? 
+                    `<textarea id="ctrl-val" class="w-full bg-gray-800 border border-gray-700 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none text-sm leading-relaxed h-32">${val}</textarea>` :
+                    `<input type="text" id="ctrl-val" value="${val}" class="w-full bg-gray-800 border border-gray-700 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none text-sm">`;
+                
+                const ctrl = addControl('Content Value', inputHtml);
+                ctrl.querySelector('#ctrl-val').oninput = (e) => syncUpdate(type, field, e.target.value);
+            }
+
+            // 2. Image URL
+            if (field && field.toLowerCase().includes('image')) {
+                const val = getNestedValue(data, field) || '';
+                const ctrl = addControl('Image Source URL', `<input type="text" id="ctrl-img" value="${val}" class="w-full bg-gray-800 border border-gray-700 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none text-sm">`);
+                ctrl.querySelector('#ctrl-img').oninput = (e) => syncUpdate(type, field, e.target.value);
+            }
+
+            // 3. Spacing (Padding)
+            const addSpacing = (dir) => {
+                const key = `padding${dir}`;
+                const val = data.styles[key] || (type === 'hero' ? '80' : '96');
+                const ctrl = addControl(`${dir} Spacing (${val}px)`, `<input type="range" min="0" max="200" value="${val}" id="ctrl-pad-${dir}">`);
+                ctrl.querySelector('input').oninput = (e) => {
+                    data.styles[key] = e.target.value;
+                    ctrl.querySelector('label').textContent = `${dir} Spacing (${e.target.value}px)`;
+                    syncUpdate(type, 'styles', data.styles);
+                };
+            };
+            addSpacing('Top');
+            addSpacing('Bottom');
+
+            // 4. Colors
+            const addColor = (label, key, defaultVal) => {
+                const val = data.styles[key] || defaultVal;
+                const ctrl = addControl(label, `
+                    <div class="flex items-center space-x-3 bg-gray-800 p-2 rounded-2xl border border-gray-700">
+                        <input type="color" value="${val}" id="ctrl-color-${key}" class="w-10 h-10 rounded-lg bg-transparent border-none cursor-pointer">
+                        <code class="text-xs text-gray-400 font-mono flex-grow">${val}</code>
+                    </div>
+                `);
+                ctrl.querySelector('input').oninput = (e) => {
+                    data.styles[key] = e.target.value;
+                    ctrl.querySelector('code').textContent = e.target.value;
+                    syncUpdate(type, 'styles', data.styles);
+                };
+            };
+            addColor('Title Color', 'titleColor', type === 'hero' ? '#ffffff' : '#111827');
+            addColor('Background Color', 'bgColor', type === 'hero' ? '#000000' : '#ffffff');
+
+            lucide.createIcons();
+        }
+
+        function syncUpdate(type, field, value) {
+            setNestedValue(siteData[type], field, value);
+            document.getElementById('status-badge').classList.remove('hidden');
+            
+            // Debounced re-render
+            clearTimeout(window.renderTimer);
+            window.renderTimer = setTimeout(() => {
+                renderPreview();
+                // Persist selection
+                if (currentSelection) {
+                    const newEl = field ? canvas.querySelector(`[data-field="${field}"][data-type="${type}"]`) : canvas.querySelector(`#section-${type}`);
+                    if (newEl) {
+                        currentSelection.el = newEl;
+                        newEl.classList.add('selected');
+                    }
+                }
+            }, 100);
+        }
+
+        window.switchPage = (page) => {
+            currentPage = page;
+            ['home', 'about', 'products', 'videos', 'contact'].forEach(p => {
+                const btn = document.getElementById(`btn-page-${p}`);
+                if (btn) {
+                    btn.classList.toggle('bg-blue-600', p === page);
+                    btn.classList.toggle('text-white', p === page);
+                    btn.classList.toggle('text-gray-500', p !== page);
+                }
+            });
+            renderPreview();
+            renderStructureList();
+            clearSelection();
+        };
+
+        function renderStructureList() {
+            const list = document.getElementById('sections-list');
+            list.innerHTML = '';
+            const pageSections = siteData.sections[currentPage];
+            
+            pageSections.forEach(sec => {
+                const item = document.createElement('div');
+                item.className = 'flex items-center justify-between p-4 bg-gray-800/50 border border-gray-800 rounded-2xl hover:border-gray-700 transition-all drag-handle';
+                item.dataset.id = sec.id;
+                item.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <div class="p-2 bg-gray-900 rounded-lg text-gray-500"><i data-lucide="${sec.icon}" class="w-4 h-4"></i></div>
+                        <span class="text-sm font-bold text-gray-300">${sec.name}</span>
+                    </div>
+                    <i data-lucide="grip-vertical" class="w-4 h-4 text-gray-700"></i>
+                `;
+                list.appendChild(item);
+            });
+            
+            new Sortable(list, {
+                animation: 200,
+                handle: '.drag-handle',
+                onEnd: () => {
+                    const newOrder = Array.from(list.children).map(el => el.dataset.id);
+                    siteData.sections[currentPage].sort((a, b) => newOrder.indexOf(a.id) - newOrder.indexOf(b.id));
+                    renderPreview();
+                    showToast("Layout order updated!", "layers", "text-blue-400");
+                }
+            });
+        }
+
+        window.switchTab = (tab) => {
+            document.getElementById('tab-design').classList.toggle('border-green-500', tab === 'design');
+            document.getElementById('tab-design').classList.toggle('text-white', tab === 'design');
+            document.getElementById('tab-design').classList.toggle('text-gray-500', tab !== 'design');
+            
+            document.getElementById('tab-structure').classList.toggle('border-green-500', tab === 'structure');
+            document.getElementById('tab-structure').classList.toggle('text-white', tab === 'structure');
+            document.getElementById('tab-structure').classList.toggle('text-gray-500', tab !== 'structure');
+            
+            document.getElementById('design-tab-content').classList.toggle('hidden', tab !== 'design');
+            document.getElementById('structure-tab-content').classList.toggle('hidden', tab !== 'structure');
+            lucide.createIcons();
+        };
+
+        window.setViewport = (type) => {
+            const wrapper = document.getElementById('preview-wrapper');
+            ['desktop', 'tablet', 'mobile'].forEach(b => {
+                document.getElementById(`vp-${b}`).classList.remove('bg-gray-700', 'text-white');
+                document.getElementById(`vp-${b}`).classList.add('text-gray-400');
+            });
+            document.getElementById(`vp-${type}`).classList.add('bg-gray-700', 'text-white');
+            document.getElementById(`vp-${type}`).classList.remove('text-gray-400');
+
+            if (type === 'desktop') wrapper.style.width = '100%';
+            if (type === 'tablet') wrapper.style.width = '768px';
+            if (type === 'mobile') wrapper.style.width = '375px';
+        };
+
+        document.getElementById('saveBtn').onclick = async () => {
+            const btn = document.getElementById('saveBtn');
+            const original = btn.innerHTML;
+            btn.innerHTML = `<i data-lucide="loader" class="w-4 h-4 animate-spin"></i><span>Publishing Changes...</span>`;
+            btn.disabled = true;
+            lucide.createIcons();
+
+            try {
+                const batch = writeBatch(db);
+                batch.set(doc(db, 'home_content', 'main'), siteData.hero);
+                batch.set(doc(db, 'about_page', 'content'), siteData.about);
+                batch.set(doc(db, 'site_settings', 'footer'), siteData.footer);
+                batch.set(doc(db, 'site_settings', 'contact'), siteData.contact);
+                batch.set(doc(db, 'site_settings', 'gallery_meta'), siteData.galleryMeta);
+                batch.set(doc(db, 'products_page', 'content'), siteData.productsPage);
+                batch.set(doc(db, 'videos_page', 'content'), siteData.videosPage);
+                
+                await batch.commit();
+                showToast("All changes are now live!", "check", "text-green-400");
+                document.getElementById('status-badge').classList.add('hidden');
+            } catch (err) {
+                console.error(err);
+                showToast("Failed to sync data. Please retry.", "x-circle", "text-red-400");
+            } finally {
+                btn.innerHTML = original;
+                btn.disabled = false;
+                lucide.createIcons();
+            }
+        };
+
+        function showToast(text, icon, color) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-icon').innerHTML = `<i data-lucide="${icon}" class="w-6 h-6 ${color}"></i>`;
+            document.getElementById('toast-text').textContent = text;
+            lucide.createIcons();
+            
+            toast.classList.remove('translate-y-32', 'opacity-0');
+            setTimeout(() => toast.classList.add('translate-y-32', 'opacity-0'), 3000);
+        }
+
+        lucide.createIcons();
+    </script>
+</body>
+</html>

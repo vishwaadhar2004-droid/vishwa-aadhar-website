@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Vishwa Aadhar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Space Grotesk', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 opacity-0 transition-opacity duration-300">
+    <div class="flex min-h-screen">
+        <!-- Sidebar Navigation -->
+        <aside class="w-72 bg-gray-900 border-r border-gray-800 flex flex-col fixed inset-y-0 left-0 z-50">
+             <div class="p-8 flex items-center space-x-3 border-b border-gray-800">
+                <img src="https://i.postimg.cc/jjytpyMC/Whats-App-Image-2025-09-14-at-11-47-48-PM.jpg" class="w-10 h-10 rounded-xl shadow-lg border border-gray-700" alt="Logo">
+                <span class="font-bold text-xl tracking-tight text-white">Vishwa Admin</span>
+            </div>
+            
+             <nav class="flex-grow p-6 space-y-2 mt-4 text-gray-400">
+                <a href="index.html" class="flex items-center px-4 py-3 rounded-xl bg-green-500/10 text-green-400 font-bold border-l-2 border-green-500">
+                    <i data-lucide="layout-dashboard" class="mr-3 w-5 h-5"></i> Dashboard
+                </a>
+                <div class="pt-4 pb-2 px-4 text-[10px] font-bold text-gray-600 uppercase tracking-widest">Management</div>
+                <a href="team-members.html" class="flex items-center px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-white transition-all">
+                    <i data-lucide="users" class="mr-3 w-5 h-5"></i> Team Members
+                </a>
+                <a href="videos.html" class="flex items-center px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-white transition-all">
+                    <i data-lucide="video" class="mr-3 w-5 h-5"></i> Videos (Insta/YT)
+                </a>
+            </nav>
+
+            <div class="p-6 border-t border-gray-800">
+                <button id="logoutBtn" class="w-full flex items-center justify-center px-4 py-3 bg-red-900/20 text-red-400 rounded-xl hover:bg-red-900/40 transition-all font-bold group">
+                    <i data-lucide="log-out" class="mr-2 w-5 h-5 group-hover:-translate-x-1 transition-transform"></i> Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="flex-grow ml-72 p-10">
+            <header class="mb-12 flex justify-between items-center">
+                <div>
+                    <h1 class="text-4xl font-extrabold text-white">Dashboard</h1>
+                    <p class="text-gray-500 mt-2">Manage your team and video content.</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="/" target="_blank" class="flex items-center px-6 py-3 bg-gray-800 border border-gray-700 rounded-2xl hover:border-green-500 transition-all text-sm font-bold shadow-lg">
+                        <i data-lucide="external-link" class="w-4 h-4 mr-2"></i> Preview Live Website
+                    </a>
+                </div>
+            </header>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-gray-800 p-8 rounded-[2.5rem] border border-gray-700 hover:border-green-500 transition-all group shadow-xl">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="bg-green-900/30 p-4 rounded-2xl text-green-400 group-hover:scale-110 transition-transform">
+                            <i data-lucide="users" class="w-6 h-6"></i>
+                        </div>
+                        <span class="text-[10px] font-bold text-gray-600 uppercase tracking-widest">Live</span>
+                    </div>
+                    <h3 class="text-4xl font-extrabold" id="teamCount">0</h3>
+                    <p class="text-gray-500 font-medium mt-1">Team Members</p>
+                    <a href="team-members.html" class="mt-4 inline-block text-green-400 text-sm font-bold">Manage Members →</a>
+                </div>
+
+                <div class="bg-gray-800 p-8 rounded-[2.5rem] border border-gray-700 hover:border-red-500 transition-all group shadow-xl">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="bg-red-900/30 p-4 rounded-2xl text-red-400 group-hover:scale-110 transition-transform">
+                            <i data-lucide="video" class="w-6 h-6"></i>
+                        </div>
+                        <span class="text-[10px] font-bold text-gray-600 uppercase tracking-widest">Video</span>
+                    </div>
+                    <h3 class="text-4xl font-extrabold" id="videoCount">0</h3>
+                    <p class="text-gray-500 font-medium mt-1">Channel Media</p>
+                    <a href="videos.html" class="mt-4 inline-block text-red-400 text-sm font-bold">Manage Videos →</a>
+                </div>
+            </div>
+
+            <div class="mt-12 bg-gray-800 p-10 rounded-[2.5rem] border border-gray-700 shadow-2xl">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <i data-lucide="info" class="w-6 h-6 mr-3 text-blue-400"></i> Admin Instructions
+                </h2>
+                <div class="space-y-4 text-gray-400">
+                    <p>Welcome to the Vishwa Aadhar Admin Panel. This simplified interface allows you to manage the most active parts of your website:</p>
+                    <ul class="list-disc list-inside space-y-2 ml-4">
+                        <li><strong class="text-white">Team Members:</strong> Add, edit, or remove members of your organization. These appear on the "About Us" page.</li>
+                        <li><strong class="text-white">Videos:</strong> Link YouTube or Instagram videos to showcase your work. These appear on the "Videos" page.</li>
+                    </ul>
+                    <p class="pt-4 border-t border-gray-700 mt-6">Any changes you save here will be reflected <span class="bg-green-500/20 text-green-400 px-2 py-0.5 rounded font-bold">Live</span> on the public website within seconds.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+        import { firebaseConfig } from "./js/config.js";
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        document.body.classList.remove('opacity-0');
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) window.location.href = "login.html";
+        });
+
+        window.logout = () => signOut(auth);
+        document.getElementById('logoutBtn').addEventListener('click', logout);
+
+        async function loadDashboardData() {
+            try {
+                // Load Stats
+                const team = await getDocs(collection(db, 'team_members'));
+                const videos = await getDocs(collection(db, 'videos'));
+
+                document.getElementById('teamCount').textContent = team.size;
+                document.getElementById('videoCount').textContent = videos.size;
+
+                lucide.createIcons();
+            } catch (error) {
+                console.error("Dashboard Load Error:", error);
+            }
+        }
+
+        loadDashboardData();
+    </script>
+</body>
+</html>

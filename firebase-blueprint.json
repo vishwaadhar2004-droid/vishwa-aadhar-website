@@ -1,0 +1,191 @@
+{
+  "entities": {
+    "HomeContent": {
+      "title": "Home Page Content",
+      "description": "Content for the homepage sections.",
+      "type": "object",
+      "properties": {
+        "slides": { 
+          "type": "array", 
+          "items": { 
+            "type": "object",
+            "properties": {
+              "bgImage": { "type": "string" },
+              "heading": { "type": "string" },
+              "paragraph": { "type": "string" },
+              "link": { "type": "string" },
+              "buttonText": { "type": "string" }
+            }
+          }
+        },
+        "whatWeDo": {
+          "type": "object",
+          "properties": {
+            "title": { "type": "string" },
+            "description": { "type": "string" },
+            "cards": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "title": { "type": "string" },
+                  "desc": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "innovationsSection": {
+          "type": "object",
+          "properties": {
+            "title": { "type": "string" },
+            "description": { "type": "string" }
+          }
+        }
+      }
+    },
+    "AboutPageContent": {
+      "title": "About Page Content",
+      "description": "Content for the about us page sections.",
+      "type": "object",
+      "properties": {
+        "mainDescription": { "type": "string" },
+        "aboutImage": { "type": "string" },
+        "mission": { "type": "string" },
+        "vision": { "type": "string" },
+        "ceoMessage": {
+          "type": "object",
+          "properties": {
+            "heading": { "type": "string" },
+            "text": { "type": "string" },
+            "quote": { "type": "string" },
+            "footer": { "type": "string" },
+            "image": { "type": "string" }
+          }
+        },
+        "achievements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "image": { "type": "string" },
+              "caption": { "type": "string" }
+            }
+          }
+        },
+        "valueModel": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": { "type": "string" },
+              "desc": { "type": "string" }
+            }
+          }
+        },
+        "pillars": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": { "type": "string" },
+              "icon": { "type": "string" }
+            }
+          }
+        },
+        "segments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "benefit": { "type": "string" }
+            }
+          }
+        },
+        "opportunities": {
+          "type": "object",
+          "properties": {
+            "expansion": { "type": "array", "items": { "type": "string" } },
+            "diversification": { "type": "array", "items": { "type": "string" } },
+            "futureTech": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    },
+    "PageHeader": {
+      "title": "Page Header",
+      "description": "Generic header for subpages.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" }
+      }
+    },
+    "SiteSettings": {
+      "title": "Site Settings",
+      "description": "Global settings and footer.",
+      "type": "object",
+      "properties": {
+        "footerMainText": { "type": "string" },
+        "facebook": { "type": "string" },
+        "linkedin": { "type": "string" }
+      }
+    },
+    "ContactInfo": {
+      "title": "Contact Info",
+      "description": "Global contact details.",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "address": { "type": "string" }
+      }
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Product details.",
+      "type": "object",
+      "properties": {
+        "slug": { "type": "string" },
+        "title": { "type": "string" },
+        "shortDescription": { "type": "string" },
+        "cardImage": { "type": "string" },
+        "order": { "type": "number" }
+      }
+    },
+    "TeamMember": {
+      "title": "Team Member",
+      "description": "Company team member.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "position": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "description": { "type": "string" },
+        "order": { "type": "number" }
+      }
+    },
+    "Video": {
+      "title": "Video",
+      "description": "Youtube video.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "youtubeUrl": { "type": "string" },
+        "order": { "type": "number" }
+      }
+    }
+  },
+  "firestore": {
+    "home_content/main": { "schema": "HomeContent", "description": "Home page data." },
+    "about_page/content": { "schema": "AboutPageContent", "description": "About page data." },
+    "products_page/content": { "schema": "PageHeader", "description": "Products list header." },
+    "videos_page/content": { "schema": "PageHeader", "description": "Videos list header." },
+    "site_settings/footer": { "schema": "SiteSettings", "description": "Global footer." },
+    "site_settings/contact": { "schema": "ContactInfo", "description": "Global contact info." },
+    "products": { "schema": "Product", "description": "Dynamic products list." },
+    "team_members": { "schema": "TeamMember", "description": "Company team." },
+    "videos": { "schema": "Video", "description": "Promotional videos." }
+  }
+}

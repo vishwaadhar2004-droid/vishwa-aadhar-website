@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Gallery Manager - Admin Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Space Grotesk', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 p-6 opacity-0 transition-opacity duration-300">
+    <div class="flex min-h-screen">
+        <!-- Sidebar Navigation (Duplicated for consistency) -->
+        <aside class="w-72 bg-gray-900 border-r border-gray-800 flex flex-col fixed inset-y-0 left-0">
+             <div class="p-8 flex items-center space-x-3 border-b border-gray-800">
+                <img src="https://i.postimg.cc/jjytpyMC/Whats-App-Image-2025-09-14-at-11-47-48-PM.jpg" class="w-10 h-10 rounded-xl" alt="Logo">
+                <span class="font-bold text-xl tracking-tight text-white">Vishwa Admin</span>
+            </div>
+            
+            <nav class="flex-grow p-6 space-y-2 mt-4 text-gray-400">
+                <a href="index.html" class="flex items-center px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-white transition-all">
+                    <i data-lucide="layout-dashboard" class="mr-3 w-5"></i> Dashboard
+                </a>
+                <a href="home-editor.html" class="flex items-center px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-white transition-all">
+                    <i data-lucide="home" class="mr-3 w-5"></i> Home Page
+                </a>
+                <a href="about-editor.html" class="flex items-center px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-white transition-all">
+                    <i data-lucide="info" class="mr-3 w-5"></i> About Us
+                </a>
+                <a href="products.html" class="flex items-center px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-white transition-all">
+                    <i data-lucide="package" class="mr-3 w-5"></i> Innovations
+                </a>
+                <a href="team-members.html" class="flex items-center px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-white transition-all">
+                    <i data-lucide="users" class="mr-3 w-5"></i> Team Members
+                </a>
+                <a href="gallery-editor.html" class="flex items-center px-4 py-3 rounded-xl bg-purple-500/10 text-purple-400 font-bold border-l-2 border-purple-500 transition-all">
+                    <i data-lucide="image" class="mr-3 w-5"></i> Photo Gallery
+                </a>
+                <a href="videos.html" class="flex items-center px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-white transition-all">
+                    <i data-lucide="video" class="mr-3 w-5"></i> Video Media
+                </a>
+                <a href="contact-editor.html" class="flex items-center px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-white transition-all">
+                    <i data-lucide="phone" class="mr-3 w-5"></i> Contact Info
+                </a>
+                <a href="footer-editor.html" class="flex items-center px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-white transition-all">
+                    <i data-lucide="anchor" class="mr-3 w-5 h-5"></i> Footer Content
+                </a>
+            </nav>
+            <div class="p-6">
+                <button id="logoutBtn" class="w-full px-4 py-3 bg-red-900/20 text-red-400 rounded-xl hover:bg-red-900/40 font-bold flex justify-center items-center gap-2">
+                    <i data-lucide="log-out" class="w-5 h-5"></i> Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-grow ml-72 p-10">
+            <header class="mb-12 flex justify-between items-center">
+                <div>
+                    <h1 class="text-4xl font-extrabold text-white">Media Gallery</h1>
+                    <p class="text-gray-500 mt-2">Add or remove photos from your website showcases.</p>
+                </div>
+                <button onclick="openModal()" class="bg-purple-600 hover:bg-purple-500 text-white font-bold py-4 px-10 rounded-2xl shadow-xl transition-all transform hover:scale-[1.02] flex items-center gap-2">
+                    <i data-lucide="plus" class="w-5 h-5"></i> Add New Image
+                </button>
+            </header>
+
+            <div id="galleryGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <!-- Gallery items will be injected here -->
+                <div class="col-span-full py-32 text-center bg-gray-800/50 rounded-[3rem] border border-dashed border-gray-700">
+                    <i data-lucide="cloud-lightning" class="w-16 h-16 text-gray-700 mx-auto mb-4"></i>
+                    <p class="text-gray-500">Loading your visual story...</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal for Adding/Editing -->
+    <div id="mediaModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden z-[100] flex items-center justify-center p-6">
+        <div class="bg-gray-800 w-full max-w-xl rounded-[2.5rem] border border-gray-700 overflow-hidden shadow-2xl">
+            <div class="p-8 border-b border-gray-700 flex justify-between items-center bg-purple-900/10">
+                <h3 id="modalTitle" class="text-2xl font-bold">Add to Gallery</h3>
+                <button onclick="closeModal()" class="text-gray-500 hover:text-white transition-all"><i data-lucide="x"></i></button>
+            </div>
+            <form id="mediaForm" class="p-8 space-y-6">
+                <input type="hidden" id="mediaId">
+                <div>
+                    <label class="block text-sm font-bold text-gray-400 mb-3 uppercase tracking-widest text-[10px]">Image URL (Unsplash/ImgBB/PostImg)</label>
+                    <input type="text" id="imageUrl" required class="w-full bg-gray-900 border border-gray-700 rounded-2xl px-6 py-4 focus:ring-2 focus:ring-purple-500 outline-none transition-all">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-gray-400 mb-3 uppercase tracking-widest text-[10px]">Short Caption / Category</label>
+                    <input type="text" id="caption" required class="w-full bg-gray-900 border border-gray-700 rounded-2xl px-6 py-4 focus:ring-2 focus:ring-purple-500 outline-none" placeholder="e.g. Factory Floor, Lab Visit">
+                </div>
+                <div class="flex justify-end gap-4 pt-4">
+                    <button type="button" onclick="closeModal()" class="px-8 py-4 rounded-xl text-gray-400 hover:text-white font-bold">Cancel</button>
+                    <button type="submit" id="saveBtn" class="px-12 py-4 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-2xl shadow-xl transition-all">Save Image</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+        import { firebaseConfig } from "./js/config.js";
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        document.body.classList.remove('opacity-0');
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) window.location.href = "login.html";
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', () => signOut(auth));
+
+        const grid = document.getElementById('galleryGrid');
+        const modal = document.getElementById('mediaModal');
+        const form = document.getElementById('mediaForm');
+
+        window.openModal = (media = null) => {
+            modal.classList.remove('hidden');
+            if (media) {
+                document.getElementById('modalTitle').textContent = "Edit Media";
+                document.getElementById('mediaId').value = media.id;
+                document.getElementById('imageUrl').value = media.url;
+                document.getElementById('caption').value = media.caption;
+            } else {
+                document.getElementById('modalTitle').textContent = "Add to Gallery";
+                form.reset();
+                document.getElementById('mediaId').value = "";
+            }
+        };
+
+        window.closeModal = () => modal.classList.add('hidden');
+
+        async function loadGallery() {
+            try {
+                const querySnapshot = await getDocs(collection(db, 'gallery_media'));
+                grid.innerHTML = '';
+                
+                if (querySnapshot.empty) {
+                    grid.innerHTML = '<div class="col-span-full py-20 text-center text-gray-600 border border-dashed border-gray-800 rounded-[3rem]">No photos yet. Let your audience see your work!</div>';
+                    return;
+                }
+
+                querySnapshot.forEach((docSnap) => {
+                    const item = { id: docSnap.id, ...docSnap.data() };
+                    const card = document.createElement('div');
+                    card.className = "group relative bg-gray-900 aspect-square rounded-[2rem] overflow-hidden border border-gray-800 shadow-xl";
+                    card.innerHTML = `
+                        <img src="${item.url}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-60 group-hover:opacity-100">
+                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent flex flex-col justify-end p-6 translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+                            <h4 class="font-bold text-white mb-2">${item.caption}</h4>
+                            <div class="flex gap-2">
+                                <button onclick='openModal(${JSON.stringify(item).replace(/'/g, "&apos;")})' class="p-2 bg-purple-600/80 rounded-lg text-white hover:bg-purple-500 transition-all"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
+                                <button onclick="deleteImage('${item.id}')" class="p-2 bg-red-600/80 rounded-lg text-white hover:bg-red-500 transition-all"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                            </div>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+                lucide.createIcons();
+            } catch (error) {
+                console.error("Gallery failed", error);
+            }
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('mediaId').value;
+            const data = {
+                url: document.getElementById('imageUrl').value,
+                caption: document.getElementById('caption').value,
+                updatedAt: new Date().toISOString()
+            };
+
+            const btn = document.getElementById('saveBtn');
+            btn.disabled = true;
+            btn.textContent = "Publishing...";
+
+            try {
+                if (id) {
+                    await setDoc(doc(db, 'gallery_media', id), data, { merge: true });
+                } else {
+                    data.createdAt = new Date().toISOString();
+                    await addDoc(collection(db, 'gallery_media'), data);
+                }
+                closeModal();
+                loadGallery();
+            } catch (error) {
+                console.error("Save gallery failed", error);
+                alert("Failed to save image.");
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "Save Image";
+            }
+        });
+
+        window.deleteImage = async (id) => {
+            if (confirm("Permanently erase this memory from the website?")) {
+                await deleteDoc(doc(db, 'gallery_media', id));
+                loadGallery();
+            }
+        }
+
+        loadGallery();
+        lucide.createIcons();
+    </script>
+</body>
+</html>

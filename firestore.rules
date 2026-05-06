@@ -1,0 +1,78 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global Helpers
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == 'kanchanbarele09@gmail.com' ||
+        request.auth.token.email == 'ashishbarele09@gmail.com' ||
+        request.auth.token.email == 'vishwa.admin@gmail.com' ||
+        request.auth.token.email == 'vishwaadhar2004@gmail.com'
+      );
+    }
+
+    // Allow public read for everything
+    match /{document=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Explicit collections with explicit read/write
+    match /home_content/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /about_page/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /products_page/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /videos_page/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /site_settings/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /team_members/{memberId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /videos/{videoId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /contact_info/{docId} {
+      allow write: if isAdmin();
+    }
+
+    match /gallery_media/{docId} {
+      allow write: if isAdmin();
+    }
+
+    match /test/connection {
+      allow read: if true;
+    }
+  }
+}
