@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { NAV_LINKS } from '../constants';
-import LiquidButton from './LiquidButton';
 
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,23 +31,23 @@ const Header: React.FC = () => {
           <span className="hidden sm:block text-lg font-bold text-white">Vishwa Aadhar Enterprises</span>
         </Link>
 
-        <nav className="hidden md:flex items-center space-x-8">
+        <nav className="hidden md:flex items-center gap-8">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
               to={link.href}
-              className={`text-gray-300 hover:text-green-400 transition-colors duration-300 font-medium ${location.pathname === link.href ? 'text-green-400' : ''}`}
+              className={`px-4 py-2 text-sm lg:text-base text-gray-300 hover:text-green-400 transition-colors duration-300 font-medium ${location.pathname === link.href ? 'text-green-400' : ''}`}
             >
               {link.label}
             </Link>
           ))}
+          <Link 
+            to="/contact" 
+            className="bg-[#0b1224] text-white px-6 py-2 rounded-full text-sm lg:text-base font-medium hover:bg-gray-800 transition-all duration-300 border border-gray-700 shadow-lg whitespace-nowrap ml-2"
+          >
+            Contact Us
+          </Link>
         </nav>
-
-        <div className="hidden md:block">
-            <Link to="/contact">
-                <LiquidButton>Contact Us</LiquidButton>
-            </Link>
-        </div>
 
         <div className="md:hidden">
           <button onClick={() => setIsOpen(!isOpen)} className="text-white focus:outline-none">
@@ -65,23 +64,26 @@ const Header: React.FC = () => {
 
       {/* Mobile Menu */}
       <div
-        className={`md:hidden transition-max-height duration-500 ease-in-out overflow-hidden ${
-          isOpen ? 'max-h-screen' : 'max-h-0'
+        className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden ${
+          isOpen ? 'max-h-screen border-t border-white/5 shadow-2xl' : 'max-h-0'
         }`}
       >
-        <div className="bg-gray-800 px-6 pb-4 flex flex-col space-y-4">
+        <div className="bg-gray-900/95 backdrop-blur-md px-6 py-8 flex flex-col items-center space-y-6">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
               to={link.href}
-              className={`text-gray-300 hover:text-green-400 transition-colors duration-300 font-medium py-2 ${location.pathname === link.href ? 'text-green-400' : ''}`}
+              className={`text-lg text-gray-300 hover:text-green-400 transition-all duration-300 font-medium w-full text-center py-2 ${location.pathname === link.href ? 'text-green-400' : ''}`}
             >
               {link.label}
             </Link>
           ))}
-           <Link to="/contact">
-                <LiquidButton className="w-full">Contact Us</LiquidButton>
-            </Link>
+          <Link 
+            to="/contact" 
+            className="bg-[#0b1224] text-white px-8 py-3 rounded-full font-semibold text-center w-full max-w-[220px] hover:bg-gray-800 transition-all duration-300 shadow-lg border border-gray-700 mt-2"
+          >
+            Contact Us
+          </Link>
         </div>
       </div>
     </header>

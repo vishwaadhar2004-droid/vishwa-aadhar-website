@@ -8,7 +8,7 @@ import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import ProductsPage from './pages/ProductsPage';
 import ProductDetailPage from './pages/ProductDetailPage';
-import VideosPage from './pages/VideosPage';
+import GalleryPage from './pages/GalleryPage';
 import ContactPage from './pages/ContactPage';
 import FaqsPage from './pages/FaqsPage';
 import HelpCenterPage from './pages/HelpCenterPage';
@@ -46,7 +46,7 @@ function App() {
               <Route path="/about" element={<AboutPage />} />
               <Route path="/products" element={<ProductsPage />} />
               <Route path="/products/:productId" element={<ProductDetailPage />} />
-              <Route path="/videos" element={<VideosPage />} />
+              <Route path="/gallery" element={<GalleryPage />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/faq" element={<FaqsPage />} />
               <Route path="/help-center" element={<HelpCenterPage />} />

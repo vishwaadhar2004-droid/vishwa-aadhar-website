@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/jjytpyMC/Whats-App-Image-2025-09-14-at-11-47-48-PM.jpg" />
     <title>About Us Settings - Admin Panel</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -28,6 +29,9 @@
                     <i data-lucide="layout" class="mr-3 w-5 h-5"></i> Visual Editor
                 </a>
                 <div class="pt-4 pb-2 px-4 text-[10px] font-bold text-gray-600 uppercase tracking-widest">Page Content</div>
+                <a href="home-slider.html" class="flex items-center px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-white transition-all">
+                    <i data-lucide="sliders" class="mr-3 w-5 h-5"></i> Home Slider
+                </a>
                 <a href="home-editor.html" class="flex items-center px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-white transition-all">
                     <i data-lucide="home" class="mr-3 w-5 h-5"></i> Home Page
                 </a>
@@ -161,6 +165,22 @@
         const db = getFirestore(app);
         const auth = getAuth(app);
 
+        function handleFirestoreError(error, operationType, path) {
+            const errInfo = {
+                error: error instanceof Error ? error.message : String(error),
+                authInfo: {
+                    userId: auth.currentUser?.uid,
+                    email: auth.currentUser?.email,
+                    emailVerified: auth.currentUser?.emailVerified,
+                },
+                operationType,
+                path
+            };
+            console.error('Firestore Error: ', JSON.stringify(errInfo));
+            alert("Failed to save: " + error.message + "\n\nLogged in as: " + (auth.currentUser?.email || "Not logged in"));
+            throw new Error(JSON.stringify(errInfo));
+        }
+
         document.body.classList.remove('opacity-0');
 
         onAuthStateChanged(auth, (user) => {
@@ -220,7 +240,7 @@
                 await setDoc(doc(db, 'about_page', 'content'), data, { merge: true });
                 toggleMode('view');
             } catch (error) {
-                alert("Failed to update about content.");
+                handleFirestoreError(error, 'write', 'about_page');
             }
         });
 

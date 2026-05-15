@@ -76,7 +76,7 @@ const Footer: React.FC = () => {
                          <li><Link to="/" className="text-gray-400 hover:text-green-400 transition-colors">Home</Link></li>
                          <li><Link to="/about" className="text-gray-400 hover:text-green-400 transition-colors">About Us</Link></li>
                          <li><Link to="/products" className="text-gray-400 hover:text-green-400 transition-colors">Products</Link></li>
-                         <li><Link to="/videos" className="text-gray-400 hover:text-green-400 transition-colors">Videos</Link></li>
+                         <li><Link to="/gallery" className="text-gray-400 hover:text-green-400 transition-colors">Gallery</Link></li>
                     </ul>
                 </div>
                 <div>
@@ -89,12 +89,22 @@ const Footer: React.FC = () => {
                 </div>
                 <div>
                     <h4 className="font-bold text-white mb-4 uppercase tracking-wider">Follow Us</h4>
-                    <div className="flex space-x-4">
-                        <a href="https://wa.me/message/YIGIQI3SKZ7FI1" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-green-400 transition-colors"><WhatsAppIcon /></a>
-                        <a href="https://www.instagram.com/vishwa_aadhar/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-green-400 transition-colors"><InstagramIcon /></a>
-                        <a href="https://www.youtube.com/@VISHWAAADHAR" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-green-400 transition-colors"><YouTubeIcon /></a>
-                        <a href="https://x.com/Vishwa_Aadhar?s=08" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-green-400 transition-colors"><TwitterIcon /></a>
-                        <a href="https://www.facebook.com/profile.php?id=61574757361093&mibextid=rS40aB7S9Ucbxw6v" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-green-400 transition-colors"><FacebookIcon /></a>
+                    <div className="flex items-center gap-4 flex-wrap">
+                        <a href="https://wa.me/message/YIGIQI3SKZ7FI1" target="_blank" rel="noopener noreferrer" className="w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-full bg-white/10 text-gray-400 hover:text-green-500 hover:bg-white/20 transition-all duration-300 transform hover:scale-110">
+                            <WhatsAppIcon className="w-7 h-7" />
+                        </a>
+                        <a href="https://www.instagram.com/vishwa_aadhar/" target="_blank" rel="noopener noreferrer" className="w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-full bg-white/10 text-gray-400 hover:text-pink-500 hover:bg-white/20 transition-all duration-300 transform hover:scale-110">
+                            <InstagramIcon className="w-7 h-7" />
+                        </a>
+                        <a href="https://www.youtube.com/@VISHWAAADHAR" target="_blank" rel="noopener noreferrer" className="w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-full bg-white/10 text-gray-400 hover:text-red-500 hover:bg-white/20 transition-all duration-300 transform hover:scale-110">
+                            <YouTubeIcon className="w-7 h-7" />
+                        </a>
+                        <a href="https://x.com/Vishwa_Aadhar?s=08" target="_blank" rel="noopener noreferrer" className="w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-full bg-white/10 text-gray-400 hover:text-white hover:bg-white/20 transition-all duration-300 transform hover:scale-110">
+                            <TwitterIcon className="w-7 h-7" />
+                        </a>
+                        <a href="https://www.facebook.com/profile.php?id=61574757361093&mibextid=rS40aB7S9Ucbxw6v" target="_blank" rel="noopener noreferrer" className="w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-full bg-white/10 text-gray-400 hover:text-blue-500 hover:bg-white/20 transition-all duration-300 transform hover:scale-110">
+                            <FacebookIcon className="w-7 h-7" />
+                        </a>
                     </div>
                 </div>
             </div>

@@ -175,17 +175,28 @@
         "youtubeUrl": { "type": "string" },
         "order": { "type": "number" }
       }
+    },
+    "GalleryItem": {
+      "title": "Gallery Item",
+      "description": "Image in the gallery.",
+      "type": "object",
+      "properties": {
+        "url": { "type": "string" },
+        "caption": { "type": "string" },
+        "order": { "type": "number" }
+      }
     }
   },
   "firestore": {
     "home_content/main": { "schema": "HomeContent", "description": "Home page data." },
     "about_page/content": { "schema": "AboutPageContent", "description": "About page data." },
     "products_page/content": { "schema": "PageHeader", "description": "Products list header." },
-    "videos_page/content": { "schema": "PageHeader", "description": "Videos list header." },
+    "gallery_page/content": { "schema": "PageHeader", "description": "Gallery list header." },
     "site_settings/footer": { "schema": "SiteSettings", "description": "Global footer." },
     "site_settings/contact": { "schema": "ContactInfo", "description": "Global contact info." },
     "products": { "schema": "Product", "description": "Dynamic products list." },
     "team_members": { "schema": "TeamMember", "description": "Company team." },
-    "videos": { "schema": "Video", "description": "Promotional videos." }
+    "videos": { "schema": "Video", "description": "Promotional videos." },
+    "gallery_media": { "schema": "GalleryItem", "description": "Gallery images." }
   }
 }

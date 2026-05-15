@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/jjytpyMC/Whats-App-Image-2025-09-14-at-11-47-48-PM.jpg" />
     <title>Admin Dashboard - Vishwa Aadhar</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -25,11 +26,17 @@
                     <i data-lucide="layout-dashboard" class="mr-3 w-5 h-5"></i> Dashboard
                 </a>
                 <div class="pt-4 pb-2 px-4 text-[10px] font-bold text-gray-600 uppercase tracking-widest">Management</div>
+                <a href="home-slider.html" class="flex items-center px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-white transition-all">
+                    <i data-lucide="sliders" class="mr-3 w-5 h-5"></i> Home Slider
+                </a>
                 <a href="team-members.html" class="flex items-center px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-white transition-all">
                     <i data-lucide="users" class="mr-3 w-5 h-5"></i> Team Members
                 </a>
+                <a href="gallery-editor.html" class="flex items-center px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-white transition-all">
+                    <i data-lucide="image" class="mr-3 w-5 h-5"></i> Photo Gallery
+                </a>
                 <a href="videos.html" class="flex items-center px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-white transition-all">
-                    <i data-lucide="video" class="mr-3 w-5 h-5"></i> Videos (Insta/YT)
+                    <i data-lucide="video" class="mr-3 w-5 h-5"></i> Video Media
                 </a>
             </nav>
 
@@ -55,17 +62,41 @@
             </header>
 
             <!-- Stats Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div class="bg-gray-800 p-8 rounded-[2.5rem] border border-gray-700 hover:border-green-500 transition-all group shadow-xl">
                     <div class="flex items-center justify-between mb-6">
                         <div class="bg-green-900/30 p-4 rounded-2xl text-green-400 group-hover:scale-110 transition-transform">
+                            <i data-lucide="sliders" class="w-6 h-6"></i>
+                        </div>
+                        <span class="text-[10px] font-bold text-gray-600 uppercase tracking-widest">Banners</span>
+                    </div>
+                    <h3 class="text-4xl font-extrabold" id="sliderCount">0</h3>
+                    <p class="text-gray-500 font-medium mt-1">Slider Images</p>
+                    <a href="home-slider.html" class="mt-4 inline-block text-green-400 text-sm font-bold">Manage Slider →</a>
+                </div>
+
+                <div class="bg-gray-800 p-8 rounded-[2.5rem] border border-gray-700 hover:border-blue-500 transition-all group shadow-xl">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="bg-blue-900/30 p-4 rounded-2xl text-blue-400 group-hover:scale-110 transition-transform">
                             <i data-lucide="users" class="w-6 h-6"></i>
                         </div>
                         <span class="text-[10px] font-bold text-gray-600 uppercase tracking-widest">Live</span>
                     </div>
                     <h3 class="text-4xl font-extrabold" id="teamCount">0</h3>
                     <p class="text-gray-500 font-medium mt-1">Team Members</p>
-                    <a href="team-members.html" class="mt-4 inline-block text-green-400 text-sm font-bold">Manage Members →</a>
+                    <a href="team-members.html" class="mt-4 inline-block text-blue-400 text-sm font-bold">Manage Members →</a>
+                </div>
+
+                <div class="bg-gray-800 p-8 rounded-[2.5rem] border border-gray-700 hover:border-purple-500 transition-all group shadow-xl">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="bg-purple-900/30 p-4 rounded-2xl text-purple-400 group-hover:scale-110 transition-transform">
+                            <i data-lucide="image" class="w-6 h-6"></i>
+                        </div>
+                        <span class="text-[10px] font-bold text-gray-600 uppercase tracking-widest">Photos</span>
+                    </div>
+                    <h3 class="text-4xl font-extrabold" id="galleryCount">0</h3>
+                    <p class="text-gray-500 font-medium mt-1">Gallery Images</p>
+                    <a href="gallery-editor.html" class="mt-4 inline-block text-purple-400 text-sm font-bold">Manage Gallery →</a>
                 </div>
 
                 <div class="bg-gray-800 p-8 rounded-[2.5rem] border border-gray-700 hover:border-red-500 transition-all group shadow-xl">
@@ -76,7 +107,7 @@
                         <span class="text-[10px] font-bold text-gray-600 uppercase tracking-widest">Video</span>
                     </div>
                     <h3 class="text-4xl font-extrabold" id="videoCount">0</h3>
-                    <p class="text-gray-500 font-medium mt-1">Channel Media</p>
+                    <p class="text-gray-500 font-medium mt-1">Video Media</p>
                     <a href="videos.html" class="mt-4 inline-block text-red-400 text-sm font-bold">Manage Videos →</a>
                 </div>
             </div>
@@ -88,8 +119,10 @@
                 <div class="space-y-4 text-gray-400">
                     <p>Welcome to the Vishwa Aadhar Admin Panel. This simplified interface allows you to manage the most active parts of your website:</p>
                     <ul class="list-disc list-inside space-y-2 ml-4">
+                        <li><strong class="text-white">Home Slider:</strong> Edit the main banners on your homepage. Change background images, titles, and descriptions.</li>
                         <li><strong class="text-white">Team Members:</strong> Add, edit, or remove members of your organization. These appear on the "About Us" page.</li>
-                        <li><strong class="text-white">Videos:</strong> Link YouTube or Instagram videos to showcase your work. These appear on the "Videos" page.</li>
+                        <li><strong class="text-white">Photo Gallery:</strong> Manage images showcased on your website's Gallery page.</li>
+                        <li><strong class="text-white">Video Media:</strong> Link YouTube or Instagram videos to showcase your work. These appear on the "Gallery" page.</li>
                     </ul>
                     <p class="pt-4 border-t border-gray-700 mt-6">Any changes you save here will be reflected <span class="bg-green-500/20 text-green-400 px-2 py-0.5 rounded font-bold">Live</span> on the public website within seconds.</p>
                 </div>
@@ -99,18 +132,22 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
         import { firebaseConfig } from "./js/config.js";
 
         const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+        const db = getFirestore(app, firebaseConfig.firestoreDatabaseId); // Use database ID explicitly
         const auth = getAuth(app);
 
         document.body.classList.remove('opacity-0');
 
         onAuthStateChanged(auth, (user) => {
-            if (!user) window.location.href = "login.html";
+            if (!user) {
+                window.location.href = "login.html";
+            } else {
+                loadDashboardData(); // Load after auth check to be safe
+            }
         });
 
         window.logout = () => signOut(auth);
@@ -118,20 +155,32 @@
 
         async function loadDashboardData() {
             try {
-                // Load Stats
-                const team = await getDocs(collection(db, 'team_members'));
-                const videos = await getDocs(collection(db, 'videos'));
+                // Fetch counts in parallel for speed
+                const [team, videos, gallery, sDoc] = await Promise.all([
+                    getDocs(collection(db, 'team_members')),
+                    getDocs(collection(db, 'videos')),
+                    getDocs(collection(db, 'gallery_media')),
+                    getDoc(doc(db, 'homeSlider', 'main'))
+                ]);
 
-                document.getElementById('teamCount').textContent = team.size;
-                document.getElementById('videoCount').textContent = videos.size;
+                // Update UI
+                document.getElementById('teamCount').textContent = team.size || 0;
+                document.getElementById('videoCount').textContent = videos.size || 0;
+                document.getElementById('galleryCount').textContent = gallery.size || 0;
+                
+                if (sDoc.exists() && sDoc.data().slides) {
+                    document.getElementById('sliderCount').textContent = sDoc.data().slides.length;
+                } else {
+                    document.getElementById('sliderCount').textContent = "5"; // Default static count if no data yet
+                }
 
                 lucide.createIcons();
             } catch (error) {
                 console.error("Dashboard Load Error:", error);
+                // Even on error, we should at least try to run lucide icons for whatever is visible
+                lucide.createIcons();
             }
         }
-
-        loadDashboardData();
     </script>
 </body>
 </html>

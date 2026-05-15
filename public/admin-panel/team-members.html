@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/jjytpyMC/Whats-App-Image-2025-09-14-at-11-47-48-PM.jpg" />
     <title>Team Management - Admin Panel</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -25,11 +26,17 @@
                     <i data-lucide="layout-dashboard" class="mr-3 w-5 h-5"></i> Dashboard
                 </a>
                 <div class="pt-4 pb-2 px-4 text-[10px] font-bold text-gray-600 uppercase tracking-widest text-gray-500">Management</div>
-                <a href="team-members.html" class="flex items-center px-4 py-3 rounded-xl bg-green-500/10 text-green-400 font-bold border-l-2 border-green-500 transition-all">
+                <a href="home-slider.html" class="flex items-center px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-white transition-all">
+                    <i data-lucide="sliders" class="mr-3 w-5 h-5"></i> Home Slider
+                </a>
+                <a href="team-members.html" class="flex items-center px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-white transition-all">
                     <i data-lucide="users" class="mr-3 w-5 h-5"></i> Team Members
                 </a>
+                <a href="gallery-editor.html" class="flex items-center px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-white transition-all">
+                    <i data-lucide="image" class="mr-3 w-5 h-5"></i> Photo Gallery
+                </a>
                 <a href="videos.html" class="flex items-center px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-white transition-all">
-                    <i data-lucide="video" class="mr-3 w-5 h-5"></i> Videos (Insta/YT)
+                    <i data-lucide="video" class="mr-3 w-5 h-5"></i> Video Media
                 </a>
             </nav>
 
@@ -108,6 +115,21 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
+
+        function handleFirestoreError(error, operationType, path) {
+            const errInfo = {
+                error: error instanceof Error ? error.message : String(error),
+                authInfo: {
+                    userId: window.authReadyUser?.uid || null,
+                    email: window.authReadyUser?.email || null,
+                },
+                operationType,
+                path
+            };
+            console.error('Firestore Error: ', JSON.stringify(errInfo));
+            alert("Failed to save: " + error.message + "\n\nTry logging in again if this persists.");
+            throw new Error(JSON.stringify(errInfo));
+        }
 
         const listContainer = document.getElementById('teamList');
         const modal = document.getElementById('memberModal');
@@ -205,8 +227,7 @@
                 closeModal();
                 loadTeam();
             } catch (error) {
-                console.error("Error saving member", error);
-                alert("Failed to save. Check console.");
+                handleFirestoreError(error, 'write', 'team_members');
             }
         });
 

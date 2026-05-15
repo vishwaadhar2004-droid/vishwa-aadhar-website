@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/jjytpyMC/Whats-App-Image-2025-09-14-at-11-47-48-PM.jpg" />
+    <title>Home Slider Settings - Admin Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 opacity-0 transition-opacity duration-300">
+    <div class="flex min-h-screen">
+        <!-- Sidebar Navigation -->
+        <aside class="w-72 bg-gray-900 border-r border-gray-800 flex flex-col fixed inset-y-0 left-0 z-50 shadow-2xl">
+              <div class="p-8 flex items-center space-x-3 border-b border-gray-800">
+                <img src="https://i.postimg.cc/jjytpyMC/Whats-App-Image-2025-09-14-at-11-47-48-PM.jpg" class="w-10 h-10 rounded-xl shadow-lg border border-gray-700" alt="Logo">
+                <span class="font-bold text-xl tracking-tight text-white">Vishwa Admin</span>
+            </div>
+            
+              <nav class="flex-grow p-6 space-y-2 mt-4 text-gray-400">
+                <a href="index.html" class="flex items-center px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-white transition-all">
+                    <i data-lucide="layout-dashboard" class="mr-3 w-5 h-5"></i> Dashboard
+                </a>
+                <div class="pt-4 pb-2 px-4 text-[10px] font-bold text-gray-600 uppercase tracking-widest text-gray-500">Management</div>
+                <a href="home-slider.html" class="flex items-center px-4 py-3 rounded-xl bg-green-500/10 text-green-400 font-bold border-l-2 border-green-500 transition-all">
+                    <i data-lucide="sliders" class="mr-3 w-5 h-5"></i> Home Slider
+                </a>
+                <a href="team-members.html" class="flex items-center px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-white transition-all">
+                    <i data-lucide="users" class="mr-3 w-5 h-5"></i> Team Members
+                </a>
+                <a href="gallery-editor.html" class="flex items-center px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-white transition-all">
+                    <i data-lucide="image" class="mr-3 w-5 h-5"></i> Photo Gallery
+                </a>
+                <a href="videos.html" class="flex items-center px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-white transition-all">
+                    <i data-lucide="video" class="mr-3 w-5 h-5"></i> Video Media
+                </a>
+            </nav>
+
+            <div class="p-6 border-t border-gray-800">
+                <button id="logoutBtn" class="w-full flex items-center justify-center px-4 py-3 bg-red-900/20 text-red-400 rounded-xl hover:bg-red-900/40 transition-all font-bold group">
+                    <i data-lucide="log-out" class="mr-2 w-5 h-5 group-hover:-translate-x-1 transition-transform"></i> Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="flex-grow ml-72 p-10">
+            <header class="mb-12 flex justify-between items-center">
+                <div>
+                    <h1 class="text-4xl font-extrabold text-white">Home Slider</h1>
+                    <p class="text-gray-500 mt-2">Update background images and banners on your homepage.</p>
+                </div>
+                <button onclick="addNewSlide()" class="bg-green-600 hover:bg-green-500 text-white font-bold py-3 px-6 rounded-2xl shadow-xl transition-all flex items-center transform hover:scale-105 active:scale-95">
+                    <i data-lucide="plus" class="mr-2 w-5 h-5"></i> Add New Slide
+                </button>
+            </header>
+
+            <div id="slidesList" class="space-y-8">
+                <!-- Slides will be injected here -->
+                <div class="animate-pulse flex items-center space-x-8 bg-gray-800 p-8 rounded-[2rem] border border-gray-700 h-64"></div>
+            </div>
+
+            <div class="mt-12 flex justify-center">
+                <button id="saveAllBtn" onclick="saveAllSlides()" class="bg-blue-600 hover:bg-blue-500 text-white font-extrabold py-4 px-12 rounded-[2rem] shadow-2xl transition-all transform hover:scale-105 active:scale-95 flex items-center">
+                    <i data-lucide="save" class="mr-3 w-6 h-6"></i> Save All Changes
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Firebase Applet Configuration placeholder -->
+    <script type="module" src="js/auth-guard.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+        import { firebaseConfig } from "./js/config.js";
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const DEFAULT_SLIDES = [
+            {
+                bgImage: "https://i.postimg.cc/nrF021Qb/Whats-App-Image-2025-11-07-at-8-31-01-PM.jpg",
+                heading: "Innovating for a Greener Planet",
+                paragraph: "Our flagship Bio-Cement & Fertilizer, engineered for sustainability and performance.",
+                buttonText: "Explore Our Products",
+                buttonLink: "/products"
+            },
+            {
+                bgImage: "https://i.postimg.cc/cLCVRRkY/Whats-App-Image-2025-09-14-at-11.png",
+                heading: "Vishwa Aadhar Enterprises",
+                paragraph: "By Strength We Built, By Trust We Endure!",
+                buttonText: "",
+                buttonLink: ""
+            },
+            {
+                bgImage: "https://i.postimg.cc/xTj439Km/Whats-App-Image-2025-11-07-at-8-30-54-PM.jpg",
+                heading: "Award-Winning Innovation",
+                paragraph: "Recognized for our commitment to pioneering sustainable solutions that build a greener future.",
+                buttonText: "Our Journey",
+                buttonLink: "/about"
+            },
+            {
+                bgImage: "https://images.unsplash.com/photo-1492496913980-501348b61469?q=80&w=1887&auto=format&fit=crop",
+                heading: "From Waste to Wonder.",
+                paragraph: "Our organic biofertilizers breathe new life into soil, increasing yields and promoting sustainable farming.",
+                buttonText: "Learn About Biofertilizers",
+                buttonLink: "/products/organic-biofertilizers"
+            },
+            {
+                bgImage: "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=2070&auto=format&fit=crop",
+                heading: "Your Partner in Sustainability.",
+                paragraph: "Collaborate with us to transform your industrial waste into valuable assets and achieve your green-tech goals.",
+                buttonText: "Our R&D Services",
+                buttonLink: "/products/waste-to-product-rd"
+            }
+        ];
+
+        let slides = [];
+        const slidesList = document.getElementById('slidesList');
+
+        async function init() {
+            try {
+                const sDoc = await getDoc(doc(db, 'homeSlider', 'main'));
+                if (sDoc.exists() && sDoc.data().slides) {
+                    slides = sDoc.data().slides;
+                } else {
+                    slides = [...DEFAULT_SLIDES];
+                }
+                renderSlides();
+            } catch (error) {
+                console.error("Init Error:", error);
+                slides = [...DEFAULT_SLIDES];
+                renderSlides();
+            }
+        }
+
+        window.renderSlides = () => {
+            slidesList.innerHTML = '';
+            slides.forEach((slide, index) => {
+                const slideDiv = document.createElement('div');
+                slideDiv.className = "bg-gray-800 p-8 rounded-[2.5rem] border border-gray-700 shadow-xl relative overflow-hidden group hover:border-green-500/50 transition-all";
+                slideDiv.innerHTML = `
+                    <div class="flex flex-col lg:flex-row gap-10">
+                        <div class="w-full lg:w-1/3 flex flex-col space-y-4">
+                            <div class="relative aspect-video rounded-3xl overflow-hidden bg-gray-900 border border-gray-700">
+                                <img src="${slide.bgImage}" class="w-full h-full object-cover" id="preview-${index}">
+                                <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <span class="text-xs font-bold text-white bg-black/60 px-3 py-1 rounded-full">Background Preview</span>
+                                </div>
+                            </div>
+                            <div class="bg-gray-900/50 p-4 rounded-2xl border border-gray-700/50">
+                                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest block mb-2">Background Image URL</label>
+                                <input type="text" value="${slide.bgImage}" onchange="updateSlide(${index}, 'bgImage', this.value)" class="w-full bg-transparent border-b border-gray-700 focus:border-green-500 py-1 outline-none text-sm font-mono text-blue-400">
+                            </div>
+                        </div>
+                        <div class="flex-grow space-y-6">
+                            <div class="flex items-center justify-between">
+                                <span class="bg-green-500/10 text-green-400 text-[10px] font-bold px-4 py-1.5 rounded-full uppercase tracking-widest border border-green-500/20">Slide #${index + 1}</span>
+                                <button onclick="deleteSlide(${index})" class="p-2.5 rounded-xl bg-red-900/10 text-red-400 hover:bg-red-900/30 transition-all border border-red-900/20">
+                                    <i data-lucide="trash-2" class="w-5 h-5"></i>
+                                </button>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-400 mb-2">Heading (Main Title)</label>
+                                    <input type="text" value="${slide.heading}" onchange="updateSlide(${index}, 'heading', this.value)" class="w-full bg-gray-900 border border-gray-700 rounded-2xl px-5 py-3 outline-none focus:ring-2 focus:ring-green-500 transition-all font-bold text-white">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-400 mb-2">Button Text (Optional)</label>
+                                    <input type="text" value="${slide.buttonText || ''}" onchange="updateSlide(${index}, 'buttonText', this.value)" class="w-full bg-gray-900 border border-gray-700 rounded-2xl px-5 py-3 outline-none focus:ring-2 focus:ring-green-500 transition-all">
+                                </div>
+                                <div class="md:col-span-1">
+                                    <label class="block text-sm font-bold text-gray-400 mb-2">Paragraph (Description)</label>
+                                    <textarea onchange="updateSlide(${index}, 'paragraph', this.value)" class="w-full bg-gray-900 border border-gray-700 rounded-2xl px-5 py-3 outline-none focus:ring-2 focus:ring-green-500 transition-all min-h-[100px] resize-none">${slide.paragraph}</textarea>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-400 mb-2">Button Link (e.g., /products)</label>
+                                    <input type="text" value="${slide.buttonLink || ''}" onchange="updateSlide(${index}, 'buttonLink', this.value)" class="w-full bg-gray-900 border border-gray-700 rounded-2xl px-5 py-3 outline-none focus:ring-2 focus:ring-green-500 transition-all font-mono text-sm">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                slidesList.appendChild(slideDiv);
+            });
+            lucide.createIcons();
+            document.body.classList.remove('opacity-0');
+        };
+
+        window.updateSlide = (index, field, value) => {
+            slides[index][field] = value;
+            if (field === 'bgImage') {
+                document.getElementById(`preview-${index}`).src = value;
+            }
+        };
+
+        window.addNewSlide = () => {
+            slides.push({
+                bgImage: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2071&auto=format&fit=crop",
+                heading: "New Sustainable Vision",
+                paragraph: "Descibe this new innovation here.",
+                buttonText: "Learn More",
+                buttonLink: "/about"
+            });
+            renderSlides();
+        };
+
+        window.deleteSlide = (index) => {
+            if (confirm("Are you sure you want to remove this slide?")) {
+                slides.splice(index, 1);
+                renderSlides();
+            }
+        };
+
+        window.saveAllSlides = async () => {
+            const btn = document.getElementById('saveAllBtn');
+            const originalContent = btn.innerHTML;
+            btn.innerHTML = `<i data-lucide="loader-2" class="w-6 h-6 mr-3 animate-spin"></i> Saving...`;
+            btn.disabled = true;
+            lucide.createIcons();
+            
+            try {
+                await setDoc(doc(db, 'homeSlider', 'main'), { slides: slides });
+                alert("Home Slider updated successfully! Changes are now live.");
+            } catch (error) {
+                console.error("Save Error:", error);
+                alert("Error saving: " + error.message);
+            } finally {
+                btn.innerHTML = originalContent;
+                btn.disabled = false;
+                lucide.createIcons();
+            }
+        };
+
+        init();
+    </script>
+</body>
+</html>

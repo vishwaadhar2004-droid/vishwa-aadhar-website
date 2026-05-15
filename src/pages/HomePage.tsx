@@ -96,55 +96,94 @@ const HomePage: React.FC = () => {
   const [homeData, setHomeData] = useState<any>(null);
 
   useEffect(() => {
-    const path = 'home_content/main';
-    const unsub = onSnapshot(doc(db, 'home_content', 'main'), (doc) => {
-      if (doc.exists()) {
-        const data = doc.data();
-        setHomeData(data);
-        
+    // Priority 1: New homeSlider doc
+    const unsubSlider = onSnapshot(doc(db, 'homeSlider', 'main'), (sDoc) => {
+      if (sDoc.exists()) {
+        const data = sDoc.data();
         if (data.slides && data.slides.length > 0) {
-            const formattedSlides = data.slides.map((s: any) => ({
-                bgImage: `url('${s.bgImage}')`,
-                content: (
-                    <>
+          const formattedSlides = data.slides.map((s: any) => ({
+            bgImage: s.bgImage.startsWith('url(') ? s.bgImage : `url('${s.bgImage}')`,
+            content: (
+              <>
+                <h1 className="text-4xl md:text-6xl font-extrabold mb-4 leading-tight">
+                  {s.heading}
+                </h1>
+                <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+                  {s.paragraph}
+                </p>
+                { (s.buttonText || s.buttonLink) && (
+                  <Link to={s.buttonLink || "/products"}>
+                    <LiquidButton>{s.buttonText || "Explore Details"}</LiquidButton>
+                  </Link>
+                )}
+              </>
+            )
+          }));
+          setSlides(formattedSlides);
+        }
+      } else {
+        // Fallback to legacy home_content if homeSlider doesn't exist yet
+        const unsubLegacy = onSnapshot(doc(db, 'home_content', 'main'), (lDoc) => {
+          if (lDoc.exists()) {
+            const data = lDoc.data();
+            setHomeData(data);
+            
+            if (data.slides && data.slides.length > 0) {
+                const formattedSlides = data.slides.map((s: any) => ({
+                    bgImage: s.bgImage.startsWith('url(') ? s.bgImage : `url('${s.bgImage}')`,
+                    content: (
+                        <>
+                            <h1 className="text-4xl md:text-6xl font-extrabold mb-4 leading-tight">
+                                {s.heading}
+                            </h1>
+                            <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+                                {s.paragraph}
+                            </p>
+                            <Link to={s.link || "/products"}>
+                                <LiquidButton>{s.buttonText || "Explore Details"}</LiquidButton>
+                            </Link>
+                        </>
+                    )
+                }));
+                setSlides(formattedSlides);
+            } else if (data.bannerImage) {
+                const firebaseSlide = {
+                    bgImage: `url('${data.bannerImage}')`,
+                    content: (
+                        <>
                         <h1 className="text-4xl md:text-6xl font-extrabold mb-4 leading-tight">
-                            {s.heading}
+                            {data.heading}
                         </h1>
                         <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-                            {s.paragraph}
+                            {data.paragraph}
                         </p>
-                        <Link to={s.link || "/products"}>
-                            <LiquidButton>{s.buttonText || "Explore Details"}</LiquidButton>
+                        <Link to="/products">
+                            <LiquidButton>Explore Our Products</LiquidButton>
                         </Link>
-                    </>
-                )
-            }));
-            setSlides(formattedSlides);
-        } else {
-            // Prepend a dynamic slide from old schema if exists, or just use defaults
-            const firebaseSlide = {
-                bgImage: `url('${data.bannerImage}')`,
-                content: (
-                    <>
-                    <h1 className="text-4xl md:text-6xl font-extrabold mb-4 leading-tight">
-                        {data.heading}
-                    </h1>
-                    <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-                        {data.paragraph}
-                    </p>
-                    <Link to="/products">
-                        <LiquidButton>Explore Our Products</LiquidButton>
-                    </Link>
-                    </>
-                )
-            };
-            setSlides([firebaseSlide, ...DEFAULT_SLIDES]);
-        }
+                        </>
+                    )
+                };
+                setSlides([firebaseSlide, ...DEFAULT_SLIDES]);
+            }
+          }
+        });
+        return () => unsubLegacy();
       }
     }, (error) => {
-      handleFirestoreError(error, OperationType.GET, path);
+      handleFirestoreError(error, OperationType.GET, 'homeSlider/main');
     });
-    return () => unsub();
+
+    // Also fetch static home data (sections) from home_content/main
+    const unsubHome = onSnapshot(doc(db, 'home_content', 'main'), (doc) => {
+        if (doc.exists()) {
+            setHomeData(doc.data());
+        }
+    });
+
+    return () => {
+        unsubSlider();
+        unsubHome();
+    };
   }, []);
 
   const nextSlide = useCallback(() => {
@@ -178,12 +217,12 @@ const HomePage: React.FC = () => {
              {slides[currentSlide].content}
         </div>
 
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex space-x-3">
+        <div className="absolute bottom-8 left-0 right-0 z-20 flex justify-center space-x-3">
             {slides.map((_, index) => (
                 <button
                     key={index}
                     onClick={() => goToSlide(index)}
-                    className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentSlide ? 'bg-green-500 scale-125' : 'bg-gray-500'}`}
+                    className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentSlide ? 'bg-green-500 scale-125 shadow-[0_0_10px_rgba(34,197,94,0.8)]' : 'bg-gray-500/50'}`}
                     aria-label={`Go to slide ${index + 1}`}
                 ></button>
             ))}
@@ -218,7 +257,7 @@ const HomePage: React.FC = () => {
       <section className="py-20">
         <div className="container mx-auto px-6">
           <AnimatedSection className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold">{homeData?.innovationsSection?.title || 'Our Innovations'}</h2>
+            <h2 className="text-3xl md:text-4xl font-bold">{homeData?.innovationsSection?.title || 'What We Offer In Place Of Our Innovations'}</h2>
             <p className="text-gray-400 max-w-2xl mx-auto mt-4">{homeData?.innovationsSection?.description || 'Explore our range of sustainable solutions designed for a greener tomorrow.'}</p>
           </AnimatedSection>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
