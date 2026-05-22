@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import AnimatedSection from '../components/AnimatedSection';
 import LiquidButton from '../components/LiquidButton';
 import { PRODUCTS_DATA } from '../constants';
@@ -7,6 +8,56 @@ import { PRODUCTS_DATA } from '../constants';
 import { db } from '../firebase';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { handleFirestoreError, OperationType } from '../lib/firestoreUtils';
+
+const isVideoUrl = (url: string) => {
+  if (!url) return false;
+  const cleanUrl = url.replace(/^url\(['"]?/, '').replace(/['"]?\)$/, '').toLowerCase().trim();
+  return cleanUrl.endsWith('.mp4') || 
+         cleanUrl.endsWith('.webm') || 
+         cleanUrl.endsWith('.mov') || 
+         cleanUrl.endsWith('.ogg') ||
+         cleanUrl.includes('/videos/') ||
+         cleanUrl.includes('.mp4');
+};
+
+interface VideoBackgroundProps {
+  src: string;
+  isActive: boolean;
+  onEnded: () => void;
+}
+
+const VideoBackground: React.FC<VideoBackgroundProps> = ({ src, isActive, onEnded }) => {
+  const videoRef = React.useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (isActive) {
+      video.currentTime = 0;
+      video.play().catch((err) => {
+        console.warn("Autoplay block handle:", err);
+      });
+    } else {
+      video.pause();
+    }
+  }, [isActive, src]);
+
+  return (
+    <video
+      ref={videoRef}
+      src={src}
+      muted
+      playsInline
+      onEnded={() => {
+        if (isActive) {
+          onEnded();
+        }
+      }}
+      className="absolute top-0 left-0 w-full h-full object-cover"
+    />
+  );
+};
 
 const DEFAULT_SLIDES = [
   {
@@ -102,7 +153,7 @@ const HomePage: React.FC = () => {
         const data = sDoc.data();
         if (data.slides && data.slides.length > 0) {
           const formattedSlides = data.slides.map((s: any) => ({
-            bgImage: s.bgImage.startsWith('url(') ? s.bgImage : `url('${s.bgImage}')`,
+            bgImage: s.bgImage,
             content: (
               <>
                 <h1 className="text-4xl md:text-6xl font-extrabold mb-4 leading-tight">
@@ -130,7 +181,7 @@ const HomePage: React.FC = () => {
             
             if (data.slides && data.slides.length > 0) {
                 const formattedSlides = data.slides.map((s: any) => ({
-                    bgImage: s.bgImage.startsWith('url(') ? s.bgImage : `url('${s.bgImage}')`,
+                    bgImage: s.bgImage,
                     content: (
                         <>
                             <h1 className="text-4xl md:text-6xl font-extrabold mb-4 leading-tight">
@@ -190,10 +241,26 @@ const HomePage: React.FC = () => {
     setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
   }, [slides.length]);
 
+  const prevSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+  }, [slides.length]);
+
   useEffect(() => {
-    const slideInterval = setInterval(nextSlide, 5000);
-    return () => clearInterval(slideInterval);
-  }, [nextSlide]);
+    const activeSlide = slides[currentSlide];
+    const isVideo = activeSlide && isVideoUrl(activeSlide.bgImage);
+    
+    // For video slides, the transition is driven entirely by the video timeline (onEnded event).
+    // For images, we use the standard 4-second auto-advance.
+    if (isVideo) {
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      nextSlide();
+    }, 4000);
+
+    return () => clearTimeout(timer);
+  }, [currentSlide, slides, nextSlide]);
 
   const goToSlide = (index: number) => {
     setCurrentSlide(index);
@@ -203,19 +270,50 @@ const HomePage: React.FC = () => {
     <div className="bg-gray-900 text-white">
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center text-center px-6 overflow-hidden">
-        {slides.map((slide, index) => (
-            <div 
-                key={index}
-                className={`absolute top-0 left-0 w-full h-full bg-cover bg-center transition-opacity duration-1000 ease-in-out ${slide.bgColor ?? ''} ${index === currentSlide ? 'opacity-100' : 'opacity-0'}`}
-                style={{ backgroundImage: slide.bgImage }}
-            >
-              <div className="absolute top-0 left-0 w-full h-full bg-black opacity-60"></div>
-            </div>
-        ))}
+        {slides.map((slide, index) => {
+            const isVideo = isVideoUrl(slide.bgImage);
+            const cleanUrl = slide.bgImage ? slide.bgImage.replace(/^url\(['"]?/, '').replace(/['"]?\)$/, '') : '';
+            return (
+              <div 
+                  key={index}
+                  className={`absolute top-0 left-0 w-full h-full bg-cover bg-center transition-opacity duration-1000 ease-in-out ${slide.bgColor ?? ''} ${index === currentSlide ? 'opacity-100' : 'opacity-0'}`}
+                  style={isVideo ? {} : { backgroundImage: `url('${cleanUrl}')` }}
+              >
+                {isVideo && (
+                  <VideoBackground
+                    src={cleanUrl}
+                    isActive={index === currentSlide}
+                    onEnded={nextSlide}
+                  />
+                )}
+                <div className="absolute top-0 left-0 w-full h-full bg-black opacity-60"></div>
+              </div>
+            );
+        })}
 
         <div className="relative z-10 max-w-4xl mx-auto">
              {slides[currentSlide].content}
         </div>
+
+        {/* Navigation Arrows */}
+        {slides.length > 1 && (
+          <>
+            <button
+              onClick={prevSlide}
+              className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 bg-black/50 hover:bg-green-500 hover:text-black text-white p-3 md:p-4 rounded-full border border-white/10 hover:border-green-400 hover:scale-110 active:scale-95 transition-all duration-300 focus:outline-none cursor-pointer group"
+              aria-label="Previous slide"
+            >
+              <ChevronLeft className="w-6 h-6 group-hover:-translate-x-0.5 transition-transform" />
+            </button>
+            <button
+              onClick={nextSlide}
+              className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 bg-black/50 hover:bg-green-500 hover:text-black text-white p-3 md:p-4 rounded-full border border-white/10 hover:border-green-400 hover:scale-110 active:scale-95 transition-all duration-300 focus:outline-none cursor-pointer group"
+              aria-label="Next slide"
+            >
+              <ChevronRight className="w-6 h-6 group-hover:translate-x-0.5 transition-transform" />
+            </button>
+          </>
+        )}
 
         <div className="absolute bottom-8 left-0 right-0 z-20 flex justify-center space-x-3">
             {slides.map((_, index) => (

@@ -28,22 +28,22 @@ const Header: React.FC = () => {
       <div className="container mx-auto px-6 py-3 flex justify-between items-center">
         <Link to="/" className="flex items-center space-x-3">
           <img src="https://i.postimg.cc/cLCVRRkY/Whats-App-Image-2025-09-14-at-11.png" alt="Vishwa Aadhar Enterprises Logo" className="h-12 w-12 rounded-full object-cover border-2 border-gray-700" />
-          <span className="hidden sm:block text-lg font-bold text-white">Vishwa Aadhar Enterprises</span>
+          <span className="hidden sm:block md:hidden lg:block text-lg font-bold text-white">Vishwa Aadhar Enterprises</span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-4 lg:gap-8">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
               to={link.href}
-              className={`px-4 py-2 text-sm lg:text-base text-gray-300 hover:text-green-400 transition-colors duration-300 font-medium ${location.pathname === link.href ? 'text-green-400' : ''}`}
+              className={`px-3 lg:px-4 py-2 text-sm lg:text-base text-gray-300 hover:text-green-400 transition-colors duration-300 font-medium ${location.pathname === link.href ? 'text-green-400' : ''}`}
             >
               {link.label}
             </Link>
           ))}
           <Link 
             to="/contact" 
-            className="bg-[#0b1224] text-white px-6 py-2 rounded-full text-sm lg:text-base font-medium hover:bg-gray-800 transition-all duration-300 border border-gray-700 shadow-lg whitespace-nowrap ml-2"
+            className="bg-[#0b1224] text-white px-4 lg:px-6 py-2 rounded-full text-sm lg:text-base font-medium hover:bg-gray-800 transition-all duration-300 border border-gray-700 shadow-lg whitespace-nowrap ml-1 lg:ml-2"
           >
             Contact Us
           </Link>

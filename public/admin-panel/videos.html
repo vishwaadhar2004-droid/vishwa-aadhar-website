@@ -11,6 +11,7 @@
     <style>
         body { font-family: 'Poppins', sans-serif; }
     </style>
+    <script src="js/admin-security.js"></script>
 </head>
 <body class="bg-gray-900 text-gray-100 opacity-0 transition-opacity duration-300">
     <div class="flex min-h-screen">
@@ -77,8 +78,8 @@
                     <input type="text" id="title" required class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-green-500">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-400 mb-2">Video Source (YouTube or Instagram URL)</label>
-                    <input type="url" id="youtubeUrl" required class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-green-500" placeholder="https://www.youtube.com/... or https://www.instagram.com/reels/...">
+                    <label class="block text-sm font-medium text-gray-400 mb-2">Video Source (YouTube, Instagram, or MP4 URL)</label>
+                    <input type="url" id="youtubeUrl" required class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-green-500" placeholder="e.g. YouTube, Instagram or http://...video.mp4">
                     <div id="urlStatus" class="mt-2 text-[10px] font-bold uppercase tracking-wider hidden"></div>
                 </div>
                 <div class="flex justify-end space-x-3 pt-4">
@@ -106,7 +107,7 @@
         const statusDiv = document.getElementById('urlStatus');
 
         urlInput.addEventListener('input', () => {
-            const url = urlInput.value;
+            const url = urlInput.value.trim();
             statusDiv.classList.remove('hidden');
             if (!url) {
                 statusDiv.classList.add('hidden');
@@ -115,6 +116,15 @@
 
             const ytRegExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|shorts\/)([^#\&\?]*).*/;
             const instaRegExp = /(?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:p|reels?|reel|tv)\/([^/?#&]+)/;
+            const lowerUrl = url.toLowerCase();
+            
+            const isMp4 = lowerUrl.includes('.mp4') || 
+                          lowerUrl.includes('.webm') || 
+                          lowerUrl.includes('.ogg') || 
+                          lowerUrl.includes('.mov') ||
+                          lowerUrl.includes('image2url') ||
+                          lowerUrl.includes('firebasestorage.googleapis.com') ||
+                          (lowerUrl.startsWith('http') && lowerUrl.includes('video'));
 
             if (url.match(ytRegExp) && url.match(ytRegExp)[2].length === 11) {
                 statusDiv.textContent = '✓ Supported YouTube Video';
@@ -122,6 +132,12 @@
             } else if (url.match(instaRegExp)) {
                 statusDiv.textContent = '✓ Supported Instagram Content';
                 statusDiv.className = 'mt-2 text-[10px] font-bold uppercase tracking-wider text-blue-500';
+            } else if (isMp4) {
+                statusDiv.textContent = '✓ Supported Direct MP4/Video File';
+                statusDiv.className = 'mt-2 text-[10px] font-bold uppercase tracking-wider text-green-500 animate-pulse';
+            } else if (lowerUrl.startsWith('http://') || lowerUrl.startsWith('https://')) {
+                statusDiv.textContent = '✓ Media URL Loaded';
+                statusDiv.className = 'mt-2 text-[10px] font-bold uppercase tracking-wider text-green-400';
             } else {
                 statusDiv.textContent = '✗ Unsupported or invalid URL';
                 statusDiv.className = 'mt-2 text-[10px] font-bold uppercase tracking-wider text-red-500';
