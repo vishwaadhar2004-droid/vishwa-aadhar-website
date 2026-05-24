@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin-panel/
+
+# Unified Consolidated Sitemap
+Sitemap: https://vishwaaadhar.com/sitemap.xml

@@ -2,5 +2,7 @@
   "name": "Remix: Vishwa Aadhar Enterprises",
   "description": "A professional, multi-page responsive website for Vishwa Aadhar Enterprises, a green-tech and biotechnology startup revolutionizing construction and agriculture with sustainable solutions.",
   "requestFramePermissions": [],
-  "majorCapabilities": []
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }
