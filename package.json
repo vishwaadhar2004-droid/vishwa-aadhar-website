@@ -4,11 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "node scripts/generate-sitemap.js && vite",
-    "build": "node scripts/generate-sitemap.js && vite build",
+    "dev": "vite",
+    "build": "vite build",
     "lint": "tsc --noEmit",
-    "preview": "vite preview",
-    "sitemap": "node scripts/generate-sitemap.js"
+    "preview": "vite preview"
   },
   "dependencies": {
     "firebase": "^11.10.0",

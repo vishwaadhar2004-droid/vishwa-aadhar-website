@@ -22,28 +22,6 @@ const AboutPage: React.FC = () => {
   const [isPaused, setIsPaused] = React.useState(false);
   const [activeMember, setActiveMember] = React.useState<any | null>(null);
 
-  const getTeamImageUrl = (member: any) => {
-    if (!member || !member.name) {
-      return 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800';
-    }
-    const slug = member.name.toLowerCase()
-      .trim()
-      .replace(/[^\w\s-]/g, '')
-      .replace(/[\s_-]+/g, '-')
-      .replace(/^-+|-+$/g, '');
-
-    if (slug === 'sakshi-s-parekh') {
-      return '/images/team/sakshi-s-parekh.jpg';
-    }
-    if (slug === 'akshay-uday-patole') {
-      return '/images/team/akshay-uday-patole.jpg';
-    }
-    if (slug === 'ashish-k-barele') {
-      return '/images/team/ashish-k-barele.png';
-    }
-    return member.imageUrl || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800';
-  };
-
   React.useEffect(() => {
     const pathContent = 'about_page/content';
     const unsubContent = onSnapshot(doc(db, 'about_page', 'content'), (docSnapshot) => {
@@ -362,7 +340,7 @@ const AboutPage: React.FC = () => {
                                         <div className="bg-gray-900/50 rounded-xl p-2.5 border border-gray-700 group-hover:border-green-500/50 transition-all duration-500 flex-grow flex flex-col h-[340px] justify-between">
                                             <div className="aspect-[4/5] rounded-lg overflow-hidden mb-2 bg-gray-800 border border-gray-700/50 flex-shrink-0 relative">
                                                 <img 
-                                                    src={getTeamImageUrl(member)} 
+                                                    src={member.imageUrl || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800'} 
                                                     alt={member.name} 
                                                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
                                                 />
@@ -439,7 +417,7 @@ const AboutPage: React.FC = () => {
                                             <div className="bg-gray-900/50 rounded-xl p-2.5 border border-gray-700 group-hover:border-green-500/50 transition-all duration-500 group-hover:shadow-[0_0_15px_rgba(34,197,94,0.1)] flex-grow flex flex-col h-[230px] justify-between">
                                                 <div className="aspect-[4/5] rounded-lg overflow-hidden mb-1.5 bg-gray-800 border border-gray-700/50 flex-shrink-0 relative">
                                                     <img 
-                                                        src={getTeamImageUrl(member)} 
+                                                        src={member.imageUrl || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800'} 
                                                         alt={member.name} 
                                                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
                                                     />
@@ -500,7 +478,7 @@ const AboutPage: React.FC = () => {
                                             <div className="bg-gray-900/50 rounded-xl p-2.5 border border-gray-700 group-hover:border-green-500/50 transition-all duration-500 group-hover:shadow-[0_0_15px_rgba(34,197,94,0.1)] flex-grow flex flex-col h-[230px] justify-between">
                                                 <div className="aspect-[4/5] rounded-lg overflow-hidden mb-1.5 bg-gray-800 border border-gray-700/50 flex-shrink-0 relative">
                                                     <img 
-                                                        src={getTeamImageUrl(member)} 
+                                                        src={member.imageUrl || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800'} 
                                                         alt={member.name} 
                                                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
                                                     />
@@ -567,7 +545,7 @@ const AboutPage: React.FC = () => {
                         {/* Left/Top image banner */}
                         <div className="w-full md:w-5/12 h-64 md:h-auto bg-gray-950 flex-shrink-0 relative overflow-hidden">
                             <img
-                                src={getTeamImageUrl(activeMember)}
+                                src={activeMember.imageUrl || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800'}
                                 alt={activeMember.name}
                                 className="w-full h-full object-cover"
                             />
