@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'motion/react';
 
 import Header from './components/Header';
 import Footer from './components/Footer';
+import Chatbot from './components/Chatbot';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import ProductsPage from './pages/ProductsPage';
@@ -127,6 +128,7 @@ function App() {
         </AnimatePresence>
       </main>
       <Footer />
+      <Chatbot />
     </div>
   );
 }
