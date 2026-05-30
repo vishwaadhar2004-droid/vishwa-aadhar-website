@@ -9,6 +9,83 @@ interface Message {
   timestamp: Date;
 }
 
+const getClientFallbackValue = (userMessage: string): string => {
+  const msg = userMessage.toLowerCase();
+
+  if (msg.includes("brick") || msg.includes("cement") || msg.includes("micp") || msg.includes("biomineralization")) {
+    return `🧱 **Bio-Cement Bricks** at Vishwa Aadhar Enterprises:
+• **Eco-Friendly Formulation**: Made from over 70% recycled industrial and construction waste.
+• **Innovative Biological Process**: Manufactured using Microbial Induced Calcite Precipitation (MICP), mimicking natural coral-reef formation.
+• **Key Benefits**: Provides exceptional compressive strength, excellent thermal insulation, acoustic insulation, and significantly diverts landfill waste.`;
+  }
+
+  if (msg.includes("fertilizer") || msg.includes("organic") || msg.includes("soil") || msg.includes("compost") || msg.includes("crop")) {
+    return `🌱 **Organic Biofertilizers** at Vishwa Aadhar Enterprises:
+• **Biological Rejuvenator**: Crafted from organic waste to restore soil vitality.
+• **Rich formulation**: Loaded with vital macronutrients, natural microbes, and active organic carbon.
+• **Applications**: Excellent for cash crops (sugarcane, cotton), horticulture, pulses, and organic farming.
+• **Benefits**: Boosts water retention capacity, improves root depth, and reduces chemical fertilizer dependency.`;
+  }
+
+  if (msg.includes("research") || msg.includes("r&d") || msg.includes("toxic") || msg.includes("pilot") || msg.includes("lab")) {
+    return `🔬 **Waste-to-Product R&D Services**:
+• **Bespoke Biotechnology**: We help industrial clients transform unwanted/toxic environmental waste into commercially viable, high-value eco-products.
+• **End-to-End Execution**: Services range from meticulous waste auditing and laboratory testing to pilot scale validation and full market launch support.`;
+  }
+
+  if (msg.includes("consult") || msg.includes("esg") || msg.includes("audit") || msg.includes("co2") || msg.includes("carbon")) {
+    return `📈 **Sustainability & ESG Consulting**:
+• **Circular Strategies**: In-depth guidance for shifting your business model toward a circular economy.
+• **ESG & Compliance**: Designing corporate ESG frameworks and carbon-footprint tracking matrices for seamless compliance and green business transitions.`;
+  }
+
+  if (msg.includes("building") || msg.includes("green build") || msg.includes("civil") || msg.includes("rain") || msg.includes("harvest")) {
+    return `🏡 **Green Building & Passive Design Solutions**:
+• **Sustainable Architectures**: Low-embodied-carbon civil designs prioritizing natural ambient comfort.
+• **Key Systems**: High-efficiency daylighting, passive ventilation, rainwater harvesting models, and integrated greywater recycling.`;
+  }
+
+  if (msg.includes("sakshi") || msg.includes("parekh") || msg.includes("founder") || msg.includes("ceo")) {
+    return `👩‍💼 **Sakshi .S. Parekh — Founder & CEO**:
+Sakshi leads Vishwa Aadhar Enterprises with a dedicated green-tech vision. She focuses on corporate strategy, sustainable development, and circular economy leadership—guiding the team with passion toward future-proof global biotechnology impacts.`;
+  }
+
+  if (msg.includes("akshay") || msg.includes("patole") || msg.includes("advisor") || msg.includes("aerospace")) {
+    return `👨‍🚀 **Akshay Uday Patole — Advisor**:
+An Aerospace Engineering graduate from Karunya Institute of Technology and Sciences, Akshay supports Vishwa Aadhar with deep analytical and technical support. His structured insights help model biomineralization research and scaling models!`;
+  }
+
+  if (msg.includes("ashish") || msg.includes("barele") || msg.includes("web") || msg.includes("developer")) {
+    return `💻 **Ashish .K. Barele — Web Developer**:
+Ashish is the skilled lead developer behind Vishwa Aadhar's clean, high-fidelity website interfaces. He designs, optimizes, and coordinates our global digital client experiences and responsive web applications.`;
+  }
+
+  if (msg.includes("contact") || msg.includes("email") || msg.includes("phone") || msg.includes("location") || msg.includes("address") || msg.includes("call") || msg.includes("badlapur") || msg.includes("number")) {
+    return `🌿 **Contact Details for Vishwa Aadhar Enterprises**:
+• 📧 **Email**: [vishwaadhar2004@gmail.com](mailto:vishwaadhar2004@gmail.com)
+• 📞 **Phone**: [+91 73979 86935](tel:+917397986935)
+• 📍 **Headoffice**: Badlapur, Maharashtra, pincode-421503
+• ✍️ You can also send a direct query using the **Send Message** tab above!`;
+  }
+
+  if (msg.includes("hello") || msg.includes("hi") || msg.includes("hey") || msg.includes("namaste") || msg.includes("greetings")) {
+    return `Namaste! Welcome to **Vishwa Aadhar Enterprises** chatbot. 🌿
+
+I am your circular-economy companion. Feel free to ask about our **Bio-Cement Bricks**, **Organic Biofertilizers**, **Waste-to-Product R&D**, **Team Members**, or **Contact details**! How can I assist you today?`;
+  }
+
+  // Purely graceful corporate default response rather than presenting any database error
+  return `Namaste! Thank you for querying **Vishwa Aadhar Enterprises**. 🌿
+
+We are a sustainable biotechnology pioneer committed to the circular economy. We provide:
+• 🧱 **Bio-Cement Bricks**: Low-carbon MICP material from >70% recycled waste.
+• 🌱 **Organic Biofertilizers**: Biological nutrition restoring natural soil vitality.
+• 🔬 **Waste-to-Product R&D**: Engineering eco-products from toxic industrial materials.
+• 📈 **ESG & Sustainability Consulting**: Custom circular models and carbon tracking.
+
+For specific support, prices, or pilot scaling quotes, feel free to send a message using the **Send Message** tab above, call us on [**+91 73979 86935**](tel:+917397986935) or email [**vishwaadhar2004@gmail.com**](mailto:vishwaadhar2004@gmail.com).`;
+};
+
 const Chatbot: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'chat' | 'contact'>('chat');
@@ -107,12 +184,14 @@ const Chatbot: React.FC = () => {
       ]);
     } catch (err) {
       console.error('Chatbot API error:', err);
+      // Seamlessly parse client fallback content instantly
+      const fallbackReply = getClientFallbackValue(userMsgText);
       setMessages((prev) => [
         ...prev,
         {
-          id: `err-${Date.now()}`,
+          id: `ai-fallback-${Date.now()}`,
           role: 'assistant',
-          content: "I apologize, but I'm having trouble reaching my database at the moment. 🌐\n\nYou can still send your message directly via our **Send Message** tab above, call us on [**+91 73979 86935**](tel:+917397986935) or email [**vishwaadhar2004@gmail.com**](mailto:vishwaadhar2004@gmail.com). We will assist you immediately!",
+          content: fallbackReply,
           timestamp: new Date(),
         },
       ]);
