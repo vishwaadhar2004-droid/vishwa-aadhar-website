@@ -288,7 +288,10 @@ async function startServer() {
           "YDa3XH4"
         ].join("");
         const GROQ_API_KEY = process.env.GROQ_API_KEY || fallbackKey;
-        const targetModel = model || "openai/gpt-oss-20b";
+        let targetModel = model || "llama-3.3-70b-versatile";
+        if (targetModel === "openai/gpt-oss-20b") {
+          targetModel = "llama-3.3-70b-versatile";
+        }
 
         const sendCompletionsRequest = async (selectedModel: string) => {
           return await fetch("https://api.groq.com/openai/v1/chat/completions", {
@@ -313,13 +316,8 @@ async function startServer() {
 
         // Gracefully fall back to standard Groq models if the custom model fails or is unsupported
         if (!apiResponse.ok) {
-          console.warn(`[Chat API] Model ${targetModel} run failed. Attempting fallback model 'llama-3.1-8b-instant'...`);
-          apiResponse = await sendCompletionsRequest("llama-3.1-8b-instant");
-        }
-
-        if (!apiResponse.ok) {
-          console.warn("[Chat API] Llama-3.1-8b-instant call failed. Trying secondary fallback 'llama3-8b-8192'...");
-          apiResponse = await sendCompletionsRequest("llama3-8b-8192");
+          console.warn(`[Chat API] Model ${targetModel} run failed. Attempting fallback model 'llama-3.3-70b-versatile'...`);
+          apiResponse = await sendCompletionsRequest("llama-3.3-70b-versatile");
         }
 
         if (apiResponse.ok) {
