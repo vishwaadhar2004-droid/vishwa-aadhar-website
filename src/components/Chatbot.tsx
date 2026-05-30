@@ -10,7 +10,7 @@ interface Message {
 }
 
 const getClientFallbackValue = (userMessage: string): string => {
-  const msg = userMessage.toLowerCase();
+  const msg = userMessage.toLowerCase().trim();
 
   // 1. Founder / owner / ceo
   if (msg.includes("sakshi") || msg.includes("parekh") || msg.includes("founder") || msg.includes("ceo") || msg.includes("owner") || msg.includes("chief")) {
@@ -76,9 +76,10 @@ Sustainable civil layouts engineering comfortable living spaces with highly opti
   if (msg.includes("location") || msg.includes("address") || msg.includes("where") || msg.includes("office") || msg.includes("head") || msg.includes("badlapur") || msg.includes("maharashtra") || msg.includes("pincode") || msg.includes("pata") || msg.includes("timing") || msg.includes("reach") || msg.includes("map")) {
     return `📍 **Vishwa Aadhar Enterprises Head Office**:
 Our primary administrative facility and research coordinator is located at:
-• **Address Hub**: Badlapur, Maharashtra, India.
-• **Postal Pincode**: 421503
+• **Address Hub**: At. Badlapur, pincode-421503, Maharashtra, India.
 • **Hours of Support**: Mon - Sat | 9:30 AM to 6:30 PM (IST)
+• **Primary Email**: [vishwaadhar2004@gmail.com](mailto:vishwaadhar2004@gmail.com)
+• **Phone Desk**: [+91 73979 86935](tel:+917397986935)
 • **Quick Reach**: Feel free to send a direct message natively via the **Send Message** tab right above!`;
   }
 
@@ -93,7 +94,33 @@ At Vishwa Aadhar Enterprises, we provide tailor-made commercial deals depending 
 ✍️ To obtain a customized formal quote, please submit your requirements under the **Send Message** tab in this panel, or email our support desk at [**vishwaadhar2004@gmail.com**](mailto:vishwaadhar2004@gmail.com)!`;
   }
 
-  // 11. Environment / Pollution / Recycled / Mission / Vision
+  // 11. What is Vishwa Aadhar / About / Profile / Introduction / "what is"
+  if (msg.includes("what is") || msg.includes("who is") || msg.includes("vishwaaadhar") || msg.includes("vishwa aadhar") || msg.includes("vishwa adhar") || msg.includes("about") || msg.includes("introduce") || msg.includes("introduction") || msg.includes("profile") || msg.includes("who are you")) {
+    return `🌿 **About Vishwa Aadhar Enterprises**:
+Vishwa Aadhar Enterprises is a leading sustainable biotechnology and green engineering pioneer dedicated to the circular economy. Based in Badlapur, Maharashtra, India, we innovate biological structures and agricultural soil rejuvenations.
+
+**Our Core Strategic Focus**:
+• **Biomineralization**: Using eco-safe microbial technologies (like MICP) to naturally bind industrial waste aggregates.
+• **Waste Valorization**: Diverting over 70% of solid industrial and construction aggregates away from landfills into high-strength bio-cement blocks.
+• **Soil Revitalization**: Fighting soil depletion using pure organic buffers loaded with beneficial micronutrients.
+• **Core Team**: Led by Sakshi .S. Parekh (Founder & CEO), scientific advisor Akshay Patole, and full stack developer Ashish .K. Barele.`;
+  }
+
+  // 12. What does Vishwa Aadhar offer / give / provide?
+  if (msg.includes("give") || msg.includes("offer") || msg.includes("provide") || msg.includes("product") || msg.includes("service") || msg.includes("sell") || msg.includes("catalog") || msg.includes("deliverable") || msg.includes("feature") || msg.includes("benefit") || msg.includes("work")) {
+    return `🛍️ **Vishwa Aadhar Enterprises Offerings & Products**:
+We innovate, manufacture, and consult across five key sustainable domains:
+
+1. 🧱 **Bio-Cement Bricks**: Zero-kiln, biological (MICP) masonry blocks made from over 70% recycled industrial aggregates.
+2. 🌱 **Organic Biofertilizers**: Highly active microbial formulations that load the soil with organic carbon, macros, and beneficial microflora.
+3. 🔬 **Waste-to-Product R&D**: Commercial testing and pilot modeling to shift industrial residues into valuable assets.
+4. 📈 **Sustainability Consulting**: Full corporate ESG tracking, compliance frameworks, and carbon index reports.
+5. 🏡 **Passive Green Architecture**: Low-embodied energy civil mockups, active wind chimneys, and decentralized greywater filters.
+
+✉️ To request custom catalogs or pricing quotes, send a message under the **Send Message** tab in this helper!`;
+  }
+
+  // 13. Environment / Pollution / Recycled / Mission / Vision
   if (msg.includes("waste") || msg.includes("environment") || msg.includes("sustainability") || msg.includes("recycle") || msg.includes("eco") || msg.includes("green") || msg.includes("carbon") || msg.includes("co2") || msg.includes("pollution") || msg.includes("industrial") || msg.includes("mission") || msg.includes("vision") || msg.includes("motive") || msg.includes("clean") || msg.includes("circular")) {
     return `🌍 **Our Sustainable Planet Mission**:
 Vishwa Aadhar’s core focus is the "Circular Economy" — restoring natural resources and transforming industrial wastes into high-value civil materials and organic carbon soil buffers:
@@ -102,8 +129,8 @@ Vishwa Aadhar’s core focus is the "Circular Economy" — restoring natural res
 • **Low Carbon Footprint**: Promoting zero-kiln biocement formation (MICP) protecting biodiversity.`;
   }
 
-  // 12. Hello / Greetings / Support / Contact
-  if (msg.includes("hello") || msg.includes("hi") || msg.includes("hey") || msg.includes("namaste") || msg.includes("greetings") || msg.includes("sup") || msg.includes("how are you") || msg.includes("help") || msg.includes("assistant") || msg.includes("contact") || msg.includes("email") || msg.includes("phone") || msg.includes("call") || msg.includes("number") || msg.includes("query") || msg.includes("welcome")) {
+  // 14. Hello / Greetings / Support / Contact
+  if (msg.includes("hello") || msg.includes("hi") || msg.includes("hey") || msg.includes("namaste") || msg.includes("greetings") || msg.includes("sup") || msg.includes("how are you") || msg.includes("help") || msg.includes("assistant") || msg.includes("welcome")) {
     return `Namaste! Welcome to **Vishwa Aadhar Enterprises** AI assistant chatbot. 🌿
 
 I am your guide to sustainable biotechnology, the circular economy, and green architectures.
@@ -115,7 +142,7 @@ How can I assist you today? You can ask me questions about:
 • 👩‍💼 **CEO/Founder Sakshi Parekh**, core advisors, developer Ashish Barele, or head office **Address & Contact details**!`;
   }
 
-  // 13. Smart general company info fallback answering the specific topic of "Vishwa Aadhar Enterprises"
+  // 15. Default Fallback
   return `🌿 **Vishwa Aadhar Enterprises** is a green-tech biotechnology pioneer dedicated to the circular economy. We provide:
 
 • 🧱 **Bio-Cement Bricks**: Durable low-embodied-carbon construction blocks made using Microbial Induced Calcite Precipitation (MICP) from over 70% recycled industrial/construction aggregate waste.
