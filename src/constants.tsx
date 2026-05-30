@@ -68,186 +68,185 @@ export const NAV_LINKS = [
 // Products Data
 export const PRODUCTS_DATA = [
   {
-    slug: 'bio-cement-bricks',
-    title: 'Bio-Cement Bricks',
-    shortDescription: 'Sustainable, low-carbon bricks made from recycled waste and microbial technology.',
-    cardImage: 'https://i.postimg.cc/gk6NDrxg/Generated-Image-November-08-2025-11-21AM.png',
+    slug: 'interior-biocement',
+    title: 'Interior Biocement',
+    shortDescription: 'Ideal for smooth base coats, wall finishes, and sustainable interior construction applications.',
+    cardImage: 'https://i.postimg.cc/8c18tJ20/Chat-GPT-Image-May-30-2026-06-11-47-PM.png',
     details: {
-      tagline: 'Building the future, sustainably. Our Bio-Cement bricks offer superior strength with a fraction of the carbon footprint of traditional cement.',
-      mainImage: 'https://i.postimg.cc/gk6NDrxg/Generated-Image-November-08-2025-11-21AM.png',
+      tagline: 'Refined workability and smooth architectural finishes. Our Interior Biocement is formulated with a finer composition for sustainable interior application.',
+      mainImage: 'https://i.postimg.cc/8c18tJ20/Chat-GPT-Image-May-30-2026-06-11-47-PM.png',
       sections: [
         {
-          title: 'What is Bio-Cement?',
+          title: 'Finer Composition, Superior Aesthetics',
           type: 'paragraph',
-          content: 'Bio-cementation is a groundbreaking process that utilizes natural microorganisms to bind aggregates. We harness Microbial Induced Calcite Precipitation (MICP) to turn industrial by-products and construction waste into high-performance, eco-friendly building materials. This process mimics how coral reefs are formed, creating a strong, durable bond without the need for high-temperature kilns.'
+          content: 'Our Interior Biocement is formulated with a finer and thinner composition, making it ideal for smooth base coats, wall finishes, and interior construction applications. Its enhanced workability allows for better surface uniformity, reduced material consumption, and improved aesthetic finishes. Designed for sustainable buildings, it provides an eco-friendly alternative to conventional interior cement solutions.'
         },
         {
           title: 'Key Advantages',
           type: 'list-tick',
           items: [
-            'Dramatically reduces CO2 emissions compared to Portland cement.',
-            'Made from over 70% recycled and waste materials.',
-            'Exceptional compressive strength and durability.',
-            'Superior thermal and acoustic insulation properties.',
-            'Contributes to a circular economy by diverting waste from landfills.'
+            'Finer microstructure for highly uniform surface finish.',
+            'Enhanced workability for simplified application and detailing.',
+            'Significantly lower carbon footprint than ordinary interior cement.',
+            'Reduces material consumption due to optimized coverage depth.',
+            'Promotes breathable interior walls, supporting high indoor air quality.'
           ]
         },
         {
           title: 'Applications',
           type: 'grid',
           items: [
-            { title: 'Structural Walls', text: 'Ideal for load-bearing and non-load-bearing walls in residential and commercial buildings.' },
-            { title: 'Paving Blocks', text: 'Durable and aesthetically pleasing solution for pathways, driveways, and public spaces.' },
-            { title: 'Landscaping', text: 'Create retaining walls, garden edges, and other outdoor features with a natural look.' },
-            { title: 'Facade Cladding', text: 'Lightweight and versatile for creating modern and sustainable building exteriors.' }
+            { title: 'Smooth Base Coats', text: 'Superior grounding coat for interior masonry and structural elements.' },
+            { title: 'Wall Finish & Plasters', text: 'Eco-certified architectural finishes with high aesthetic quality.' },
+            { title: 'Interior Construction', text: 'Compatible with sustainable and low-impact modern construction plastering.' }
           ]
         }
       ]
     }
   },
   {
-    slug: 'organic-biofertilizers',
-    title: 'Organic Biofertilizers',
-    shortDescription: 'Enrich your soil and boost crop yields with our nutrient-rich organic biofertilizers.',
-    cardImage: 'https://images.unsplash.com/photo-1594498653385-d5172c532c00?q=80&w=2070&auto=format&fit=crop',
+    slug: 'exterior-biocement',
+    title: 'Exterior Biocement',
+    shortDescription: 'Engineered to withstand harsh weathering and prevent biological growth on outdoor walls.',
+    cardImage: 'https://i.postimg.cc/fyHPCH7p/Chat-GPT-Image-May-30-2026-06-13-10-PM.png',
     details: {
-      tagline: 'Nourishing the soil that nourishes us. Our biofertilizers restore soil health for bountiful, healthy harvests.',
-      mainImage: 'https://images.unsplash.com/photo-1594498653385-d5172c532c00?q=80&w=2070&auto=format&fit=crop',
+      tagline: 'High-durability weathered exterior armor. Engineered to resist environmental degradation while preserving aesthetic integrity.',
+      mainImage: 'https://i.postimg.cc/fyHPCH7p/Chat-GPT-Image-May-30-2026-06-13-10-PM.png',
       sections: [
         {
-          title: 'The Science of Healthy Soil',
+          title: 'Tough, Biologically Resistant Outdoors',
           type: 'paragraph',
-          content: 'Our organic biofertilizers are crafted from decomposed biological waste, creating a potent blend of essential nutrients, organic matter, and beneficial microbes. This formulation not only feeds the plants but also rejuvenates the soil, improving its structure, water retention capacity, and ability to fight off diseases. It\'s a holistic approach to agriculture that ensures long-term fertility and sustainability.'
+          content: 'Our Exterior Biocement is engineered to withstand harsh environmental conditions while maintaining long-term durability and appearance. Its unique formulation helps prevent algae, moss, and unwanted biological growth on exposed surfaces, reducing maintenance requirements. This ensures cleaner, healthier, and more aesthetically appealing structures throughout their service life.'
         },
         {
-          title: 'Benefits for Farmers',
-          type: 'numbered-list',
-          items: [
-            { title: 'Enhanced Crop Yield & Quality', text: 'Provides a balanced supply of macro and micronutrients for healthier plants and more abundant harvests.' },
-            { title: 'Improved Soil Health', text: 'Increases organic carbon, improves aeration, and fosters a thriving microbial ecosystem in the soil.' },
-            { title: 'Increased Water Efficiency', text: 'Enhances the soil\'s ability to hold water, reducing irrigation needs and making crops more drought-resistant.' },
-            { title: 'Reduced Chemical Dependency', text: 'A natural, safe alternative to synthetic fertilizers, protecting the environment and reducing input costs.' }
-          ]
-        },
-        {
-          title: 'Suitable For',
-          type: 'list',
-          items: [
-            'Cash Crops (Sugarcane, Cotton)',
-            'Horticulture (Fruits, Vegetables, Flowers)',
-            'Broad-acre Farming (Cereals, Pulses)',
-            'Organic Farming and Home Gardening'
-          ]
-        }
-      ]
-    }
-  },
-  {
-    slug: 'waste-to-product-rd',
-    title: 'Waste-to-Product R&D',
-    shortDescription: 'Custom R&D services to transform industrial waste into valuable, sustainable products.',
-    cardImage: 'https://i.postimg.cc/9fSBZhcb/Generated-Image-November-08-2025-11-26AM.png',
-    details: {
-      tagline: 'Turning your environmental liability into a profitable asset. We innovate to create value from waste.',
-      mainImage: 'https://i.postimg.cc/9fSBZhcb/Generated-Image-November-08-2025-11-26AM.png',
-      sections: [
-        {
-          title: 'Our Collaborative Approach',
-          type: 'paragraph',
-          content: 'We partner with industries to tackle their waste management challenges head-on. Our team of scientists and engineers analyzes your waste streams and develops bespoke biotechnological processes to convert them into marketable products. This not only solves a disposal problem but also creates new revenue streams and enhances your company\'s sustainability profile.'
-        },
-        {
-          title: 'Our Process',
-          type: 'numbered-list',
-          items: [
-            { title: 'Waste Characterization', text: 'Comprehensive analysis of your industrial by-products to understand their chemical and physical properties.' },
-            { title: 'Feasibility & Research', text: 'Identifying potential value-added products and developing a scientific pathway for transformation.' },
-            { title: 'Pilot Scale Development', text: 'Creating and testing prototypes to refine the process and ensure product quality.' },
-            { title: 'Commercialization Support', text: 'Assisting with scaling up production and navigating market entry for the new product.' }
-          ]
-        },
-        {
-          title: 'Industries We Serve',
+          title: 'Key Advantages',
           type: 'list-tick',
           items: [
-            'Manufacturing and Heavy Industry',
-            'Agriculture and Food Processing',
-            'Construction and Demolition',
-            'Municipal Solid Waste Management'
-          ]
-        }
-      ]
-    }
-  },
-  {
-    slug: 'sustainability-consulting',
-    title: 'Sustainability Consulting',
-    shortDescription: 'Expert guidance to integrate sustainable practices and achieve your ESG goals.',
-    cardImage: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop',
-    details: {
-      tagline: 'Empowering your organization to thrive in a circular economy.',
-      mainImage: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=2070&auto=format&fit=crop',
-      sections: [
-        {
-          title: 'Guiding Your Green Transition',
-          type: 'paragraph',
-          content: 'Navigating the complexities of environmental responsibility requires a clear strategy. Our expert consultants partner with your organization to embed sustainability into your core operations, transforming challenges into opportunities for innovation, efficiency, and enhanced brand reputation.'
-        },
-        {
-          title: 'Our Core Services',
-          type: 'list-tick',
-          items: [
-            'Circular Economy Audits & Strategy',
-            'ESG (Environmental, Social, Governance) Reporting',
-            'Carbon Footprint Analysis & Reduction Planning',
-            'Sustainability Training & Stakeholder Engagement'
+            'Advanced resistance to heavy rains, extreme UV radiation, and freezing cycles.',
+            'Active biological deterrent prevents algae, mold, and moss colonization.',
+            'Significantly decreases long-term building restoration and maintenance budgets.',
+            'Durable mineral-bonding keeps masonry colors bright and vibrant.',
+            'Eco-friendly biocementation process produces zero toxic leachate.'
           ]
         },
         {
-          title: 'Why Partner With Us?',
+          title: 'Applications',
           type: 'grid',
           items: [
-            { title: 'Data-Driven Insights', text: 'We provide actionable recommendations based on rigorous analysis of your operations.' },
-            { title: 'Industry Expertise', text: 'Our team has deep knowledge in biotechnology, circular systems, and regulatory compliance.' },
-            { title: 'Collaborative Approach', text: 'We work with your team to build internal capacity and ensure long-term success.' },
-            { title: 'Measurable Impact', text: 'We focus on solutions that deliver both environmental benefits and a tangible return on investment.' }
+            { title: 'Facade Plastering', text: 'Protective, high-durability coating for external structural buildings.' },
+            { title: 'Exposed Masonry', text: 'Deep structural binding for external bricks, borders, and cladding.' },
+            { title: 'Civil Structures', text: 'Ideal for boundary walls, concrete fences, and high-exposure public works.' }
           ]
         }
       ]
     }
   },
   {
-    slug: 'green-building-solutions',
-    title: 'Green Building Solutions',
-    shortDescription: 'End-to-end solutions for constructing environmentally responsible and resource-efficient buildings.',
-    cardImage: 'https://images.unsplash.com/photo-1487958449943-2429e8be8625?q=80&w=2070&auto=format&fit=crop',
+    slug: 'biocement-additive',
+    title: 'Biocement Additive',
+    shortDescription: 'Self-healing smart solution utilizing biomineralization to repair micro-cracks automatically.',
+    cardImage: 'https://i.postimg.cc/G2LzfFpw/Chat-GPT-Image-May-30-2026-06-15-30-PM.png',
     details: {
-      tagline: 'Constructing the healthy, efficient, and sustainable landmarks of tomorrow.',
-      mainImage: 'https://images.unsplash.com/photo-1487958449943-2429e8be8625?q=80&w=2070&auto=format&fit=crop',
+      tagline: 'The ultimate self-healing concrete shield. Using custom microbes to trigger mineral crystallization in micro-structures.',
+      mainImage: 'https://i.postimg.cc/G2LzfFpw/Chat-GPT-Image-May-30-2026-06-15-30-PM.png',
       sections: [
         {
-          title: 'The Future of Construction',
+          title: 'Modern Self-Healing Microorganisms',
           type: 'paragraph',
-          content: 'Green building is a holistic practice that starts from design and extends through construction, operation, and maintenance. Our approach prioritizes resource efficiency, minimal environmental impact, and the creation of healthy, productive spaces for people. By integrating our innovative materials like Bio-Cement, we set a new standard for sustainable construction.'
+          content: 'Our Self-Healing Biocement Additive utilizes advanced biomineralization technology to enhance the strength and longevity of cement-based materials. When exposed to dirty water or moisture-rich environments, beneficial microorganisms trigger mineral formation that seals micro-cracks and strengthens the structure over time. This innovative solution improves durability, reduces repair costs, and supports sustainable infrastructure development.'
         },
         {
-          title: 'Pillars of Our Green Buildings',
-          type: 'numbered-list',
+          title: 'Key Advantages',
+          type: 'list-tick',
           items: [
-            { title: 'Sustainable Materials', text: 'Utilizing low-carbon materials like our Bio-Cement, recycled aggregates, and locally sourced components to minimize embodied carbon.' },
-            { title: 'Energy Efficiency', text: 'Implementing passive design strategies, high-performance insulation, and renewable energy systems to reduce operational energy consumption.' },
-            { title: 'Water Conservation', text: 'Integrating rainwater harvesting, water-efficient fixtures, and greywater recycling systems to minimize water usage.' },
-            { title: 'Healthy Indoor Environments', text: 'Prioritizing natural light, non-toxic materials, and superior ventilation to enhance occupant well-being and productivity.' }
+            'Microbial self-healing triggers automatically when cracks or moisture appear.',
+            'Reduces concrete structural cracking and seals micro-voids internally.',
+            'Substantially lowers future maintenance and infrastructure repair investments.',
+            'Increases overall compressive resilience and long-term lifespan.',
+            'Completely biological, non-toxic, and compatible with general cement mixes.'
           ]
         },
         {
-          title: 'Tangible Benefits',
+          title: 'Applications',
+          type: 'grid',
+          items: [
+            { title: 'Damp Proofing', text: 'Protects basements, retaining walls, and subgrade foundations from moisture.' },
+            { title: 'Hydraulic Systems', text: 'Excellent for sewage pipes, water treatment tanks, and greywater designs.' },
+            { title: 'High-durability Concrete', text: 'Integrates easily into bridge piers, highways, and heavy structural nodes.' }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    slug: 'nitrogen-fertilizer',
+    title: 'Nitrogen Fertilizer',
+    shortDescription: 'Provides readily available nitrogen to support chlorophyll, crop vigor, and yields.',
+    cardImage: 'https://i.postimg.cc/Bb85WMf6/Chat-GPT-Image-May-30-2026-06-17-28-PM.png',
+    details: {
+      tagline: 'Powering green leaf growth and crop productivity. Pure active nitrogen for chlorophyll production.',
+      mainImage: 'https://i.postimg.cc/Bb85WMf6/Chat-GPT-Image-May-30-2026-06-17-28-PM.png',
+      sections: [
+        {
+          title: 'Optimizing Crop Growth and Photosynthesis',
+          type: 'paragraph',
+          content: 'Our Nitrogen Fertilizer is designed to provide a readily available source of nitrogen, one of the most essential nutrients for plant growth and development. Nitrogen supports chlorophyll production, promotes healthy leaf formation, and enhances overall crop vigor. Regular application helps improve plant productivity, greener foliage, and higher agricultural yields.'
+        },
+        {
+          title: 'Key Advantages',
           type: 'list-tick',
           items: [
-            'Significantly lower utility and operational costs.',
-            'Increased property value and marketability.',
-            'Healthier and more comfortable living and working spaces.',
-            'A positive contribution to environmental preservation.'
+            'Directly supports chlorophyll synthesis for efficient solar photosynthesis.',
+            'Accelerates healthy vegetative growth, shoot creation, and leaf expansion.',
+            'Vastly improves crop vigor, disease tolerance, and agricultural yield.',
+            'Highly water-soluble and easily absorbed by diverse crop roots.',
+            'Supports soil food webs safely when integrated into organic cycles.'
+          ]
+        },
+        {
+          title: 'Applications',
+          type: 'grid',
+          items: [
+            { title: 'Broad-acre Crops', text: 'Ideal for sugarcane, cotton, wheat, corn, and grain fields.' },
+            { title: 'Horticulture', text: 'Provides rapid foliage expansion for vegetable farming and fruit orchards.' },
+            { title: 'Floriculture', text: 'Promotes robust plant stems and strong leaf coverage prior to flowering.' }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    slug: 'magnesium-struvite-fertilizer',
+    title: 'Magnesium Struvite Fertilizer',
+    shortDescription: 'Slow-release nutrient source supplying magnesium and phosphorus for long-term soil health.',
+    cardImage: 'https://i.postimg.cc/5jdChJmG/Chat-GPT-Image-May-30-2026-06-19-07-PM.png',
+    details: {
+      tagline: 'Sustainable, slow-release precision farming. Delivers magnesium and phosphorus gradually to foster durable soil health.',
+      mainImage: 'https://i.postimg.cc/5jdChJmG/Chat-GPT-Image-May-30-2026-06-19-07-PM.png',
+      sections: [
+        {
+          title: 'Controlled Release for Lasting Fertile Soil',
+          type: 'paragraph',
+          content: 'Our Magnesium Struvite Fertilizer is a sustainable slow-release nutrient source that supplies magnesium and phosphorus to plants over an extended period. Magnesium plays a vital role in photosynthesis and enzyme activation, contributing to healthier plant growth and improved nutrient utilization. Its controlled nutrient release minimizes losses while supporting long-term soil fertility and crop performance.'
+        },
+        {
+          title: 'Key Advantages',
+          type: 'list-tick',
+          items: [
+            'Controlled, slow-release pattern prevents rapid nutrient leaching or run-off.',
+            'Combines magnesium and phosphorus to build strong cell walls and root systems.',
+            'Enhances overall nitrogen uptake efficiency and plant protein synthesis.',
+            'Reduces synthetic input frequencies, saving labor and fertilizer costs.',
+            'Secures long-term soil macro-system health and sustainable agricultural practices.'
+          ]
+        },
+        {
+          title: 'Applications',
+          type: 'grid',
+          items: [
+            { title: 'Perennial Crops', text: 'Excellent for orchards, vineyards, and long-term timber/forestry farms.' },
+            { title: 'Root System Booster', text: 'Encourages dense rooting networks for young plants and transplanted crops.' },
+            { title: 'Greenhouses', text: 'Perfect mineral control for high-value indoor organic farming.' }
           ]
         }
       ]

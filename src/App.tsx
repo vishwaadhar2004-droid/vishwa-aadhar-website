@@ -14,6 +14,7 @@ import FaqsPage from './pages/FaqsPage';
 import HelpCenterPage from './pages/HelpCenterPage';
 import CareersPage from './pages/CareersPage';
 import CertificationsPage from './pages/CertificationsPage';
+import { PRODUCTS_DATA } from './constants';
 
 
 const ScrollToTop: React.FC = () => {
@@ -28,6 +29,34 @@ const ScrollToTop: React.FC = () => {
 
 function App() {
   const location = useLocation();
+
+  // Asynchronously preload all product images for instant loading
+  useEffect(() => {
+    const urlsToPreload = PRODUCTS_DATA.flatMap(p => [p.cardImage, p.details.mainImage]);
+    const linkElements: HTMLLinkElement[] = [];
+
+    urlsToPreload.forEach(url => {
+      // 1. Memory instantiation to queue high priority download
+      const img = new Image();
+      img.src = url;
+
+      // 2. Link preloading addition to the document head
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = 'image';
+      link.href = url;
+      document.head.appendChild(link);
+      linkElements.push(link);
+    });
+
+    return () => {
+      linkElements.forEach(link => {
+        if (document.head.contains(link)) {
+          document.head.removeChild(link);
+        }
+      });
+    };
+  }, []);
 
   useEffect(() => {
     // 1. Disable right-click context menu (Temporarily disabled for inspection)

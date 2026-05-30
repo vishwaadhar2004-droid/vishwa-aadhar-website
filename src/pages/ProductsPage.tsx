@@ -47,9 +47,9 @@ const ProductsPage: React.FC = () => {
               <AnimatedSection key={product.slug} delay={500 + index * 100}>
                 <Link to={`/products/${product.slug}`} className="block h-full">
                   <div className="bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-green-500/20 transition-all duration-300 transform hover:-translate-y-2 group h-full flex flex-col">
-                    <div className="relative">
-                      <img src={product.cardImage} alt={product.title} className="w-full h-56 object-cover" />
-                      <div className="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-40 transition-opacity"></div>
+                    <div className="relative w-full h-60 bg-gray-950/40 p-2 flex items-center justify-center">
+                      <img src={product.cardImage} alt={product.title} className="w-full h-full object-contain" decoding="async" loading="eager" />
+                      <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-opacity"></div>
                     </div>
                     <div className="p-6 flex flex-col flex-grow">
                       <h2 className="text-2xl font-bold text-white mb-3 group-hover:text-green-400 transition-colors">{product.title}</h2>

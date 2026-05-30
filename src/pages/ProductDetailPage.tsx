@@ -191,7 +191,7 @@ const ProductDetailPage: React.FC = () => {
 
           <motion.div variants={itemVariants} className="relative group">
             <div className="absolute -inset-1 bg-gradient-to-r from-green-600 to-blue-600 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-            <img src={product.details.mainImage} alt={product.title} className="relative w-full h-auto max-h-[600px] object-cover rounded-2xl shadow-2xl mb-16 border border-gray-800" />
+            <img src={product.details.mainImage} alt={product.title} className="relative w-full h-auto max-h-[600px] object-contain rounded-2xl shadow-2xl mb-16 border border-gray-800 bg-gray-950/30 p-2" decoding="async" loading="eager" />
           </motion.div>
           
           <div className="max-w-4xl mx-auto space-y-16">

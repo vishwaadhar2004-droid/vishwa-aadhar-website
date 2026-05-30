@@ -374,7 +374,9 @@ const HomePage: React.FC = () => {
             {PRODUCTS_DATA.map((product, index) => (
               <AnimatedSection key={product.slug} delay={500 + index * 200}>
                 <div className="bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-green-500/20 transition-all duration-300 transform hover:-translate-y-2 group h-full flex flex-col">
-                  <img src={product.cardImage} alt={product.title} className="w-full h-48 object-cover" />
+                  <div className="w-full h-52 bg-gray-950/40 p-2 flex items-center justify-center">
+                    <img src={product.cardImage} alt={product.title} className="w-full h-full object-contain" decoding="async" loading="eager" />
+                  </div>
                   <div className="p-6 flex flex-col flex-grow">
                     <h3 className="text-2xl font-bold text-white mb-2">{product.title}</h3>
                     <p className="text-gray-400 mb-4 flex-grow">{product.shortDescription}</p>

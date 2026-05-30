@@ -53,40 +53,23 @@ const Footer: React.FC = () => {
                 <div className="space-y-8 mb-8">
                     {/* Official Registration & Certification Ribbon */}
                     {location.pathname !== '/certifications' && (
-                        <div className="bg-gradient-to-r from-gray-800/80 to-gray-800/40 border border-gray-750 p-6 sm:p-8 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl relative overflow-hidden group">
+                        <div className="bg-gradient-to-r from-gray-800/80 to-gray-800/40 border border-gray-750 p-6 sm:p-8 rounded-2xl flex flex-col items-center justify-center gap-5 shadow-xl relative overflow-hidden group">
                             {/* Subtle vector grid lines in background */}
                             <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/5 rounded-full blur-2xl pointer-events-none group-hover:bg-green-500/10 transition-colors duration-500" />
                             
-                            <div className="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
-                                <Link to="/certifications" className="relative block shrink-0">
-                                    <div className="relative w-24 h-32 overflow-hidden rounded-lg border border-gray-700 bg-gray-950 p-1 shadow-lg hover:border-green-500 transition-colors duration-300">
-                                        <img 
-                                            src="https://i.postimg.cc/wBtbxTkh/Whats-App-Image-2026-05-30-at-4-16-22-PM.jpg" 
-                                            alt="Vishwa Aadhar Registration Authority Certification Preview" 
-                                            className="w-full h-full object-contain hover:scale-105 transition-transform duration-300"
-                                            referrerPolicy="no-referrer"
-                                        />
-                                    </div>
-                                    <div className="absolute -bottom-2 -right-2 bg-green-500 text-black rounded-full p-1.5 shadow-md border border-gray-900">
-                                        <Award className="w-4 h-4" />
-                                    </div>
-                                </Link>
-                                <div>
-                                    <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 flex items-center gap-2 justify-center sm:justify-start">
-                                        <span className="text-green-400 font-extrabold">Registered & Certified</span>
-                                    </h3>
-                                    <p className="text-sm sm:text-base text-gray-400 max-w-xl leading-relaxed">
-                                        Vishwa Aadhar Enterprises is built on compliant green-tech blueprints. We are legally recognized and verified under standard national bio-industrial directives.
-                                    </p>
-                                </div>
+                            <div className="text-center">
+                                <h3 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2 justify-center">
+                                    <span className="text-green-400 font-extrabold">Registered & Certified</span>
+                                </h3>
                             </div>
-                            
-                            <Link 
-                                to="/certifications" 
-                                className="shrink-0 bg-gray-900/80 hover:bg-green-500 hover:text-black text-green-400 px-6 py-3 rounded-full text-sm font-semibold border border-green-500/25 hover:border-green-400 transition-all duration-300 shadow-md flex items-center gap-2 whitespace-nowrap"
-                            >
-                                <span>Inspect Credentials</span>
-                                <span>&rarr;</span>
+
+                            <Link to="/certifications" className="relative block shrink-0 group">
+                                <img 
+                                    src="https://i.postimg.cc/wBtbxTkh/Whats-App-Image-2026-05-30-at-4-16-22-PM.jpg" 
+                                    alt="Vishwa Aadhar Registration Authority Certification Preview" 
+                                    className="w-28 h-36 object-cover rounded-xl shadow-lg group-hover:scale-105 transition-transform duration-300"
+                                    referrerPolicy="no-referrer"
+                                />
                             </Link>
                         </div>
                     )}
