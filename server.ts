@@ -1,6 +1,16 @@
 import express from "express";
 import path from "path";
 import { createServer as createViteServer } from "vite";
+import { GoogleGenAI } from "@google/genai";
+
+const ai = new GoogleGenAI({
+  apiKey: process.env.GEMINI_API_KEY,
+  httpOptions: {
+    headers: {
+      "User-Agent": "aistudio-build",
+    }
+  }
+});
 
 const SYSTEM_PROMPT = `You are the official AI Assistant of Vishwa Aadhar Enterprises, a pioneering sustainable biotechnology and circular economy company.
 Your goal is to answer questions professionally, warmly, and accurately about the company, its products, and services.
@@ -47,6 +57,41 @@ async function startServer() {
         return res.status(400).json({ error: "Messages array is required" });
       }
 
+      // 1. Try Google Gemini API first (highly reliable in both local and Cloud Run with the default env key)
+      if (process.env.GEMINI_API_KEY) {
+        try {
+          const contents = messages.map((m: any) => ({
+            role: m.role === "assistant" ? "model" : "user",
+            parts: [{ text: m.content || "" }]
+          }));
+
+          const response = await ai.models.generateContent({
+            model: "gemini-3.5-flash",
+            contents: contents,
+            config: {
+              systemInstruction: SYSTEM_PROMPT,
+              temperature: 0.3,
+            }
+          });
+
+          const replyText = response.text || "";
+          
+          return res.json({
+            choices: [
+              {
+                message: {
+                  role: "assistant",
+                  content: replyText
+                }
+              }
+            ]
+          });
+        } catch (geminiError) {
+          console.error("Gemini API call failed, falling back to Groq:", geminiError);
+        }
+      }
+
+      // 2. Fall back to Groq API
       const fallbackKey = [
         "gs",
         "k_hXG",
