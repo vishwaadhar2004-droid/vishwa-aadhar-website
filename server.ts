@@ -37,76 +37,120 @@ function getGeminiClient() {
 const handleLocalFallback = (userMessage: string): string => {
   const msg = userMessage.toLowerCase();
 
-  if (msg.includes("brick") || msg.includes("cement") || msg.includes("micp") || msg.includes("biomineralization")) {
-    return `🧱 **Bio-Cement Bricks** at Vishwa Aadhar Enterprises:
-• **Eco-Friendly Formulation**: Made from over 70% recycled industrial and construction waste.
-• **Innovative Biological Process**: Manufactured using Microbial Induced Calcite Precipitation (MICP), mimicking natural coral-reef formation.
-• **Key Benefits**: Provides exceptional compressive strength, excellent thermal and acoustic insulation, and significantly diverts landfill waste.`;
-  }
-
-  if (msg.includes("fertilizer") || msg.includes("organic") || msg.includes("soil") || msg.includes("compost") || msg.includes("crop")) {
-    return `🌱 **Organic Biofertilizers** at Vishwa Aadhar Enterprises:
-• **Biological Rejuvenator**: Crafted from organic waste to restore soil vitality.
-• **Rich formulation**: Loaded with vital macronutrients, natural microbes, and active organic carbon.
-• **Applications**: Excellent for cash crops (sugarcane, cotton), horticulture, pulses, and organic farming.
-• **Benefits**: Boosts water retention capacity, improves root depth, and reduces chemical fertilizer dependency.`;
-  }
-
-  if (msg.includes("research") || msg.includes("r&d") || msg.includes("toxic") || msg.includes("pilot") || msg.includes("lab")) {
-    return `🔬 **Waste-to-Product R&D Services**:
-• **Bespoke Biotechnology**: We help industrial clients transform unwanted/toxic environmental waste into commercially viable, high-value eco-products.
-• **End-to-End Execution**: Services range from meticulous waste auditing and laboratory testing to pilot scale validation and full market launch support.`;
-  }
-
-  if (msg.includes("consult") || msg.includes("esg") || msg.includes("audit") || msg.includes("co2") || msg.includes("carbon")) {
-    return `📈 **Sustainability & ESG Consulting**:
-• **Circular Strategies**: In-depth guidance for shifting your business model toward a circular economy.
-• **ESG & Compliance**: Designing corporate ESG frameworks and carbon-footprint tracking matrices for seamless compliance and green business transitions.`;
-  }
-
-  if (msg.includes("building") || msg.includes("green build") || msg.includes("civil") || msg.includes("rain") || msg.includes("harvest")) {
-    return `🏡 **Green Building & Passive Design Solutions**:
-• **Sustainable Architectures**: Low-embodied-carbon civil designs prioritizing natural ambient comfort.
-• **Key Systems**: High-efficiency daylighting, passive ventilation, rainwater harvesting models, and integrated greywater recycling.`;
-  }
-
-  if (msg.includes("sakshi") || msg.includes("parekh") || msg.includes("founder") || msg.includes("ceo")) {
+  // 1. Founder / owner / ceo
+  if (msg.includes("sakshi") || msg.includes("parekh") || msg.includes("founder") || msg.includes("ceo") || msg.includes("owner") || msg.includes("chief")) {
     return `👩‍💼 **Sakshi .S. Parekh — Founder & CEO**:
-Sakshi leads Vishwa Aadhar Enterprises with a dedicated green-tech vision. She focuses on corporate strategy, sustainable development, and circular economy leadership—guiding the team with passion toward future-proof global biotechnology impacts.`;
+Sakshi leads Vishwa Aadhar Enterprises with a dedicated green-tech vision. She focuses on corporate strategy, sustainable development, financial structuring, and circular economy leadership—guiding our team with passion toward future-proof global biotechnology impacts!`;
   }
 
+  // 2. Advisor / Akshay
   if (msg.includes("akshay") || msg.includes("patole") || msg.includes("advisor") || msg.includes("aerospace")) {
     return `👨‍🚀 **Akshay Uday Patole — Advisor**:
-An Aerospace Engineering graduate from Karunya Institute of Technology and Sciences, Akshay supports Vishwa Aadhar with deep analytical and technical support. His structured insights help model biomineralization research and scaling models!`;
+An Aerospace Engineering graduate from Karunya Institute of Technology and Sciences, Akshay supports Vishwa Aadhar with deep analytical and technical insights. His structured scientific expertise helps model our biomineralization research and pilot scaling models!`;
   }
 
-  if (msg.includes("ashish") || msg.includes("barele") || msg.includes("web") || msg.includes("developer")) {
+  // 3. Web Developer / Ashish
+  if (msg.includes("ashish") || msg.includes("barele") || msg.includes("web") || msg.includes("developer") || msg.includes("programmer") || msg.includes("site") || msg.includes("engineer")) {
     return `💻 **Ashish .K. Barele — Web Developer**:
-Ashish is the skilled lead developer behind Vishwa Aadhar's clean, high-fidelity website interfaces. He designs, optimizes, and coordinates our global digital client experiences and responsive web applications.`;
+Ashish is the highly skilled lead developer behind Vishwa Aadhar's clean, high-fidelity website interfaces and chatbots. He designs, optimizes, and coordinates our global digital client experiences and highly responsive web applications!`;
   }
 
-  if (msg.includes("contact") || msg.includes("email") || msg.includes("phone") || msg.includes("location") || msg.includes("address") || msg.includes("call") || msg.includes("badlapur") || msg.includes("number")) {
-    return `🌿 **Contact Details for Vishwa Aadhar Enterprises**:
-• 📧 **Email**: [vishwaadhar2004@gmail.com](mailto:vishwaadhar2004@gmail.com)
-• 📞 **Phone**: [+91 73979 86935](tel:+917397986935)
-• 📍 **Headoffice**: Badlapur, Maharashtra, pincode-421503
-• ✍️ You can also send a direct query using the **Send Direct Message** tab above!`;
+  // 4. Biofertilizer / Agriculture / Crops
+  if (msg.includes("fertilizer") || msg.includes("organic") || msg.includes("soil") || msg.includes("compost") || msg.includes("crop") || msg.includes("sugarcane") || msg.includes("kheti") || msg.includes("agriculture") || msg.includes("khad") || msg.includes("growth") || msg.includes("horticulture") || msg.includes("cotton") || msg.includes("rejuvenator") || msg.includes("fertiliser")) {
+    return `🌱 **Organic Biofertilizers — Rejuvenating Soil Naturally**:
+Our biofertilizer is carefully crafted from organic biological wastes using advanced microbial treatments to restore soil vitality:
+• **Packed with Vitality**: Loaded with vital plant macronutrients, natural beneficial microbes, active enzymes, and rich organic carbon.
+• **Excellent for Crops**: Recommended for cash crops (sugarcane, cotton), high-yield horticulture (fruits, vegetables, flowers), pulses, and organic farming.
+• **Long-term Benefits**: Substantially enhances soil water retention capacity, improves root penetration depth, and significantly reduces reliance on toxic chemical fertilizers.`;
   }
 
-  if (msg.includes("hello") || msg.includes("hi") || msg.includes("hey") || msg.includes("namaste") || msg.includes("greetings")) {
-    return `Namaste! Welcome to **Vishwa Aadhar Enterprises** chatbot. 🌿
-
-I am your circular-economy companion. Feel free to ask about our **Bio-Cement Bricks**, **Organic Biofertilizers**, **Waste-to-Product R&D**, **Team Members**, or **Contact details**! How can I assist you today?`;
+  // 5. Bio-Cement Bricks / MICP / Construction
+  if (msg.includes("brick") || msg.includes("cement") || msg.includes("micp") || msg.includes("biomineralization") || msg.includes("construction") || msg.includes("building material") || msg.includes("brickmaker") || msg.includes("it") || msg.includes("int") || msg.includes("stone") || msg.includes("kiln") || msg.includes("civil")) {
+    return `🧱 **Bio-Cement Bricks — The Future of Construction**:
+Vishwa Aadhar’s standard Bio-Cement Bricks represent a breakthrough in low-embodied carbon structural materials:
+• **High Recycled Value**: Composed of over 70% safely recycled industrial and construction aggregates, keeping massive waste volumes out of landfills.
+• **The Biological Way (MICP)**: Built via **Microbial Induced Calcite Precipitation (MICP)**, where eco-safe microbes form calcite crystals that bind materials naturally, mimicking natural coral-reef structures.
+• **Exceptional Parameters**: Delivers heavy-duty compressive strength, outstanding passive thermal resistance, and acoustical dampening properties for eco-friendly modern architectures.`;
   }
 
-  // General sustainable response
+  // 6. R&D / Laboratory Services
+  if (msg.includes("research") || msg.includes("r&d") || msg.includes("toxic") || msg.includes("pilot") || msg.includes("lab") || msg.includes("laboratory") || msg.includes("science") || msg.includes("biotech") || msg.includes("waste auditing") || msg.includes("bespoke") || msg.includes("testing")) {
+    return `🔬 **Waste-to-Product R&D Services**:
+We help modern industries convert challenging environmental emissions or by-products into legal, high-value commercial solutions:
+• **Bespoke Biotechnology formulation**: From precise waste stream chemical auditing and bench testing, to complete formulation development and pilot scalability testing.
+• **Circular Integration**: We engineer specific bio-reactions, composting cycles, or aggregate-neutralization programs matching your corporate environmental compliance frameworks.`;
+  }
+
+  // 7. ESG Consulting / Sustainability / Compliance
+  if (msg.includes("consult") || msg.includes("esg") || msg.includes("audit") || msg.includes("co2") || msg.includes("carbon") || msg.includes("sustainability consulting") || msg.includes("tracking") || msg.includes("reporting") || msg.includes("strategy") || msg.includes("compliance")) {
+    return `📈 **ESG & Sustainability Advisory Services**:
+Transform your traditional linear business operations into compliant, eco-efficient circular models:
+• **Carbon Tracking**: Creating precise, data-backed models for measuring and declaring carbon footprint variations.
+• **Corporate ESG Compliance**: Comprehensive audits and strategy guidelines designed to meet domestic and global green metrics, boosting brand value.`;
+  }
+
+  // 8. Green Building PASSIVE Designs
+  if (msg.includes("building") || msg.includes("green build") || msg.includes("passive design") || msg.includes("rain") || msg.includes("harvest") || msg.includes("greywater") || msg.includes("ventilation") || msg.includes("daylighting") || msg.includes("renew")) {
+    return `🏡 **Green Building & Passive Design Solutions**:
+Sustainable civil layouts engineering comfortable living spaces with highly optimized energy signatures:
+• **Passive Comfort**: Passive wind-ventilation, daylighting, and thermal-comfort civil mockups prioritizing natural heat/cool shifts.
+• **Water Security**: Custom local rainwater harvesting models, integrated greywater filtration systems, and low-embodied carbon construction materials recommendation.`;
+  }
+
+  // 9. Location / Head Office / Address
+  if (msg.includes("location") || msg.includes("address") || msg.includes("where") || msg.includes("office") || msg.includes("head") || msg.includes("badlapur") || msg.includes("maharashtra") || msg.includes("pincode") || msg.includes("pata") || msg.includes("timing") || msg.includes("reach") || msg.includes("map")) {
+    return `📍 **Vishwa Aadhar Enterprises Head Office**:
+Our primary administrative facility and research coordinator is located at:
+• **Address Hub**: Badlapur, Maharashtra, India.
+• **Postal Pincode**: 421503
+• **Hours of Support**: Mon - Sat | 9:30 AM to 6:30 PM (IST)
+• **Quick Reach**: Feel free to send a direct message natively via the **Send Message** tab right above!`;
+  }
+
+  // 10. Pricing / Cost / Order / Buy
+  if (msg.includes("price") || msg.includes("cost") || msg.includes("how much") || msg.includes("rate") || msg.includes("quote") || msg.includes("buy") || msg.includes("purchase") || msg.includes("order") || msg.includes("bhav") || msg.includes("estimate") || msg.includes("deal")) {
+    return `💰 **Price Quotes & Procurement Guidelines**:
+At Vishwa Aadhar Enterprises, we provide tailor-made commercial deals depending on bulk demand and technical requirements:
+• **Bio-Cement Bricks**: Custom pricing depends on aggregate mix selection, shipment distance from Maharashtra, and volume.
+• **Organic Biofertilizers**: Highly competitive commercial rates per metric ton for agricultural cooperatives, sugar factories, and gardens.
+• **R&D & ESG Audits**: Tailored contracts based on chemical analysis cycles and report requirements.
+
+✍️ To obtain a customized formal quote, please submit your requirements under the **Send Message** tab in this panel, or email our support desk at [**vishwaadhar2004@gmail.com**](mailto:vishwaadhar2004@gmail.com)!`;
+  }
+
+  // 11. Environment / Pollution / Recycled / Mission / Vision
+  if (msg.includes("waste") || msg.includes("environment") || msg.includes("sustainability") || msg.includes("recycle") || msg.includes("eco") || msg.includes("green") || msg.includes("carbon") || msg.includes("co2") || msg.includes("pollution") || msg.includes("industrial") || msg.includes("mission") || msg.includes("vision") || msg.includes("motive") || msg.includes("clean") || msg.includes("circular")) {
+    return `🌍 **Our Sustainable Planet Mission**:
+Vishwa Aadhar’s core focus is the "Circular Economy" — restoring natural resources and transforming industrial wastes into high-value civil materials and organic carbon soil buffers:
+• **Resource Recovery**: Diverting solid waste streams safely, converting aggregate waste into premium Bio-Cement Bricks.
+• **Biological Revitalization**: Reclaiming agricultural soils polluted by toxic chemical fertilizers back to biological wellness.
+• **Low Carbon Footprint**: Promoting zero-kiln biocement formation (MICP) protecting biodiversity.`;
+  }
+
+  // 12. Hello / Greetings / Support / Contact
+  if (msg.includes("hello") || msg.includes("hi") || msg.includes("hey") || msg.includes("namaste") || msg.includes("greetings") || msg.includes("sup") || msg.includes("how are you") || msg.includes("help") || msg.includes("assistant") || msg.includes("contact") || msg.includes("email") || msg.includes("phone") || msg.includes("call") || msg.includes("number") || msg.includes("query") || msg.includes("welcome")) {
+    return `Namaste! Welcome to **Vishwa Aadhar Enterprises** AI assistant chatbot. 🌿
+
+I am your guide to sustainable biotechnology, the circular economy, and green architectures.
+How can I assist you today? You can ask me questions about:
+• 🧱 Our **Bio-Cement Bricks** (MICP low-carbon building materials)
+• 🌱 Our **Organic Biofertilizers** (enhancing soil vitality)
+• 🔬 Our **Waste-to-Product R&D Services** (industrial auditing & lab test designs)
+• 📈 Our **ESG Consulting** & **Green Passive Building solutions**
+• 👩‍💼 **CEO/Founder Sakshi Parekh**, core advisors, developer Ashish Barele, or head office **Address & Contact details**!`;
+  }
+
+  // 13. Smart general company info fallback answering the specific topic of "Vishwa Aadhar Enterprises"
   return `🌿 **Vishwa Aadhar Enterprises** is a green-tech biotechnology pioneer dedicated to the circular economy. We provide:
-• 🧱 **Bio-Cement Bricks**: Low-carbon MICP material from >70% recycled waste.
-• 🌱 **Organic Biofertilizers**: Biological nutrition restoring natural soil vitality.
-• 🔬 **Waste-to-Product R&D**: Engineering eco-products from toxic industrial materials.
-• 📈 **ESG & Sustainability Consulting**: Custom circular models and carbon tracking.
 
-For specific support or quotes, please email [**vishwaadhar2004@gmail.com**](mailto:vishwaadhar2004@gmail.com) or call us at [**+91 73979 86935**](tel:+917397986935).`;
+• 🧱 **Bio-Cement Bricks**: Durable low-embodied-carbon construction blocks made using Microbial Induced Calcite Precipitation (MICP) from over 70% recycled industrial/construction aggregate waste.
+• 🌱 **Organic Biofertilizers**: Highly active microbial buffers loaded with vital macronutrients, biological decomposers, and active organic carbon to revive depleted soil.
+• 🔬 **Waste-to-Product R&D**: Tailored laboratory, validation and scalability studies converting chemical or heavy metal aggregates into eco-compliant products.
+• 📈 **ESG & Sustainability Consulting**: Design strategies for domestic compliance, carbon matrices, and passive daylighting design models.
+
+👨‍💼 **Our Leadership Team**: Sakshi .S. Parekh (Founder & CEO), Akshay Uday Patole (Advisor), and Ashish .K. Barele (Lead Developer).
+
+✉️ Would you like to get a pricing estimate or schedule a project review? You can send a direct query under the **Send Message** tab, email us at [**vishwaadhar2004@gmail.com**](mailto:vishwaadhar2004@gmail.com), or phone our desk at [**+91 73979 86935**](tel:+917397986935).`;
 };
 
 const SYSTEM_PROMPT = `You are the official AI Assistant of Vishwa Aadhar Enterprises, a pioneering sustainable biotechnology and circular economy company.
