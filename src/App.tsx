@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from 'motion/react';
 
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Chatbot from './components/Chatbot';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import ProductsPage from './pages/ProductsPage';
@@ -14,6 +13,7 @@ import ContactPage from './pages/ContactPage';
 import FaqsPage from './pages/FaqsPage';
 import HelpCenterPage from './pages/HelpCenterPage';
 import CareersPage from './pages/CareersPage';
+import CertificationsPage from './pages/CertificationsPage';
 
 
 const ScrollToTop: React.FC = () => {
@@ -123,12 +123,12 @@ function App() {
               <Route path="/faq" element={<FaqsPage />} />
               <Route path="/help-center" element={<HelpCenterPage />} />
               <Route path="/careers" element={<CareersPage />} />
+              <Route path="/certifications" element={<CertificationsPage />} />
             </Routes>
           </motion.div>
         </AnimatePresence>
       </main>
       <Footer />
-      <Chatbot />
     </div>
   );
 }

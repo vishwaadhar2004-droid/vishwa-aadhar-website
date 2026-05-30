@@ -328,26 +328,38 @@ const HomePage: React.FC = () => {
       </section>
       
       {/* What We Do Section */}
-      <section className="py-20 bg-gray-800">
-        <div className="container mx-auto px-6">
-            <AnimatedSection className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-bold">{homeData?.whatWeDo?.title || 'What We Do'}</h2>
-                <p className="text-gray-400 max-w-2xl mx-auto mt-4">{homeData?.whatWeDo?.description || 'We are pioneers in creating a circular economy by converting waste into high-value, eco-friendly products.'}</p>
+      <section className="py-16 md:py-24 bg-gray-800">
+        <div className="container mx-auto px-4 sm:px-6 max-w-4xl">
+            <AnimatedSection className="text-center mb-10 md:mb-12">
+                <h2 id="about-what-is-it-header" className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-tight">
+                    About VishwaAadhar: What Is It
+                </h2>
             </AnimatedSection>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                 { (homeData?.whatWeDo?.cards || [
-                     { title: 'Biocementation', desc: 'Manufacturing strong, low-carbon building materials from industrial waste.' },
-                     { title: 'Biofertilizers', desc: 'Producing organic fertilizers that restore soil health and boost crop yields.' },
-                     { title: 'Waste R&D', desc: 'Partnering with industries to turn their waste streams into profitable assets.' }
-                 ]).map((card, idx) => (
-                    <AnimatedSection key={idx} delay={500 + idx * 200}>
-                        <div className="bg-gray-700 p-8 rounded-xl shadow-lg h-full">
-                            <h3 className="text-2xl font-bold text-green-400 mb-3">{card.title}</h3>
-                            <p className="text-gray-300">{card.desc}</p>
+            
+            <AnimatedSection delay={200}>
+                <Link to="/about" className="block group">
+                    <div className="bg-gray-900/60 border border-gray-750 group-hover:border-green-500/50 rounded-2xl p-6 sm:p-10 md:p-12 shadow-xl hover:shadow-green-500/5 transition-all duration-300 relative overflow-hidden transform hover:-translate-y-1">
+                        {/* Elegant abstract background decor */}
+                        <div className="absolute top-0 right-0 w-48 h-48 bg-green-500/5 rounded-full blur-3xl pointer-events-none group-hover:bg-green-500/10 transition-colors duration-500" />
+                        <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none group-hover:bg-emerald-500/10 transition-colors duration-500" />
+                        
+                        {/* Large Quote Ornament on top-left for tablet/desktop */}
+                        <span className="hidden sm:block absolute top-6 left-6 text-6xl text-green-500/10 font-serif select-none pointer-events-none">“</span>
+                        
+                        <div className="text-gray-300 leading-relaxed text-sm sm:text-base md:text-lg relative z-10 text-justify sm:text-left">
+                            <p>
+                                “ At <span className="text-white font-semibold">Vishwaaadhar Biocement and Fertilizer Enterprises</span>, we are reimagining the future of sustainable infrastructure by combining Microbial Science, Biomineralization, Advanced Research, and Circular Economy principles to transform Liquid Sanitation and Industrial Waste into high-performance, low-carbon Biocement, Biofertilizers, and green technologies designed for stronger, smarter, and environmentally responsible construction and agriculture. Driven by innovation, our ultimate mission is to build a cleaner, greener, and healthier world for future generations to live, grow, and thrive. ”
+                            </p>
                         </div>
-                    </AnimatedSection>
-                 ))}
-            </div>
+                        
+                        <div className="mt-8 pt-6 border-t border-gray-800 flex justify-end items-center relative z-10">
+                            <span className="text-xs sm:text-sm md:text-base font-semibold text-green-400 group-hover:text-green-300 transition-colors flex items-center gap-1.5">
+                                Learn More About Our Journey <span className="transform group-hover:translate-x-1.5 transition-transform duration-300">&rarr;</span>
+                            </span>
+                        </div>
+                    </div>
+                </Link>
+            </AnimatedSection>
         </div>
       </section>
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { Award } from 'lucide-react';
 import LiquidButton from './LiquidButton';
 import { FacebookIcon, InstagramIcon, WhatsAppIcon, TwitterIcon, YouTubeIcon, PRODUCTS_DATA } from '../constants';
 
@@ -49,14 +50,56 @@ const Footer: React.FC = () => {
     <footer className="bg-gray-900 border-t border-gray-700">
         <div className="container mx-auto px-6 py-12">
              {location.pathname !== '/contact' && (
-                <div className="bg-gray-800 rounded-2xl text-white p-8 md:p-12 text-center flex flex-col items-center shadow-lg">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4">{footerData?.ctaHeading || "Ready to Build a Greener Future?"}</h2>
-                    <p className="max-w-2xl mx-auto mb-8 text-gray-300">
-                        {footerData?.ctaText || "Join us in our mission to create a sustainable world. Whether you're a farmer, builder, or industry leader, we have a solution for you."}
-                    </p>
-                    <Link to="/contact">
-                        <LiquidButton className="bg-white text-green-700">{footerData?.ctaButtonText || "Get In Touch"}</LiquidButton>
-                    </Link>
+                <div className="space-y-8 mb-8">
+                    {/* Official Registration & Certification Ribbon */}
+                    {location.pathname !== '/certifications' && (
+                        <div className="bg-gradient-to-r from-gray-800/80 to-gray-800/40 border border-gray-750 p-6 sm:p-8 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl relative overflow-hidden group">
+                            {/* Subtle vector grid lines in background */}
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/5 rounded-full blur-2xl pointer-events-none group-hover:bg-green-500/10 transition-colors duration-500" />
+                            
+                            <div className="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
+                                <Link to="/certifications" className="relative block shrink-0">
+                                    <div className="relative w-24 h-32 overflow-hidden rounded-lg border border-gray-700 bg-gray-950 p-1 shadow-lg hover:border-green-500 transition-colors duration-300">
+                                        <img 
+                                            src="https://i.postimg.cc/wBtbxTkh/Whats-App-Image-2026-05-30-at-4-16-22-PM.jpg" 
+                                            alt="Vishwa Aadhar Registration Authority Certification Preview" 
+                                            className="w-full h-full object-contain hover:scale-105 transition-transform duration-300"
+                                            referrerPolicy="no-referrer"
+                                        />
+                                    </div>
+                                    <div className="absolute -bottom-2 -right-2 bg-green-500 text-black rounded-full p-1.5 shadow-md border border-gray-900">
+                                        <Award className="w-4 h-4" />
+                                    </div>
+                                </Link>
+                                <div>
+                                    <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 flex items-center gap-2 justify-center sm:justify-start">
+                                        <span className="text-green-400 font-extrabold">Registered & Certified</span>
+                                    </h3>
+                                    <p className="text-sm sm:text-base text-gray-400 max-w-xl leading-relaxed">
+                                        Vishwa Aadhar Enterprises is built on compliant green-tech blueprints. We are legally recognized and verified under standard national bio-industrial directives.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <Link 
+                                to="/certifications" 
+                                className="shrink-0 bg-gray-900/80 hover:bg-green-500 hover:text-black text-green-400 px-6 py-3 rounded-full text-sm font-semibold border border-green-500/25 hover:border-green-400 transition-all duration-300 shadow-md flex items-center gap-2 whitespace-nowrap"
+                            >
+                                <span>Inspect Credentials</span>
+                                <span>&rarr;</span>
+                            </Link>
+                        </div>
+                    )}
+
+                    <div className="bg-gray-800 rounded-2xl text-white p-8 md:p-12 text-center flex flex-col items-center shadow-lg">
+                        <h2 className="text-3xl md:text-4xl font-bold mb-4">{footerData?.ctaHeading || "Ready to Build a Greener Future?"}</h2>
+                        <p className="max-w-2xl mx-auto mb-8 text-gray-300">
+                            {footerData?.ctaText || "Join us in our mission to create a sustainable world. Whether you're a farmer, builder, or industry leader, we have a solution for you."}
+                        </p>
+                        <Link to="/contact">
+                            <LiquidButton className="bg-white text-green-700">{footerData?.ctaButtonText || "Get In Touch"}</LiquidButton>
+                        </Link>
+                    </div>
                 </div>
             )}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-12 text-sm">
@@ -76,6 +119,7 @@ const Footer: React.FC = () => {
                          <li><Link to="/" className="text-gray-400 hover:text-green-400 transition-colors">Home</Link></li>
                          <li><Link to="/about" className="text-gray-400 hover:text-green-400 transition-colors">About Us</Link></li>
                          <li><Link to="/products" className="text-gray-400 hover:text-green-400 transition-colors">Products</Link></li>
+                         <li><Link to="/certifications" className="text-gray-400 hover:text-green-400 transition-colors">Certifications</Link></li>
                          <li><Link to="/gallery" className="text-gray-400 hover:text-green-400 transition-colors">Gallery</Link></li>
                     </ul>
                 </div>
