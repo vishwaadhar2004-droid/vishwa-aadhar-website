@@ -9,7 +9,6 @@ const supportLinks = [
     { href: '/help-center', label: 'Help Center' },
     { href: '/careers', label: 'Careers' },
     { href: '/contact', label: 'Contact Us' },
-    { href: '/sitemap', label: 'Sitemap' },
 ];
 
 import { db } from '../firebase';
@@ -86,7 +85,7 @@ const Footer: React.FC = () => {
                     </div>
                 </div>
             )}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-12 text-sm">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mt-12 text-sm">
                 <div>
                     <h4 className="font-bold text-white mb-4 uppercase tracking-wider">Products</h4>
                     <ul className="space-y-3">
@@ -113,6 +112,16 @@ const Footer: React.FC = () => {
                        {supportLinks.map(link => (
                            <li key={link.href}><Link to={link.href} className="text-gray-400 hover:text-green-400 transition-colors">{link.label}</Link></li>
                        ))}
+                    </ul>
+                </div>
+                <div>
+                    <h4 className="font-bold text-white mb-4 uppercase tracking-wider">Sitemap</h4>
+                    <ul className="space-y-3">
+                        <li>
+                            <Link to="/sitemap" className="text-gray-400 hover:text-green-400 transition-colors opacity-70 hover:opacity-100 transition-opacity">
+                                Visual Sitemap
+                            </Link>
+                        </li>
                     </ul>
                 </div>
                 <div>
