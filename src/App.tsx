@@ -14,6 +14,7 @@ import FaqsPage from './pages/FaqsPage';
 import HelpCenterPage from './pages/HelpCenterPage';
 import CareersPage from './pages/CareersPage';
 import CertificationsPage from './pages/CertificationsPage';
+import SitemapPage from './pages/SitemapPage';
 import { PRODUCTS_DATA } from './constants';
 
 
@@ -153,6 +154,7 @@ function App() {
               <Route path="/help-center" element={<HelpCenterPage />} />
               <Route path="/careers" element={<CareersPage />} />
               <Route path="/certifications" element={<CertificationsPage />} />
+              <Route path="/sitemap" element={<SitemapPage />} />
             </Routes>
           </motion.div>
         </AnimatePresence>

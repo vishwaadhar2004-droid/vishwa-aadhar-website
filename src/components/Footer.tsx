@@ -9,6 +9,7 @@ const supportLinks = [
     { href: '/help-center', label: 'Help Center' },
     { href: '/careers', label: 'Careers' },
     { href: '/contact', label: 'Contact Us' },
+    { href: '/sitemap', label: 'Sitemap' },
 ];
 
 import { db } from '../firebase';
