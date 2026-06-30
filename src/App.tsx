@@ -15,6 +15,9 @@ import HelpCenterPage from './pages/HelpCenterPage';
 import CareersPage from './pages/CareersPage';
 import CertificationsPage from './pages/CertificationsPage';
 import SitemapPage from './pages/SitemapPage';
+import TechnologiesPage from './pages/TechnologiesPage';
+import ValidationCenterPage from './pages/ValidationCenterPage';
+import InvestorsPage from './pages/InvestorsPage';
 import { PRODUCTS_DATA } from './constants';
 
 
@@ -155,6 +158,9 @@ function App() {
               <Route path="/careers" element={<CareersPage />} />
               <Route path="/certifications" element={<CertificationsPage />} />
               <Route path="/sitemap" element={<SitemapPage />} />
+              <Route path="/technologies" element={<TechnologiesPage />} />
+              <Route path="/validation-center" element={<ValidationCenterPage />} />
+              <Route path="/investors" element={<InvestorsPage />} />
             </Routes>
           </motion.div>
         </AnimatePresence>

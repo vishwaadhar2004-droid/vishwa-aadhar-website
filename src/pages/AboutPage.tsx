@@ -306,6 +306,173 @@ const AboutPage: React.FC = () => {
             </div>
         </section>
 
+        {/* Competitive Advantage Comparison Section */}
+        <section className="py-20 bg-gray-800 border-t border-b border-gray-750">
+            <div className="container mx-auto px-6">
+                <AnimatedSection className="text-center mb-12">
+                    <span className="bg-green-500/10 text-green-400 border border-green-500/20 px-4 py-1.5 rounded-full text-xs uppercase tracking-widest font-semibold inline-block mb-4">
+                        Market Differentiation
+                    </span>
+                    <h2 className="text-3xl md:text-4xl font-bold text-white">Competitive Advantage</h2>
+                    <p className="text-gray-400 max-w-2xl mx-auto mt-4">Comparing VishwaAadhar's dual-benefit biotechnology framework against conventional competitors.</p>
+                </AnimatedSection>
+
+                <AnimatedSection>
+                    <div className="overflow-x-auto rounded-2xl border border-gray-700 shadow-xl bg-gray-900/40">
+                        <table className="w-full text-left border-collapse min-w-[700px]">
+                            <thead>
+                                <tr className="bg-gray-900 border-b border-gray-700">
+                                    <th className="p-5 text-sm font-semibold text-gray-300 uppercase tracking-wider">Features</th>
+                                    <th className="p-5 text-sm font-semibold text-green-400 uppercase tracking-wider">VishwaAadhar</th>
+                                    <th className="p-5 text-sm font-semibold text-gray-400 uppercase tracking-wider">Traditional Cement</th>
+                                    <th className="p-5 text-sm font-semibold text-gray-400 uppercase tracking-wider">Biofertilizer Firms</th>
+                                    <th className="p-5 text-sm font-semibold text-gray-400 uppercase tracking-wider">Waste Operators</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-800">
+                                <tr className="hover:bg-gray-800/20 transition-colors">
+                                    <td className="p-5 text-sm font-bold text-white">Carbon Footprint</td>
+                                    <td className="p-5 text-sm text-green-400 font-semibold">80%+ Reduction (Ambient Curing)</td>
+                                    <td className="p-5 text-sm text-red-400 font-medium">Extremely High (Kiln Heating)</td>
+                                    <td className="p-5 text-sm text-gray-400">Neutral</td>
+                                    <td className="p-5 text-sm text-gray-400">Moderate</td>
+                                </tr>
+                                <tr className="hover:bg-gray-800/20 transition-colors">
+                                    <td className="p-5 text-sm font-bold text-white">Resource Loop</td>
+                                    <td className="p-5 text-sm text-green-400 font-semibold">Full Upcycling (Demolition & Sewage)</td>
+                                    <td className="p-5 text-sm text-gray-400">Limestone Sourcing (Extractive)</td>
+                                    <td className="p-5 text-sm text-gray-400">Single Sourcing Loop</td>
+                                    <td className="p-5 text-sm text-gray-400">Landfill Dumping Only</td>
+                                </tr>
+                                <tr className="hover:bg-gray-800/20 transition-colors">
+                                    <td className="p-5 text-sm font-bold text-white">Self-Healing Properties</td>
+                                    <td className="p-5 text-sm text-green-400 font-semibold">Active (Microbial Resealing)</td>
+                                    <td className="p-5 text-sm text-red-400 font-medium">None</td>
+                                    <td className="p-5 text-sm text-gray-400">Not Applicable</td>
+                                    <td className="p-5 text-sm text-gray-400">None</td>
+                                </tr>
+                                <tr className="hover:bg-gray-800/20 transition-colors">
+                                    <td className="p-5 text-sm font-bold text-white">Dual-Market Utility</td>
+                                    <td className="p-5 text-sm text-green-400 font-semibold">Yes (Construction & Agriculture)</td>
+                                    <td className="p-5 text-sm text-gray-400">Construction Only</td>
+                                    <td className="p-5 text-sm text-gray-400">Agriculture Only</td>
+                                    <td className="p-5 text-sm text-gray-400">Disposal Only</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </AnimatedSection>
+            </div>
+        </section>
+
+        {/* Partnership Opportunities Section */}
+        <section className="py-20 bg-gray-900">
+            <div className="container mx-auto px-6">
+                <AnimatedSection className="text-center mb-12">
+                    <span className="bg-green-500/10 text-green-400 border border-green-500/20 px-4 py-1.5 rounded-full text-xs uppercase tracking-widest font-semibold inline-block mb-4">
+                        Cooperation Framework
+                    </span>
+                    <h2 className="text-3xl md:text-4xl font-bold text-white">Partnership Opportunities</h2>
+                    <p className="text-gray-400 max-w-2xl mx-auto mt-4">We collaborate across municipal and industrial nodes to establish high-margin local supply circles.</p>
+                </AnimatedSection>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <AnimatedSection delay={200}>
+                        <div className="bg-gray-800 border border-gray-750 p-8 rounded-2xl h-full flex flex-col justify-between hover:border-green-500/20 transition-all duration-300">
+                            <div>
+                                <h3 className="text-xl font-bold text-white mb-3">Collaborative PPP Models</h3>
+                                <p className="text-gray-400 text-sm leading-relaxed">
+                                    Partnering with municipal corporations to source liquid nutrients and raw aggregate wastes directly from town collection hubs, scaling urban sanitation.
+                                </p>
+                            </div>
+                        </div>
+                    </AnimatedSection>
+
+                    <AnimatedSection delay={400}>
+                        <div className="bg-gray-800 border border-gray-750 p-8 rounded-2xl h-full flex flex-col justify-between hover:border-green-500/20 transition-all duration-300">
+                            <div>
+                                <h3 className="text-xl font-bold text-white mb-3">B2B Supplier Model</h3>
+                                <p className="text-gray-400 text-sm leading-relaxed">
+                                    Serving real estate developers, local block-makers, and agricultural resellers with durable green brick mixes and soil-enriching biofertilizers.
+                                </p>
+                            </div>
+                        </div>
+                    </AnimatedSection>
+
+                    <AnimatedSection delay={600}>
+                        <div className="bg-gray-800 border border-gray-750 p-8 rounded-2xl h-full flex flex-col justify-between hover:border-green-500/20 transition-all duration-300">
+                            <div>
+                                <h3 className="text-xl font-bold text-white mb-3">Biotech Licensing</h3>
+                                <p className="text-gray-400 text-sm leading-relaxed">
+                                    Sublicensing our proprietary non-pathogenic bacterial formulas and localized micro-bioreactor blueprints to international circular economy partners.
+                                </p>
+                            </div>
+                        </div>
+                    </AnimatedSection>
+                </div>
+            </div>
+        </section>
+
+        {/* Corporate Milestones Placeholders */}
+        <section className="py-20 bg-gray-900 border-t border-gray-800">
+            <div className="container mx-auto px-6">
+                <AnimatedSection className="text-center mb-12">
+                    <h2 className="text-3xl md:text-4xl font-bold text-white">Milestones & Institutional Projections</h2>
+                    <p className="text-gray-400 max-w-xl mx-auto mt-2">Institutional records and audited projections are being finalized for our scaling partners.</p>
+                </AnimatedSection>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <AnimatedSection delay={200}>
+                        <div className="bg-gray-850 border border-gray-750 p-6 rounded-2xl text-center flex flex-col justify-between h-full">
+                            <div>
+                                <h4 className="font-bold text-white text-lg mb-2">Corporate Awards</h4>
+                                <p className="text-xs text-gray-500 leading-relaxed mb-4">Official national and civic environmental awards and recognitions catalog.</p>
+                            </div>
+                            <span className="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-4 py-1.5 rounded-full text-xs font-semibold inline-block">
+                                Content will be updated.
+                            </span>
+                        </div>
+                    </AnimatedSection>
+
+                    <AnimatedSection delay={300}>
+                        <div className="bg-gray-850 border border-gray-750 p-6 rounded-2xl text-center flex flex-col justify-between h-full">
+                            <div>
+                                <h4 className="font-bold text-white text-lg mb-2">Governor Award</h4>
+                                <p className="text-xs text-gray-500 leading-relaxed mb-4">Official commendation profiles and state-level leadership recognitions.</p>
+                            </div>
+                            <span className="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-4 py-1.5 rounded-full text-xs font-semibold inline-block">
+                                Content will be updated.
+                            </span>
+                        </div>
+                    </AnimatedSection>
+
+                    <AnimatedSection delay={400}>
+                        <div className="bg-gray-850 border border-gray-750 p-6 rounded-2xl text-center flex flex-col justify-between h-full">
+                            <div>
+                                <h4 className="font-bold text-white text-lg mb-2">NSE Representation</h4>
+                                <p className="text-xs text-gray-500 leading-relaxed mb-4">Institutional representations and listing strategies across the National Stock Exchange.</p>
+                            </div>
+                            <span className="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-4 py-1.5 rounded-full text-xs font-semibold inline-block">
+                                Content will be updated.
+                            </span>
+                        </div>
+                    </AnimatedSection>
+
+                    <AnimatedSection delay={500}>
+                        <div className="bg-gray-850 border border-gray-750 p-6 rounded-2xl text-center flex flex-col justify-between h-full">
+                            <div>
+                                <h4 className="font-bold text-white text-lg mb-2">Financial Highlights</h4>
+                                <p className="text-xs text-gray-500 leading-relaxed mb-4">Audited profit margins, cash-flows, and initial structural product sales margins.</p>
+                            </div>
+                            <span className="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-4 py-1.5 rounded-full text-xs font-semibold inline-block">
+                                Content will be updated.
+                            </span>
+                        </div>
+                    </AnimatedSection>
+                </div>
+            </div>
+        </section>
+
         {/* Team Members Section */}
         {team.length > 0 && (
             <section className="py-24 bg-gray-800 relative overflow-hidden">

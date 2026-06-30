@@ -61,6 +61,9 @@ export const NAV_LINKS = [
   { href: '/', label: 'Home' },
   { href: '/about', label: 'About Us' },
   { href: '/products', label: 'Products' },
+  { href: '/technologies', label: 'Technologies' },
+  { href: '/validation-center', label: 'Validation Center' },
+  { href: '/investors', label: 'Investors & Partners' },
   { href: '/certifications', label: 'Certifications' },
   { href: '/gallery', label: 'Gallery' },
 ];

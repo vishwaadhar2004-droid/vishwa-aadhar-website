@@ -363,6 +363,104 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
+      {/* Why Now Section */}
+      <section className="py-20 bg-gray-900 border-t border-b border-gray-800 relative overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-green-500/5 rounded-full blur-[100px] pointer-events-none" />
+        <div className="container mx-auto px-6 max-w-6xl">
+          <AnimatedSection className="text-center mb-16">
+            <span className="bg-green-500/10 text-green-400 border border-green-500/20 px-4 py-1.5 rounded-full text-xs uppercase tracking-widest font-semibold inline-block mb-4">
+              The Climate & Agri Mandate
+            </span>
+            <h2 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
+              Why Now?
+            </h2>
+            <p className="text-gray-400 max-w-2xl mx-auto mt-4 text-base sm:text-lg">
+              Critical global challenges are demanding an immediate, systemic transition in how we build our cities and nourish our soils.
+            </p>
+          </AnimatedSection>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            <AnimatedSection delay={200}>
+              <div className="bg-gray-850 border border-gray-750 p-8 rounded-2xl h-full flex flex-col justify-between hover:border-green-500/20 transition-all duration-300 relative group overflow-hidden">
+                <div className="absolute top-0 right-0 w-20 h-20 bg-red-500/5 rounded-full blur-xl group-hover:bg-red-500/10 transition-colors" />
+                <div>
+                  <div className="text-red-400 text-3xl font-extrabold font-mono mb-4">8% CO₂</div>
+                  <h3 className="text-xl font-bold text-white mb-2">Global Emissions Crisis</h3>
+                  <p className="text-gray-400 text-sm leading-relaxed">
+                    Traditional Ordinary Portland Cement (OPC) production accounts for around 8% of all global CO₂ emissions due to heat-intensive limestone calcination kilns.
+                  </p>
+                </div>
+              </div>
+            </AnimatedSection>
+
+            <AnimatedSection delay={300}>
+              <div className="bg-gray-850 border border-gray-750 p-8 rounded-2xl h-full flex flex-col justify-between hover:border-green-500/20 transition-all duration-300 relative group overflow-hidden">
+                <div className="absolute top-0 right-0 w-20 h-20 bg-amber-500/5 rounded-full blur-xl group-hover:bg-amber-500/10 transition-colors" />
+                <div>
+                  <div className="text-amber-400 text-3xl font-extrabold font-mono mb-4">Tons</div>
+                  <h3 className="text-xl font-bold text-white mb-2">Industrial Waste Clutter</h3>
+                  <p className="text-gray-400 text-sm leading-relaxed">
+                    Millions of tons of concrete demolition aggregate, municipal slag, and industrial mineral residues clog landfills and degrade ecosystems every single year.
+                  </p>
+                </div>
+              </div>
+            </AnimatedSection>
+
+            <AnimatedSection delay={400}>
+              <div className="bg-gray-850 border border-gray-750 p-8 rounded-2xl h-full flex flex-col justify-between hover:border-green-500/20 transition-all duration-300 relative group overflow-hidden">
+                <div className="absolute top-0 right-0 w-20 h-20 bg-yellow-500/5 rounded-full blur-xl group-hover:bg-yellow-500/10 transition-colors" />
+                <div>
+                  <div className="text-yellow-400 text-3xl font-extrabold font-mono mb-4">50%+</div>
+                  <h3 className="text-xl font-bold text-white mb-2">Soil Nutrient Depletion</h3>
+                  <p className="text-gray-400 text-sm leading-relaxed">
+                    Intensive chemical fertilization has severely degraded agricultural soil chemistry, leading to critical soil micro-nutrient deficits and lower farm yields.
+                  </p>
+                </div>
+              </div>
+            </AnimatedSection>
+
+            <AnimatedSection delay={500}>
+              <div className="bg-gray-850 border border-gray-750 p-8 rounded-2xl h-full flex flex-col justify-between hover:border-green-500/20 transition-all duration-300 relative group overflow-hidden">
+                <div className="absolute top-0 right-0 w-20 h-20 bg-blue-500/5 rounded-full blur-xl group-hover:bg-blue-500/10 transition-colors" />
+                <div>
+                  <div className="text-blue-400 text-3xl font-extrabold font-mono mb-4">Circular</div>
+                  <h3 className="text-xl font-bold text-white mb-2">Circular Economy Growth</h3>
+                  <p className="text-gray-400 text-sm leading-relaxed">
+                    Global regulations are demanding an aggressive pivot away from single-use resource mining toward closed-loop circular systems that re-process waste into raw products.
+                  </p>
+                </div>
+              </div>
+            </AnimatedSection>
+
+            <AnimatedSection delay={600}>
+              <div className="bg-gray-850 border border-gray-750 p-8 rounded-2xl h-full flex flex-col justify-between hover:border-green-500/20 transition-all duration-300 relative group overflow-hidden">
+                <div className="absolute top-0 right-0 w-20 h-20 bg-green-500/5 rounded-full blur-xl group-hover:bg-green-500/10 transition-colors" />
+                <div>
+                  <div className="text-green-400 text-3xl font-extrabold font-mono mb-4">LEED</div>
+                  <h3 className="text-xl font-bold text-white mb-2">Green Building Standards</h3>
+                  <p className="text-gray-400 text-sm leading-relaxed">
+                    Commercial developers and state infrastructure projects are actively incentivized to source certified low-carbon, bio-based green materials to meet rigid net-zero goals.
+                  </p>
+                </div>
+              </div>
+            </AnimatedSection>
+
+            <AnimatedSection delay={700}>
+              <div className="bg-gradient-to-br from-green-500/15 to-emerald-500/5 border border-green-500/30 p-8 rounded-2xl h-full flex flex-col justify-between relative group overflow-hidden">
+                <div className="absolute top-0 right-0 w-24 h-24 bg-green-500/10 rounded-full blur-2xl pointer-events-none" />
+                <div>
+                  <div className="text-green-400 text-3xl font-extrabold font-mono mb-4">Dual</div>
+                  <h3 className="text-xl font-bold text-white mb-2">The VishwaAadhar Solution</h3>
+                  <p className="text-gray-300 text-sm leading-relaxed font-medium">
+                    By bridging biomineralized construction with organic bio-regeneration, VishwaAadhar upcycles liquid sanitations and industrial aggregates into high-value local infrastructure assets.
+                  </p>
+                </div>
+              </div>
+            </AnimatedSection>
+          </div>
+        </div>
+      </section>
+
       {/* Featured Products Section */}
       <section className="py-20">
         <div className="container mx-auto px-6">
