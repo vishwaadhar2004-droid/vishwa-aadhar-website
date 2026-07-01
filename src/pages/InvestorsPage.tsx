@@ -122,13 +122,15 @@ const InvestorsPage: React.FC = () => {
 
           {/* Prompt action buttons */}
           <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
-            <button
-              onClick={handlePitchDeckDownload}
+            <a
+              href="https://hdsaozsnvwyjcscjupcu.supabase.co/storage/v1/object/public/vishwaaadhar%20report/VISHWA%20AADHAR%20ENTERPRISES.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="bg-green-500 hover:bg-green-400 text-black px-6 py-3 rounded-full font-bold transition-all duration-300 shadow-lg flex items-center justify-center gap-2 cursor-pointer focus:outline-none"
             >
               <Download className="w-5 h-5" />
               <span>Download Pitch Deck</span>
-            </button>
+            </a>
             <Link
               to="/contact"
               className="bg-gray-800 hover:bg-gray-700 text-white border border-gray-750 px-6 py-3 rounded-full font-bold transition-all duration-300 flex items-center justify-center gap-2"

@@ -286,7 +286,7 @@ const HomePage: React.FC = () => {
                     onEnded={nextSlide}
                   />
                 )}
-                <div className="absolute top-0 left-0 w-full h-full bg-black opacity-60"></div>
+                <div className={`absolute top-0 left-0 w-full h-full bg-black ${isVideo ? 'opacity-30' : 'opacity-60'} transition-opacity duration-500`}></div>
               </div>
             );
         })}
